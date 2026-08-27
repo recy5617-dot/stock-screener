@@ -10,6 +10,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(BASE_DIR, "cache", "market_data.sqlite3")
 OUTPUT_DIR = os.path.join(BASE_DIR, "output")
+DOCS_DIR = os.path.join(BASE_DIR, "docs")  # GitHub Pages 網頁報表輸出位置
 
 # 抓取歷史資料的天數（要足夠計算 MA20 / KD(9,3,3) / 20日高點，
 # 抓多一點比較保險，遇到假日、缺資料也不怕）
@@ -81,3 +82,4 @@ EXCLUDE_CODE_PREFIXES = []  # 例如 ["00"] 可排除大部分 ETF
 
 os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
 os.makedirs(OUTPUT_DIR, exist_ok=True)
+os.makedirs(DOCS_DIR, exist_ok=True)

@@ -22,8 +22,9 @@ from datetime import datetime
 import db
 import fetch_twse
 import fetch_tpex
+import report
 from screener import run_screen
-from config import MARKETS, OUTPUT_DIR, BACKFILL_TRADING_DAYS
+from config import MARKETS, OUTPUT_DIR, DOCS_DIR, BACKFILL_TRADING_DAYS
 from tradedays import to_yyyymmdd
 
 
@@ -81,24 +82,23 @@ def main():
         sys.exit(1)
 
     print(f"\n===== 開始選股（{target_date_str}，最低達成 {args.min} / 5 項）=====")
-    results = run_screen(target_date_str, min_checklist=args.min)
+    results, scanned_count = run_screen(target_date_str, min_checklist=args.min)
+    print(f"共掃描 {scanned_count} 檔，符合條件 {len(results)} 檔")
 
     if not results:
         print("今天沒有股票符合門檻，可以試試調低 --min，或明天再跑。")
-        return
-
-    print(f"\n共 {len(results)} 檔符合條件：\n")
-    header = f"{'代號':<8}{'名稱':<10}{'收盤':>8}{'漲跌%':>8}  {'①月線':<6}{'②KD':<6}{'③籌碼':<6}{'④融資':<6}{'⑤量':<6}{'達成':<5}{'分級':<10}{'加權分':>7}  備註"
-    print(header)
-    print("-" * 110)
-    for r in results:
-        print(
-            f"{r['code']:<8}{r['name']:<10}{r['close']:>8.2f}{r['change_pct']:>7.2f}%  "
-            f"{'✅' if r['cond1_ma20'] else '❌':<6}{'✅' if r['cond2_kd'] else '❌':<6}"
-            f"{'✅' if r['cond3_chips'] else '❌':<6}{'✅' if r['cond4_margin_ok'] else '❌':<6}"
-            f"{'✅' if r['cond5_breakout_vol'] else '❌':<6}{r['checklist_count']:<5}{r['tier']:<10}"
-            f"{r['score']:>7.1f}  {r['notes']}"
-        )
+    else:
+        header = f"{'代號':<8}{'名稱':<10}{'收盤':>8}{'漲跌%':>8}  {'①月線':<6}{'②KD':<6}{'③籌碼':<6}{'④融資':<6}{'⑤量':<6}{'達成':<5}{'分級':<10}{'加權分':>7}  備註"
+        print("\n" + header)
+        print("-" * 110)
+        for r in results:
+            print(
+                f"{r['code']:<8}{r['name']:<10}{r['close']:>8.2f}{r['change_pct']:>7.2f}%  "
+                f"{'✅' if r['cond1_ma20'] else '❌':<6}{'✅' if r['cond2_kd'] else '❌':<6}"
+                f"{'✅' if r['cond3_chips'] else '❌':<6}{'✅' if r['cond4_margin_ok'] else '❌':<6}"
+                f"{'✅' if r['cond5_breakout_vol'] else '❌':<6}{r['checklist_count']:<5}{r['tier']:<10}"
+                f"{r['score']:>7.1f}  {r['notes']}"
+            )
 
     out_path = os.path.join(OUTPUT_DIR, f"screen_{target_date_str}.csv")
     with open(out_path, "w", newline="", encoding="utf-8-sig") as f:
@@ -111,7 +111,10 @@ def main():
         writer.writeheader()
         for r in results:
             writer.writerow(r)
-    print(f"\n已輸出：{out_path}")
+    print(f"\n已輸出 CSV：{out_path}")
+
+    report.write_reports(results, target_date_str, scanned_count, args.min, DOCS_DIR)
+    print(f"已輸出網頁報表：{os.path.join(DOCS_DIR, 'index.html')}")
 
 
 if __name__ == "__main__":

@@ -238,7 +238,12 @@ def evaluate_stock(market: str, code: str, name: str, target_date: str):
 
 
 def run_screen(target_date: str, min_checklist: int = 3):
+    """回傳 (results, scanned_count)：
+    results       通過門檻(checklist_count >= min_checklist)的股票，由高到低排序
+    scanned_count 當天實際算得出分數的股票總數（不含資料不足被跳過的）
+    """
     results = []
+    scanned_count = 0
     from config import MARKETS
     for market in MARKETS:
         codes = db.list_codes_with_price_on(market, target_date)
@@ -248,8 +253,11 @@ def run_screen(target_date: str, min_checklist: int = 3):
             except Exception as e:  # noqa: BLE001
                 print(f"  [警告] {market} {code} 計算失敗，略過：{e}")
                 continue
-            if r and r["checklist_count"] >= min_checklist:
+            if r is None:
+                continue
+            scanned_count += 1
+            if r["checklist_count"] >= min_checklist:
                 results.append(r)
 
     results.sort(key=lambda r: (r["checklist_count"], r["score"]), reverse=True)
-    return results
+    return results, scanned_count

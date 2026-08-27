@@ -56,6 +56,20 @@
 
 如果想換時間，打開該檔案裡的 `cron: "30 11 * * 1-5"` 這一行調整（這是 UTC 時間，要換算：台灣時間 -8 小時）。
 
+### 4. 開啟網頁報表（GitHub Pages）——像個小型App一樣，開固定網址就能看
+
+程式每天執行完，除了 CSV，也會順便產生一份手機看起來比較舒服的網頁報表放在 `docs` 資料夾。要讓這份報表能用網址打開，需要手動開啟一次 GitHub Pages（只要設定一次）：
+
+1. 在 repo 頁面點最上面「Settings」（設定）。
+2. 左側選單點「Pages」。
+3. 「Build and deployment」底下的「Source」選 **Deploy from a branch**。
+4. Branch 選 **main**，右邊資料夾選 **/docs**，點「Save」。
+5. 存檔後，GitHub 會顯示一個網址，格式大概是 `https://你的帳號.github.io/repo名稱/`，第一次通常要等 1~2 分鐘才會生效。
+
+之後每次自動執行完，這個網址打開看到的內容就會自動更新成最新一天的報表，把這個網址加到手機瀏覽器的「加入主畫面」，就會很像一個App的圖示可以直接點開。
+
+> 小提醒：因為你的 repo 名稱是中文「股票篩選器」，網址裡中文字會變成一串 `%E8%82%A1...` 這種編碼，能用但不好看也不好分享。如果想要網址乾淨一點，可以到 Settings 最上面把 repo 改名成英文，例如 `stock-screener`（改名不影響裡面任何檔案跟排程設定）。
+
 ### 之後想調整規則的門檻/權重？
 
 直接在 GitHub 網頁上點開 `config.py`，按右上角鉛筆圖示編輯，改完按「Commit changes」存檔，下次自動執行就會套用新設定，完全不需要用到 git 指令或自己的電腦。
@@ -93,7 +107,7 @@ python main.py
 2330    台積電   1150.00  +2.15%  ✅    ✅   ✅    ✅    ✅    5    🔥主力觀察名單  91.0   站穩月線且月線向上；K上穿D...
 ```
 
-同時會輸出一份 CSV 到 `output/screen_YYYYMMDD.csv`，方便你開 Excel 複查。
+同時會輸出一份 CSV 到 `output/screen_YYYYMMDD.csv`，方便你開 Excel 複查；也會輸出網頁報表到 `docs/index.html`（在本機執行的話，直接用瀏覽器打開這個檔案就能看，不需要 GitHub Pages）。
 
 ## 之後每天怎麼跑
 
@@ -136,11 +150,13 @@ fetch_twse.py      上市資料抓取（已驗證）
 fetch_tpex.py      上櫃資料抓取（實驗性，見檔頭說明）
 indicators.py      MA20 / KD(9,3,3) / 均量 / 前高 計算
 screener.py         5條件判斷 + 加權評分（核心邏輯都在這）
+report.py           產生手機看的網頁報表（docs/index.html）
 main.py             主程式 / CLI 入口
 test_parsers.py     用真實API格式驗證資料解析
 test_synthetic.py   用合成資料驗證選股計分邏輯
 cache/             本地資料快取（GitHub Actions會自動commit回來，加速下次執行）
 output/            每天的選股結果 CSV
+docs/              網頁報表（搭配 GitHub Pages 用，見上面「開啟網頁報表」）
 ```
 
 ## ⚠️ 免責聲明
