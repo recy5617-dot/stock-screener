@@ -2,11 +2,18 @@ name: 每日收盤後選股
 
 on:
   schedule:
+    # 台灣時間週一到週五 晚上7:30（UTC+8）＝ UTC 11:30
+    # 特意排在較晚時間，讓 TWSE 三大法人／融資融券資料當天都已公告齊全
     - cron: "30 11 * * 1-5"
-  workflow_dispatch: {}
+  workflow_dispatch:      # 讓你可以在 GitHub 網頁上手動點一下立刻執行，方便測試
+    inputs:
+      date:
+        description: "指定日期 YYYY-MM-DD（留空=用今天，週末/假日想測試時可以填最近的交易日）"
+        required: false
+        default: ""
 
 permissions:
-  contents: write
+  contents: write   # 需要這個權限，工作完成後才能把結果 commit 回這個 repo
 
 jobs:
   screen:
@@ -24,15 +31,18 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: 執行選股
-        run: python main.py
+        run: |
+          if [ -n "${{ github.event.inputs.date }}" ]; then
+            python main.py --date "${{ github.event.inputs.date }}"
+          else
+            python main.py
+          fi
 
       - name: 把今天的結果存回 repo
         run: |
           git config user.name "stock-screener-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add output cache
-          git diff --quiet --cached || git commit -m "選股結果 $(date -u +'%Y-%m-%d')"
-                   git add output cache docs
+          git add output cache docs
           git diff --quiet --cached || git commit -m "選股結果 $(date -u +'%Y-%m-%d')"
           git pull --rebase --autostash origin main
           git push
