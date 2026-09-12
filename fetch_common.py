@@ -43,6 +43,31 @@ def get_json(url: str, params: dict = None, referer: str = None):
     return None
 
 
+def get_text(url: str, params: dict = None, referer: str = None):
+    """GET 並回傳純文字內容（給 CSV 這類非 JSON 的公開資料源用）；失敗回傳 None。"""
+    headers = dict(HEADERS)
+    if referer:
+        headers["Referer"] = referer
+
+    last_err = None
+    for attempt in range(1, REQUEST_RETRY + 1):
+        try:
+            resp = _session.get(
+                url, params=params, headers=headers, timeout=REQUEST_TIMEOUT_SEC
+            )
+            time.sleep(REQUEST_DELAY_SEC)
+            if resp.status_code != 200:
+                last_err = f"HTTP {resp.status_code}"
+                continue
+            resp.encoding = resp.encoding or "utf-8"
+            return resp.text
+        except Exception as e:  # noqa: BLE001
+            last_err = str(e)
+            time.sleep(REQUEST_DELAY_SEC)
+    print(f"  [警告] 請求失敗：{url} params={params} 原因={last_err}")
+    return None
+
+
 def to_float(s, default=0.0):
     if s is None:
         return default

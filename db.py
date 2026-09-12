@@ -50,6 +50,16 @@ CREATE TABLE IF NOT EXISTS fetch_log (
     status TEXT NOT NULL,  -- OK / EMPTY(non-trading day) / ERROR
     PRIMARY KEY (date, market, dataset)
 );
+
+-- 集保股權分散表（大戶持股比例，選用功能，見 config.ENABLE_BIG_HOLDER_CHECK）
+-- 這份資料一週才更新一次（通常每週五公告上週五的資料），不是每個交易日都有新資料，
+-- 所以用「資料日期」而不是交易日期為主鍵，抓歷史時直接抓「目前最新一期」就好。
+CREATE TABLE IF NOT EXISTS big_holder (
+    date TEXT NOT NULL,
+    code TEXT NOT NULL,
+    big_holder_pct REAL,
+    PRIMARY KEY (date, code)
+);
 """
 
 
@@ -171,3 +181,39 @@ def list_codes_with_price_on(market: str, date: str):
             "SELECT code, name FROM prices WHERE market=? AND date=?", (market, date)
         )
         return cur.fetchall()
+
+
+def save_big_holder(rows):
+    """rows: list of dict with keys date, code, big_holder_pct"""
+    if not rows:
+        return
+    with get_conn() as conn:
+        conn.executemany(
+            """INSERT OR REPLACE INTO big_holder (date, code, big_holder_pct)
+               VALUES (:date,:code,:big_holder_pct)""",
+            rows,
+        )
+
+
+def get_big_holder_history(code: str, up_to_date: str, limit_records: int = 2):
+    """回傳某檔股票「最近 limit_records 期」的大戶持股比例，由舊到新：[(date, pct), ...]。
+    因為是週資料，這裡的 up_to_date 只是上限，不要求剛好等於當天。"""
+    with get_conn() as conn:
+        cur = conn.execute(
+            """SELECT date, big_holder_pct FROM big_holder
+               WHERE code=? AND date<=?
+               ORDER BY date DESC LIMIT ?""",
+            (code, up_to_date, limit_records),
+        )
+        rows = cur.fetchall()
+    rows.reverse()
+    return rows
+
+
+def latest_big_holder_date(up_to_date: str):
+    with get_conn() as conn:
+        cur = conn.execute(
+            "SELECT MAX(date) FROM big_holder WHERE date<=?", (up_to_date,)
+        )
+        row = cur.fetchone()
+        return row[0] if row else None

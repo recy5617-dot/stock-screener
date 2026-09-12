@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
-"""技術指標計算：MA20、KD(9,3,3)、量能、突破。"""
+"""技術指標計算：MA20、KD(9,3,3)、量能、突破、MACD、RSI、布林通道。"""
 
 from config import (
     MA_PERIOD, KD_RSV_PERIOD, KD_K_SMOOTH, KD_D_SMOOTH,
     BREAKOUT_LOOKBACK, VOLUME_AVG_DAYS,
+    MACD_FAST, MACD_SLOW, MACD_SIGNAL,
+    RSI_PERIOD, BB_PERIOD, BB_STD,
 )
 
 
@@ -67,3 +69,100 @@ def rolling_prior_high(highs, lookback=BREAKOUT_LOOKBACK):
         window = highs[start:i]
         out[i] = max(window) if window else None
     return out
+
+
+def calc_ema(values, period):
+    """指數移動平均。前面資料不足 period 的位置為 None，第一個有效值用簡單平均起算。"""
+    n = len(values)
+    out = [None] * n
+    k = 2.0 / (period + 1)
+    prev = None
+    for i in range(n):
+        if i + 1 < period:
+            continue
+        if prev is None:
+            prev = sum(values[i + 1 - period: i + 1]) / period
+        else:
+            prev = values[i] * k + prev * (1 - k)
+        out[i] = prev
+    return out
+
+
+def calc_macd(closes, fast=MACD_FAST, slow=MACD_SLOW, signal=MACD_SIGNAL):
+    """回傳 (macd_line, signal_line, histogram)，皆與 closes 等長，資料不足處為 None。"""
+    ema_fast = calc_ema(closes, fast)
+    ema_slow = calc_ema(closes, slow)
+    n = len(closes)
+    macd_line = [None] * n
+    for i in range(n):
+        if ema_fast[i] is not None and ema_slow[i] is not None:
+            macd_line[i] = ema_fast[i] - ema_slow[i]
+
+    # signal 線是對 macd_line 的 EMA；macd_line 前面有 None，要先找到第一個有效值再開始算
+    signal_line = [None] * n
+    first_valid = next((i for i, v in enumerate(macd_line) if v is not None), None)
+    if first_valid is not None:
+        sub = [v for v in macd_line[first_valid:] if v is not None]
+        ema_of_macd = calc_ema(sub, signal)
+        for offset, val in enumerate(ema_of_macd):
+            signal_line[first_valid + offset] = val
+
+    histogram = [None] * n
+    for i in range(n):
+        if macd_line[i] is not None and signal_line[i] is not None:
+            histogram[i] = macd_line[i] - signal_line[i]
+
+    return macd_line, signal_line, histogram
+
+
+def calc_rsi(closes, period=RSI_PERIOD):
+    """標準 RSI（Wilder's smoothing）。回傳與 closes 等長的 list，前面資料不足處為 None。"""
+    n = len(closes)
+    out = [None] * n
+    if n < period + 1:
+        return out
+
+    gains, losses = [], []
+    for i in range(1, n):
+        change = closes[i] - closes[i - 1]
+        gains.append(max(change, 0.0))
+        losses.append(max(-change, 0.0))
+
+    avg_gain = sum(gains[:period]) / period
+    avg_loss = sum(losses[:period]) / period
+    idx = period  # gains[period-1] 對應 closes[period]
+    if avg_loss == 0:
+        out[idx] = 100.0
+    else:
+        rs = avg_gain / avg_loss
+        out[idx] = 100.0 - (100.0 / (1.0 + rs))
+
+    for i in range(period, len(gains)):
+        avg_gain = (avg_gain * (period - 1) + gains[i]) / period
+        avg_loss = (avg_loss * (period - 1) + losses[i]) / period
+        idx = i + 1
+        if avg_loss == 0:
+            out[idx] = 100.0
+        else:
+            rs = avg_gain / avg_loss
+            out[idx] = 100.0 - (100.0 / (1.0 + rs))
+    return out
+
+
+def calc_bollinger(closes, period=BB_PERIOD, num_std=BB_STD):
+    """布林通道：回傳 (mid, upper, lower)，皆與 closes 等長，資料不足處為 None。"""
+    n = len(closes)
+    mid = [None] * n
+    upper = [None] * n
+    lower = [None] * n
+    for i in range(n):
+        if i + 1 < period:
+            continue
+        window = closes[i + 1 - period: i + 1]
+        m = sum(window) / period
+        variance = sum((x - m) ** 2 for x in window) / period
+        sd = variance ** 0.5
+        mid[i] = m
+        upper[i] = m + num_std * sd
+        lower[i] = m - num_std * sd
+    return mid, upper, lower

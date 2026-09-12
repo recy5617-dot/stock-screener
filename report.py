@@ -10,6 +10,8 @@
 import os
 import html as html_lib
 
+from config import TOTAL_CONDITIONS
+
 TIER_CLASS = {
     "🔥主力觀察名單": "tier-fire",
     "值得研究": "tier-good",
@@ -23,6 +25,8 @@ COND_LABELS = [
     ("cond3_chips", "③籌碼"),
     ("cond4_margin_ok", "④融資"),
     ("cond5_breakout_vol", "⑤量"),
+    ("cond6_momentum", "⑥動能"),
+    ("cond7_bollinger", "⑦布林"),
 ]
 
 PAGE_TEMPLATE = """<!doctype html>
@@ -142,7 +146,7 @@ PAGE_TEMPLATE = """<!doctype html>
   歷史紀錄：{history_links}
 </div>
 <footer>
-  由 stock-screener 自動產生（GitHub Actions 排程執行）。權重：月線35 ＞ 籌碼30 ＞ 成交量20 ＞ KD15，融資暴增扣分。
+  由 stock-screener 自動產生（GitHub Actions 排程執行）。權重：月線30 ＞ 籌碼25 ＞ 成交量20 ＞ KD10≈動能10 ＞ 布林5，融資暴增扣分。
 </footer>
 </body>
 </html>
@@ -160,7 +164,7 @@ CARD_TEMPLATE = """
       <div class="{change_class}">{change_sign}{change_pct:.2f}%</div>
     </div>
   </div>
-  <span class="badge {tier_class}">{tier}（{count}/5）</span>
+  <span class="badge {tier_class}">{tier}（{count}/{total}）</span>
   <div class="conds">{cond_html}</div>
   <div class="score">加權分數：<b>{score:.1f}</b> / 100</div>
   <div class="notes">{notes}</div>
@@ -195,6 +199,7 @@ def _render_card(r):
         tier_class=tier_class,
         tier=html_lib.escape(r["tier"]),
         count=r["checklist_count"],
+        total=TOTAL_CONDITIONS,
         cond_html=_cond_html(r),
         score=r["score"],
         notes=notes,

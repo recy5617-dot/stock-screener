@@ -5,8 +5,9 @@
 用法：
     python main.py                      # 篩選「今天」
     python main.py --date 2026-08-25    # 篩選指定日期（該日 TWSE 需已公告收盤資料，通常約 14:30後）
-    python main.py --min 3              # 只列出達成數 >= 3 的股票（預設3；5=主力觀察,4=值得研究,3=等待確認）
+    python main.py --min 3              # 只列出達成數 >= 3 的股票（預設3；總共7項：7=主力觀察,5=值得研究,3=等待確認）
     python main.py --test-tpex          # 測試 TPEX 端點是否可用（見 fetch_tpex.py 說明）
+    python main.py --test-big-holder    # 測試大戶持股比例(TDCC)端點是否可用（見 fetch_big_holder.py 說明）
     python main.py --backfill-only      # 只回補歷史資料，不跑選股（第一次執行建議先這樣跑，會花較久時間）
 
 第一次執行會自動回補約 70 個交易日的歷史資料（計算 MA20 / KD / 20日高點需要），
@@ -22,19 +23,21 @@ from datetime import datetime
 import db
 import fetch_twse
 import fetch_tpex
+import fetch_big_holder
 import report
 from screener import run_screen
-from config import MARKETS, OUTPUT_DIR, DOCS_DIR, BACKFILL_TRADING_DAYS
+from config import MARKETS, OUTPUT_DIR, DOCS_DIR, BACKFILL_TRADING_DAYS, TIER_WATCH_MIN, TOTAL_CONDITIONS, ENABLE_BIG_HOLDER_CHECK
 from tradedays import to_yyyymmdd
 
 
 def parse_args():
     p = argparse.ArgumentParser(description="每日收盤後選股：KD打勾＋月線上＋籌碼轉強")
     p.add_argument("--date", type=str, default=None, help="目標日期 YYYY-MM-DD，預設今天")
-    p.add_argument("--min", type=int, default=3, help="最低達成條件數（預設3）")
+    p.add_argument("--min", type=int, default=TIER_WATCH_MIN, help=f"最低達成條件數（預設{TIER_WATCH_MIN}，總共{TOTAL_CONDITIONS}項）")
     p.add_argument("--backfill-days", type=int, default=BACKFILL_TRADING_DAYS, help="回補幾個交易日的歷史資料")
     p.add_argument("--backfill-only", action="store_true", help="只回補資料不跑選股")
     p.add_argument("--test-tpex", action="store_true", help="測試 TPEX 端點回應內容")
+    p.add_argument("--test-big-holder", action="store_true", help="測試大戶持股比例(TDCC)端點回應內容")
     return p.parse_args()
 
 
@@ -43,6 +46,10 @@ def main():
 
     if args.test_tpex:
         fetch_tpex.test_today()
+        return
+
+    if args.test_big_holder:
+        fetch_big_holder.test_today()
         return
 
     if args.date:
@@ -69,6 +76,10 @@ def main():
             continue
         print(f"   {market} 新抓取 {n} 個交易日")
 
+    if ENABLE_BIG_HOLDER_CHECK:
+        print("-- 大戶持股比例(TDCC，選用功能) --")
+        fetch_big_holder.fetch_and_cache_latest()
+
     if args.backfill_only:
         print("已完成回補（--backfill-only），結束。")
         return
@@ -81,22 +92,27 @@ def main():
         print("   可以稍後再試，或用 --date 指定確定有交易的日期。")
         sys.exit(1)
 
-    print(f"\n===== 開始選股（{target_date_str}，最低達成 {args.min} / 5 項）=====")
+    print(f"\n===== 開始選股（{target_date_str}，最低達成 {args.min} / {TOTAL_CONDITIONS} 項）=====")
     results, scanned_count = run_screen(target_date_str, min_checklist=args.min)
     print(f"共掃描 {scanned_count} 檔，符合條件 {len(results)} 檔")
 
     if not results:
         print("今天沒有股票符合門檻，可以試試調低 --min，或明天再跑。")
     else:
-        header = f"{'代號':<8}{'名稱':<10}{'收盤':>8}{'漲跌%':>8}  {'①月線':<6}{'②KD':<6}{'③籌碼':<6}{'④融資':<6}{'⑤量':<6}{'達成':<5}{'分級':<10}{'加權分':>7}  備註"
+        header = (
+            f"{'代號':<8}{'名稱':<10}{'收盤':>8}{'漲跌%':>8}  "
+            f"{'①月線':<6}{'②KD':<6}{'③籌碼':<6}{'④融資':<6}{'⑤量':<6}{'⑥動能':<6}{'⑦布林':<6}"
+            f"{'達成':<5}{'分級':<10}{'加權分':>7}  備註"
+        )
         print("\n" + header)
-        print("-" * 110)
+        print("-" * 150)
         for r in results:
             print(
                 f"{r['code']:<8}{r['name']:<10}{r['close']:>8.2f}{r['change_pct']:>7.2f}%  "
                 f"{'✅' if r['cond1_ma20'] else '❌':<6}{'✅' if r['cond2_kd'] else '❌':<6}"
                 f"{'✅' if r['cond3_chips'] else '❌':<6}{'✅' if r['cond4_margin_ok'] else '❌':<6}"
-                f"{'✅' if r['cond5_breakout_vol'] else '❌':<6}{r['checklist_count']:<5}{r['tier']:<10}"
+                f"{'✅' if r['cond5_breakout_vol'] else '❌':<6}{'✅' if r['cond6_momentum'] else '❌':<6}"
+                f"{'✅' if r['cond7_bollinger'] else '❌':<6}{r['checklist_count']:<5}{r['tier']:<10}"
                 f"{r['score']:>7.1f}  {r['notes']}"
             )
 
@@ -105,6 +121,7 @@ def main():
         fieldnames = [
             "market", "code", "name", "date", "close", "change_pct",
             "cond1_ma20", "cond2_kd", "cond3_chips", "cond4_margin_ok", "cond5_breakout_vol",
+            "cond6_momentum", "cond7_bollinger",
             "checklist_count", "tier", "score", "notes",
         ]
         writer = csv.DictWriter(f, fieldnames=fieldnames)

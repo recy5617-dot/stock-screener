@@ -73,9 +73,13 @@ def gen_stock(code, name, close_path, vol_path, foreign_path, trust_path, margin
 
 stocks = []
 
-# ---- 1. 台強科技(模擬)：完美型態，5/5 ----
+# 注意：volume 現在要用「股數」存(跟真實TWSE資料一致)，1張=1000股，
+# 且有一道 config.MIN_VOLUME_LOTS(預設1000張) 的硬性流動性門檻，量太少會直接被濾掉、
+# 不會出現在報表裡，所以下面每一檔的量都刻意抓在門檻之上。
+
+# ---- 1. 台強科技(模擬)：接近全過關型態 ----
 close = [45 + i * 0.125 for i in range(40)] + [50 - (i) * 0.15 for i in range(19)] + [55.0]
-vol = [2600 + (i % 5) * 20 for i in range(59)] + [17000]
+vol = [(2600 + (i % 5) * 20) * 1000 for i in range(59)] + [17000 * 1000]
 foreign = [0] * 57 + [-100, -50, 900]
 trust = [0] * 57 + [40, 60, 320]
 margin = [10000 - i * 3 for i in range(n)]
@@ -83,18 +87,18 @@ gen_stock("1101", "台強科技(模擬)", close, vol, foreign, trust, margin,
           hi_extra=[0]*59 + [0.0], lo_extra=[0]*n)
 stocks.append(("1101", "台強科技(模擬)"))
 
-# ---- 2. 佳信電子(模擬)：4/5，只差還沒放量突破（籌碼/月線/KD都對）----
+# ---- 2. 佳信電子(模擬)：籌碼/月線/KD都對，只差還沒放量突破 ----
 close = [40 + i * 0.1 for i in range(40)] + [44 - i * 0.1 for i in range(19)] + [45.6]
-vol = [2000 + (i % 4) * 15 for i in range(60)]  # 量沒有明顯放大
+vol = [(2000 + (i % 4) * 15) * 1000 for i in range(60)]  # 量沒有明顯放大
 foreign = [0] * 57 + [-80, -40, 260]
 trust = [0] * 57 + [30, 50, 180]
 margin = [8000 - i * 2 for i in range(n)]
 gen_stock("2202", "佳信電子(模擬)", close, vol, foreign, trust, margin)
 stocks.append(("2202", "佳信電子(模擬)"))
 
-# ---- 3. 宏運材料(模擬)：4/5，量價都對但融資暴增（風險警示）----
+# ---- 3. 宏運材料(模擬)：量價都對但融資暴增（風險警示）----
 close = [30 + i * 0.1 for i in range(40)] + [34 - i * 0.08 for i in range(19)] + [37.0]
-vol = [2200 + (i % 5) * 20 for i in range(59)] + [12000]
+vol = [(2200 + (i % 5) * 20) * 1000 for i in range(59)] + [12000 * 1000]
 foreign = [0] * 57 + [-60, -30, 200]
 trust = [0] * 57 + [20, 40, 150]
 _margin_lead = [6000 + i * 5 for i in range(n - 1)]
@@ -102,18 +106,18 @@ margin = _margin_lead + [_margin_lead[-1] * 1.08]  # 最後一天融資餘額比
 gen_stock("3303", "宏運材料(模擬)", close, vol, foreign, trust, margin)
 stocks.append(("3303", "宏運材料(模擬)"))
 
-# ---- 4. 群鴻生技(模擬)：3/5，月線剛站上、籌碼轉強，但KD還沒打勾、量普通 ----
+# ---- 4. 群鴻生技(模擬)：月線剛站上、籌碼轉強，但KD還沒打勾、量普通 ----
 close = [25 - i * 0.02 for i in range(40)] + [24.2 + i * 0.08 for i in range(20)]
-vol = [1800 + (i % 4) * 10 for i in range(60)]
+vol = [(1800 + (i % 4) * 10) * 1000 for i in range(60)]
 foreign = [0] * 58 + [-30, 90]
 trust = [0] * 59 + [40]
 margin = [4000 - i * 1 for i in range(n)]
 gen_stock("4404", "群鴻生技(模擬)", close, vol, foreign, trust, margin)
 stocks.append(("4404", "群鴻生技(模擬)"))
 
-# ---- 5. 東海食品(模擬)：反例，0~1/5，月線下盤旋、法人賣超、融資增、量縮 ----
+# ---- 5. 東海食品(模擬)：反例，月線下盤旋、法人賣超、融資增、量縮(但仍高於流動性門檻) ----
 close = [20 - i * 0.03 for i in range(n)]
-vol = [900 - (i % 3) * 10 for i in range(n)]
+vol = [(1200 - (i % 3) * 10) * 1000 for i in range(n)]
 foreign = [-150] * n
 trust = [-40] * n
 margin = [3000 + i * 30 for i in range(n)]
@@ -122,7 +126,7 @@ stocks.append(("5505", "東海食品(模擬)"))
 
 # ---- 6. 元穎光電(模擬)：反例，高檔鈍化後才打勾，KD分數會被降權 ----
 close = [30 + i * 0.35 for i in range(35)] + [42 + random.uniform(-0.3, 0.3) for i in range(22)] + [42.5, 42.3, 43.5]
-vol = [3000] * n
+vol = [3000 * 1000] * n
 foreign = [50] * n
 trust = [10] * n
 margin = [5000] * n
@@ -137,21 +141,27 @@ for code, name in stocks:
 
 results.sort(key=lambda r: (r["checklist_count"], r["score"]), reverse=True)
 
-MIN_CHECKLIST = 3
+from config import TIER_WATCH_MIN, TOTAL_CONDITIONS
+MIN_CHECKLIST = TIER_WATCH_MIN
 shown = [r for r in results if r["checklist_count"] >= MIN_CHECKLIST]
 
 print(f"【模擬展示，非真實市場資料】目標日期：{target}")
-print(f"模擬掃描 {len(results)} 檔，符合門檻(達成>={MIN_CHECKLIST}項) {len(shown)} 檔\n")
-header = f"{'代號':<6}{'名稱':<16}{'收盤':>8}{'漲跌%':>8}  {'①月線':<6}{'②KD':<6}{'③籌碼':<6}{'④融資':<6}{'⑤量':<6}{'達成':<5}{'分級':<12}{'加權分':>7}"
+print(f"模擬掃描 {len(results)} 檔，符合門檻(達成>={MIN_CHECKLIST}/{TOTAL_CONDITIONS}項) {len(shown)} 檔\n")
+header = (
+    f"{'代號':<6}{'名稱':<16}{'收盤':>8}{'漲跌%':>8}  "
+    f"{'①月線':<6}{'②KD':<6}{'③籌碼':<6}{'④融資':<6}{'⑤量':<6}{'⑥動能':<6}{'⑦布林':<6}"
+    f"{'達成':<5}{'分級':<12}{'加權分':>7}"
+)
 print(header)
-print("-" * 110)
+print("-" * 150)
 for r in results:
     mark = "✅" if r["checklist_count"] >= MIN_CHECKLIST else "  "
     print(
         f"{r['code']:<6}{r['name']:<16}{r['close']:>8.2f}{r['change_pct']:>7.2f}%  "
         f"{'✅' if r['cond1_ma20'] else '❌':<6}{'✅' if r['cond2_kd'] else '❌':<6}"
         f"{'✅' if r['cond3_chips'] else '❌':<6}{'✅' if r['cond4_margin_ok'] else '❌':<6}"
-        f"{'✅' if r['cond5_breakout_vol'] else '❌':<6}{r['checklist_count']:<5}{r['tier']:<12}"
+        f"{'✅' if r['cond5_breakout_vol'] else '❌':<6}{'✅' if r['cond6_momentum'] else '❌':<6}"
+        f"{'✅' if r['cond7_bollinger'] else '❌':<6}{r['checklist_count']:<5}{r['tier']:<12}"
         f"{r['score']:>7.1f}"
     )
 print()
@@ -162,7 +172,8 @@ for r in results:
 import csv
 out_path = "/home/claude/stock_screener_demo_output.csv"
 fieldnames = ["market","code","name","date","close","change_pct","cond1_ma20","cond2_kd",
-              "cond3_chips","cond4_margin_ok","cond5_breakout_vol","checklist_count","tier","score","notes"]
+              "cond3_chips","cond4_margin_ok","cond5_breakout_vol","cond6_momentum","cond7_bollinger",
+              "checklist_count","tier","score","notes"]
 with open(out_path, "w", newline="", encoding="utf-8-sig") as f:
     w = csv.DictWriter(f, fieldnames=fieldnames)
     w.writeheader()

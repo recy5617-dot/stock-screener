@@ -1,26 +1,43 @@
 # -*- coding: utf-8 -*-
 """
-核心選股邏輯：「KD打勾＋月線上＋籌碼轉強」5 條件 + 加權評分
-================================================================
-5 條件（達成數，對應你原本的打分表）：
+核心選股邏輯：「KD打勾＋月線上＋籌碼轉強」＋動能／布林擴充版，共 7 條件 + 加權評分
+======================================================================================
+7 條件（達成數，對應打分表）：
   ① 股價站上 20 日月線
   ② KD 向上打勾（K 由下往上轉，最漂亮是 K 上穿 D）
-  ③ 法人籌碼轉強（外資由賣轉買 / 投信連買 / 三大法人合計由賣轉買，任一即算）
+  ③ 法人籌碼轉強（預設較嚴格：外資當天淨買超 且 投信連買 TRUST_CONSEC_BUY_DAYS 天，
+                  兩者同時成立；可用 config.CHIPS_REQUIRE_FOREIGN_AND_TRUST 切回舊版「任一即算」）
   ④ 融資沒有暴增（股價漲＋融資也暴增 -> 不算過關；融資持平或下降更漂亮）
   ⑤ 突破或轉強有量（帶量突破前高/整理區，且收盤不是長上影線）
+  ⑥ 動能指標同時成立：MACD 柱狀圖翻紅 + RSI 落在設定區間 + 5日線在10日線之上
+  ⑦ 布林通道：收盤價在上軌（或設定容許範圍內），且上軌本身向上
 
-加權分數（0~100，用來在同一級距內排序）依你的權重順序：
-  月線方向(35) ＞ 籌碼(30) ＞ 成交量(20) ＞ KD(15)；融資是風險濾網，暴增倒扣分數。
+成交量有一道「硬性門檻」（config.MIN_VOLUME_LOTS）：當天成交量（張）低於這個數字，
+這檔股票直接不列入報表（流動性太差，不適合這套策略），不算在「不過關」裡面。
+
+加權分數（0~100，用來在同一達成數級距內排序）：
+  月線(30) ＞ 籌碼(25) ＞ 成交量(20) ＞ KD(10) ≈ 動能(10) ＞ 布林(5)；
+  融資是風險濾網，暴增倒扣分數，融資乾淨則小幅加分。
+
+大戶持股比例變化（選用，預設關閉，見 config.ENABLE_BIG_HOLDER_CHECK）：
+  資料是集保中心一週一次的快照，不是每天都有新資料，所以只拿來當「加分參考」，
+  不會影響③是否過關，避免因為週資料缺值而誤判。
 """
 
-from indicators import calc_ma, calc_kd, volume_avg, rolling_prior_high
+from indicators import calc_ma, calc_kd, volume_avg, rolling_prior_high, calc_macd, calc_rsi, calc_bollinger
 import db
 from config import (
     MA_PERIOD, MA_SLOPE_LOOKBACK, MA_JUST_RECLAIMED_LOOKBACK,
-    KD_HIGH_ZONE, KD_STAGNANT_DAYS, TRUST_CONSEC_BUY_DAYS,
+    KD_HIGH_ZONE, KD_STAGNANT_DAYS,
+    CHIPS_REQUIRE_FOREIGN_AND_TRUST, TRUST_CONSEC_BUY_DAYS,
     MARGIN_SURGE_THRESHOLD, BREAKOUT_LOOKBACK, VOLUME_SURGE_RATIO,
-    LONG_UPPER_SHADOW_RATIO, WEIGHT_MA20, WEIGHT_CHIPS, WEIGHT_VOLUME,
-    WEIGHT_KD, MARGIN_PENALTY_POINTS, BACKFILL_TRADING_DAYS,
+    LONG_UPPER_SHADOW_RATIO, MIN_VOLUME_LOTS,
+    MACD_TURN_LOOKBACK, RSI_MIN, RSI_MAX, MA_FAST, MA_MED,
+    BB_SLOPE_LOOKBACK, BB_TOUCH_TOLERANCE,
+    WEIGHT_MA20, WEIGHT_CHIPS, WEIGHT_VOLUME, WEIGHT_KD,
+    WEIGHT_MOMENTUM, WEIGHT_BOLLINGER, MARGIN_PENALTY_POINTS,
+    TIER_FULL_MIN, TIER_GOOD_MIN, TIER_WATCH_MIN,
+    BACKFILL_TRADING_DAYS, ENABLE_BIG_HOLDER_CHECK,
 )
 
 MIN_HISTORY_DAYS = max(MA_PERIOD + MA_SLOPE_LOOKBACK, BREAKOUT_LOOKBACK + 5, 30)
@@ -65,17 +82,27 @@ def evaluate_stock(market: str, code: str, name: str, target_date: str):
     volumes = [r[5] for r in price_hist]
     changes = [r[6] for r in price_hist]
 
-    ma20 = calc_ma(closes, MA_PERIOD)
-    k_list, d_list = calc_kd(highs, lows, closes)
-    vavg = volume_avg(volumes)
-    prior_high = rolling_prior_high(highs, BREAKOUT_LOOKBACK)
-
-    foreign_net, trust_net, total_net, margin_balance = _align_by_date(price_hist, insti_hist, margin_hist)
-
     t = len(closes) - 1  # 今日索引
     close_t = closes[t]
     high_t, low_t = highs[t], lows[t]
     volume_t = volumes[t]
+
+    # ---------------- 成交量硬性門檻（不是計分條件，是連篩選範圍都不進） ----------------
+    volume_lots_t = volume_t / 1000.0 if volume_t is not None else 0.0
+    if volume_lots_t < MIN_VOLUME_LOTS:
+        return None
+
+    ma20 = calc_ma(closes, MA_PERIOD)
+    k_list, d_list = calc_kd(highs, lows, closes)
+    vavg = volume_avg(volumes)
+    prior_high = rolling_prior_high(highs, BREAKOUT_LOOKBACK)
+    macd_line, signal_line, hist_line = calc_macd(closes)
+    rsi_list = calc_rsi(closes)
+    ma5 = calc_ma(closes, MA_FAST)
+    ma10 = calc_ma(closes, MA_MED)
+    bb_mid, bb_upper, bb_lower = calc_bollinger(closes)
+
+    foreign_net, trust_net, total_net, margin_balance = _align_by_date(price_hist, insti_hist, margin_hist)
 
     notes = []
 
@@ -137,30 +164,55 @@ def evaluate_stock(market: str, code: str, name: str, target_date: str):
         kd_score *= 0.4
 
     # ---------------- ③ 籌碼 ----------------
-    f_t, f_p1 = foreign_net[t], foreign_net[t - 1] if t - 1 >= 0 else None
-    tot_t, tot_p1 = total_net[t], total_net[t - 1] if t - 1 >= 0 else None
-    foreign_flip = f_p1 is not None and f_p1 < 0 and f_t > 0
-    total_flip = tot_p1 is not None and tot_p1 < 0 and tot_t > 0
+    f_t = foreign_net[t]
+    f_p1 = foreign_net[t - 1] if t - 1 >= 0 else None
+    tot_t = total_net[t]
+    tot_p1 = total_net[t - 1] if t - 1 >= 0 else None
     trust_window = trust_net[max(0, t - TRUST_CONSEC_BUY_DAYS + 1): t + 1]
     trust_consec = len(trust_window) >= TRUST_CONSEC_BUY_DAYS and all(v > 0 for v in trust_window)
 
-    triggers = sum([foreign_flip, trust_consec, total_flip])
-    cond3_pass = triggers > 0
-    if triggers == 0:
-        chips_score = 0.0
-    elif triggers == 1:
-        chips_score = WEIGHT_CHIPS * 0.7
-    elif triggers == 2:
-        chips_score = WEIGHT_CHIPS * 0.9
+    if CHIPS_REQUIRE_FOREIGN_AND_TRUST:
+        # 較嚴格版本：外資「當天淨買超」且投信「連買N天」要同時成立
+        foreign_buy_today = f_t is not None and f_t > 0
+        cond3_pass = bool(foreign_buy_today and trust_consec)
+        chips_score = WEIGHT_CHIPS if cond3_pass else 0.0
+        if foreign_buy_today:
+            notes.append("外資當天淨買超")
+        if trust_consec:
+            notes.append(f"投信連買{TRUST_CONSEC_BUY_DAYS}日+")
+        if cond3_pass:
+            notes.append("外資+投信同步買超")
     else:
-        chips_score = WEIGHT_CHIPS
+        # 舊版本：外資由賣轉買 / 投信連買 / 三大法人合計由賣轉買，任一即算
+        foreign_flip = f_p1 is not None and f_p1 < 0 and f_t is not None and f_t > 0
+        total_flip = tot_p1 is not None and tot_p1 < 0 and tot_t is not None and tot_t > 0
+        triggers = sum([foreign_flip, trust_consec, total_flip])
+        cond3_pass = triggers > 0
+        if triggers == 0:
+            chips_score = 0.0
+        elif triggers == 1:
+            chips_score = WEIGHT_CHIPS * 0.7
+        elif triggers == 2:
+            chips_score = WEIGHT_CHIPS * 0.9
+        else:
+            chips_score = WEIGHT_CHIPS
+        if foreign_flip:
+            notes.append("外資由賣轉買")
+        if trust_consec:
+            notes.append(f"投信連買{TRUST_CONSEC_BUY_DAYS}日+")
+        if total_flip:
+            notes.append("三大法人合計由賣轉買")
 
-    if foreign_flip:
-        notes.append("外資由賣轉買")
-    if trust_consec:
-        notes.append(f"投信連買{TRUST_CONSEC_BUY_DAYS}日+")
-    if total_flip:
-        notes.append("三大法人合計由賣轉買")
+    # 大戶持股比例變化（選用，只當加分參考，不影響③是否過關，避免週資料缺值誤判）
+    if ENABLE_BIG_HOLDER_CHECK:
+        bh_hist = db.get_big_holder_history(code, target_date, limit_records=2)
+        if len(bh_hist) == 2 and bh_hist[0][1] is not None and bh_hist[1][1] is not None:
+            prev_pct, cur_pct = bh_hist[0][1], bh_hist[1][1]
+            if cur_pct > prev_pct:
+                chips_score = min(WEIGHT_CHIPS, chips_score + WEIGHT_CHIPS * 0.15)
+                notes.append(f"大戶持股比例上升({prev_pct:.1f}%→{cur_pct:.1f}%)")
+            elif cur_pct < prev_pct:
+                notes.append(f"⚠️大戶持股比例下降({prev_pct:.1f}%→{cur_pct:.1f}%)")
 
     # ---------------- ④ 融資 ----------------
     price_up = close_t > closes[t - 1] if t - 1 >= 0 else False
@@ -205,15 +257,68 @@ def evaluate_stock(market: str, code: str, name: str, target_date: str):
     else:
         volume_score = 0.0
 
-    total_score = ma_score + chips_score + volume_score + kd_score + margin_adjust
+    # ---------------- ⑥ 動能指標：MACD翻紅 + RSI區間 + 5日線穿10日線 ----------------
+    hist_t = hist_line[t]
+    macd_turn = False
+    if hist_t is not None and hist_t > 0:
+        lookback_window = hist_line[max(0, t - MACD_TURN_LOOKBACK): t]
+        macd_turn = any(v is not None and v <= 0 for v in lookback_window)
+
+    rsi_t = rsi_list[t]
+    rsi_in_range = rsi_t is not None and RSI_MIN <= rsi_t <= RSI_MAX
+
+    ma5_t, ma10_t = ma5[t], ma10[t]
+    ma5_p1 = ma5[t - 1] if t - 1 >= 0 else None
+    ma10_p1 = ma10[t - 1] if t - 1 >= 0 else None
+    ma5_above = ma5_t is not None and ma10_t is not None and ma5_t > ma10_t
+    ma5_fresh_cross = (
+        ma5_above and ma5_p1 is not None and ma10_p1 is not None and ma5_p1 <= ma10_p1
+    )
+
+    cond6_pass = bool(macd_turn and rsi_in_range and ma5_above)
+    if cond6_pass:
+        momentum_score = WEIGHT_MOMENTUM
+        detail = "MACD翻紅+RSI區間內"
+        detail += "+5日線剛穿上10日線" if ma5_fresh_cross else "+5日線在10日線上"
+        notes.append(detail)
+    else:
+        # 部分成立給一點點分數當排序參考，但不算過關
+        partial = sum([macd_turn, rsi_in_range, ma5_above])
+        momentum_score = WEIGHT_MOMENTUM * 0.25 * partial
+
+    # ---------------- ⑦ 布林通道：站上上軌，且上軌向上 ----------------
+    upper_t = bb_upper[t]
+    upper_lag = bb_upper[t - BB_SLOPE_LOOKBACK] if t - BB_SLOPE_LOOKBACK >= 0 else None
+    at_upper = (
+        upper_t is not None and close_t is not None
+        and close_t >= upper_t * (1 - BB_TOUCH_TOLERANCE)
+    )
+    upper_rising = upper_t is not None and upper_lag is not None and upper_t >= upper_lag
+    cond7_pass = bool(at_upper and upper_rising)
+
+    if cond7_pass:
+        bollinger_score = WEIGHT_BOLLINGER
+        notes.append("站上布林上軌且上軌向上(波動擴張)")
+    elif at_upper:
+        bollinger_score = WEIGHT_BOLLINGER * 0.4
+    else:
+        bollinger_score = 0.0
+
+    total_score = (
+        ma_score + chips_score + volume_score + kd_score
+        + momentum_score + bollinger_score + margin_adjust
+    )
     total_score = max(0.0, min(100.0, total_score))
 
-    checklist_count = sum([cond1_pass, cond2_pass, cond3_pass, cond4_pass, cond5_pass])
-    if checklist_count == 5:
+    checklist_count = sum([
+        cond1_pass, cond2_pass, cond3_pass, cond4_pass,
+        cond5_pass, cond6_pass, cond7_pass,
+    ])
+    if checklist_count >= TIER_FULL_MIN:
         tier = "🔥主力觀察名單"
-    elif checklist_count == 4:
+    elif checklist_count >= TIER_GOOD_MIN:
         tier = "值得研究"
-    elif checklist_count == 3:
+    elif checklist_count >= TIER_WATCH_MIN:
         tier = "等待確認"
     else:
         tier = "先跳過"
@@ -230,6 +335,8 @@ def evaluate_stock(market: str, code: str, name: str, target_date: str):
         "cond3_chips": cond3_pass,
         "cond4_margin_ok": cond4_pass,
         "cond5_breakout_vol": cond5_pass,
+        "cond6_momentum": cond6_pass,
+        "cond7_bollinger": cond7_pass,
         "checklist_count": checklist_count,
         "tier": tier,
         "score": round(total_score, 1),
@@ -237,10 +344,10 @@ def evaluate_stock(market: str, code: str, name: str, target_date: str):
     }
 
 
-def run_screen(target_date: str, min_checklist: int = 3):
+def run_screen(target_date: str, min_checklist: int = TIER_WATCH_MIN):
     """回傳 (results, scanned_count)：
     results       通過門檻(checklist_count >= min_checklist)的股票，由高到低排序
-    scanned_count 當天實際算得出分數的股票總數（不含資料不足被跳過的）
+    scanned_count 當天實際算得出分數的股票總數（不含資料不足、或成交量低於門檻被跳過的）
     """
     results = []
     scanned_count = 0
