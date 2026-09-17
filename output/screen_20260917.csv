@@ -1,0 +1,158 @@
+﻿market,code,name,date,close,change_pct,cond1_ma20,cond2_kd,cond3_chips,cond4_margin_ok,cond5_breakout_vol,cond6_momentum,cond7_bollinger,checklist_count,tier,score,notes
+TWSE,4532,瑞智,20260917,25.0,5.932203389830508,True,False,True,True,True,True,True,6,值得研究,90.0,站穩月線且月線向上；外資當天淨買超；投信連買3日+；外資+投信同步買超；帶量突破近20日高且收盤站穩；MACD翻紅+RSI區間內+5日線剛穿上10日線；站上布林上軌且上軌向上(波動擴張)
+TWSE,7799,禾榮科,20260917,502.0,9.846827133479213,True,False,True,True,True,False,True,5,值得研究,82.5,站穩月線且月線向上；外資當天淨買超；投信連買3日+；外資+投信同步買超；帶量突破近20日高且收盤站穩；站上布林上軌且上軌向上(波動擴張)
+TWSE,1560,中砂,20260917,815.0,9.986504723346828,True,True,False,True,True,False,True,5,值得研究,70.0,站穩月線且月線向上；K上穿D golden cross；外資當天淨買超；帶量突破近20日高且收盤站穩；站上布林上軌且上軌向上(波動擴張)
+TWSE,2033,佳大,20260917,30.85,9.98217468805704,True,True,False,True,True,False,True,5,值得研究,70.0,站穩月線且月線向上；K上穿D golden cross；外資當天淨買超；帶量突破近20日高且收盤站穩；站上布林上軌且上軌向上(波動擴張)
+TWSE,2348,海悅,20260917,73.9,5.270655270655271,True,True,False,True,True,False,True,5,值得研究,70.0,站穩月線且月線向上；K上穿D golden cross；外資當天淨買超；帶量突破近20日高且收盤站穩；站上布林上軌且上軌向上(波動擴張)
+TWSE,3437,榮創,20260917,20.35,10.0,True,True,False,True,True,False,True,5,值得研究,67.5,站穩月線且月線向上；K上穿D golden cross；外資當天淨買超；帶量突破近20日高且收盤站穩；站上布林上軌且上軌向上(波動擴張)
+TWSE,6885,全福生技,20260917,29.5,8.455882352941176,True,True,False,True,True,False,True,5,值得研究,67.5,站穩月線且月線向上；K上穿D golden cross；外資當天淨買超；帶量突破近20日高且收盤站穩；站上布林上軌且上軌向上(波動擴張)
+TWSE,2836,高雄銀,20260917,12.5,2.0408163265306123,True,True,False,True,True,False,True,5,值得研究,67.0,站穩月線且月線向上；K由下往上轉；外資當天淨買超；帶量突破近20日高且收盤站穩；站上布林上軌且上軌向上(波動擴張)
+TWSE,6133,金橋,20260917,26.05,9.915611814345993,True,False,False,True,True,True,True,5,值得研究,65.0,站穩月線且月線向上；外資當天淨買超；帶量突破近20日高且收盤站穩；MACD翻紅+RSI區間內+5日線剛穿上10日線；站上布林上軌且上軌向上(波動擴張)
+TWSE,8215,明基材,20260917,27.0,4.448742746615086,True,False,False,True,True,True,True,5,值得研究,65.0,站穩月線且月線向上；外資當天淨買超；帶量突破近20日高且收盤站穩；MACD翻紅+RSI區間內+5日線剛穿上10日線；站上布林上軌且上軌向上(波動擴張)
+TWSE,2303,聯電,20260917,147.5,3.873239436619718,True,False,True,True,True,False,False,4,等待確認,80.0,站穩月線且月線向上；外資當天淨買超；投信連買3日+；外資+投信同步買超；帶量突破近20日高且收盤站穩
+TWSE,1102,亞泥,20260917,35.3,1.0014306151645207,True,True,True,True,False,False,False,4,等待確認,76.5,站穩月線且月線向上；K由下往上轉；外資當天淨買超；投信連買3日+；外資+投信同步買超；量增收紅但尚未突破前高
+TWSE,2353,宏碁,20260917,32.4,1.25,True,True,True,True,False,False,False,4,等待確認,74.0,站穩月線且月線向上；K上穿D golden cross；外資當天淨買超；投信連買3日+；外資+投信同步買超；⚠️爆量但留長上影線
+TWSE,2382,廣達,20260917,344.0,1.0279001468428781,True,True,True,True,False,False,False,4,等待確認,70.0,站穩月線且月線向上；K上穿D golden cross；外資當天淨買超；投信連買3日+；外資+投信同步買超
+TWSE,3014,聯陽,20260917,133.5,0.7547169811320755,True,False,True,True,False,False,True,4,等待確認,69.0,站穩月線且月線向上；外資當天淨買超；投信連買3日+；外資+投信同步買超；⚠️爆量但留長上影線；站上布林上軌且上軌向上(波動擴張)
+TWSE,2855,統一證,20260917,52.5,1.744186046511628,True,True,True,True,False,False,False,4,等待確認,67.0,站穩月線且月線向上；K由下往上轉；外資當天淨買超；投信連買3日+；外資+投信同步買超
+TWSE,2886,兆豐金,20260917,51.9,1.9646365422396856,True,True,True,True,False,False,False,4,等待確認,67.0,站穩月線且月線向上；K由下往上轉；外資當天淨買超；投信連買3日+；外資+投信同步買超
+TWSE,3005,神基,20260917,118.0,2.608695652173913,True,True,True,True,False,False,False,4,等待確認,67.0,剛站回月線(觀察)；K由下往上轉；外資當天淨買超；投信連買3日+；外資+投信同步買超；量增收紅但尚未突破前高
+TWSE,6505,台塑化,20260917,86.2,7.080745341614906,True,True,True,True,False,False,False,4,等待確認,67.0,站穩月線且月線向上；K由下往上轉；外資當天淨買超；投信連買3日+；外資+投信同步買超
+TWSE,2891,中信金,20260917,71.2,0.5649717514124295,True,False,True,True,False,False,True,4,等待確認,65.0,站穩月線且月線向上；外資當天淨買超；投信連買3日+；外資+投信同步買超；站上布林上軌且上軌向上(波動擴張)
+TWSE,00918,大華優利高填息30,20260917,36.25,1.5975336322869953,True,True,False,True,True,False,False,4,等待確認,62.5,站穩月線且月線向上；K上穿D golden cross；帶量突破近20日高且收盤站穩
+TWSE,8103,瀚荃,20260917,132.0,10.0,True,True,False,True,True,False,False,4,等待確認,62.5,站穩月線且月線向上；K上穿D golden cross；帶量突破近20日高且收盤站穩
+TWSE,2892,第一金,20260917,40.75,1.875,True,True,True,True,False,False,False,4,等待確認,60.5,站穩月線且月線向上；⚠️高檔鈍化已久，KD打勾勿單純追價；外資當天淨買超；投信連買3日+；外資+投信同步買超
+TWSE,5876,上海商銀,20260917,49.95,0.4020100502512563,True,True,True,True,False,False,False,4,等待確認,60.5,站穩月線且月線向上；⚠️高檔鈍化已久，KD打勾勿單純追價；外資當天淨買超；投信連買3日+；外資+投信同步買超
+TWSE,00907,永豐優息存股,20260917,18.06,1.3468013468013467,True,False,False,True,True,False,True,4,等待確認,60.0,站穩月線且月線向上；外資當天淨買超；帶量突破近20日高且收盤站穩；站上布林上軌且上軌向上(波動擴張)
+TWSE,1709,和益,20260917,42.95,9.987195902688859,True,False,False,True,True,False,True,4,等待確認,60.0,站穩月線且月線向上；帶量突破近20日高且收盤站穩；站上布林上軌且上軌向上(波動擴張)
+TWSE,3031,佰鴻,20260917,26.65,9.896907216494846,True,False,False,True,True,False,True,4,等待確認,60.0,站穩月線且月線向上；外資當天淨買超；帶量突破近20日高且收盤站穩；站上布林上軌且上軌向上(波動擴張)
+TWSE,6742,澤米,20260917,51.2,9.871244635193133,True,False,False,True,True,False,True,4,等待確認,60.0,站穩月線且月線向上；外資當天淨買超；帶量突破近20日高且收盤站穩；站上布林上軌且上軌向上(波動擴張)
+TWSE,1314,中石化,20260917,8.96,9.938650306748468,True,False,False,True,True,False,True,4,等待確認,57.5,站穩月線且月線向上；外資當天淨買超；帶量突破近20日高且收盤站穩；站上布林上軌且上軌向上(波動擴張)
+TWSE,2883B,凱基金乙特,20260917,8.35,1.2121212121212122,True,False,False,True,True,False,True,4,等待確認,57.5,站穩月線且月線向上；外資當天淨買超；帶量突破近20日高且收盤站穩；站上布林上軌且上軌向上(波動擴張)
+TWSE,6168,宏齊,20260917,35.35,9.95334370139969,True,False,False,True,True,False,True,4,等待確認,57.5,站穩月線且月線向上；外資當天淨買超；帶量突破近20日高且收盤站穩；站上布林上軌且上軌向上(波動擴張)
+TWSE,1313,聯成,20260917,12.3,2.928870292887029,True,False,False,True,False,True,True,4,等待確認,57.0,站穩月線且月線向上；外資當天淨買超；量增收紅但尚未突破前高；MACD翻紅+RSI區間內+5日線剛穿上10日線；站上布林上軌且上軌向上(波動擴張)
+TWSE,2371,大同,20260917,29.7,5.132743362831858,True,False,False,True,False,True,True,4,等待確認,57.0,站穩月線且月線向上；外資當天淨買超；量增收紅但尚未突破前高；MACD翻紅+RSI區間內+5日線剛穿上10日線；站上布林上軌且上軌向上(波動擴張)
+TWSE,0055,元大MSCI金融,20260917,50.85,1.0934393638170974,True,True,False,True,True,False,False,4,等待確認,55.5,站穩月線且月線向上；⚠️高檔鈍化已久，KD打勾勿單純追價；帶量突破近20日高且收盤站穩
+TWSE,3231,緯創,20260917,186.5,1.912568306010929,True,True,True,True,False,False,False,4,等待確認,52.5,剛站回月線(觀察)；K由下往上轉；外資當天淨買超；投信連買3日+；外資+投信同步買超
+TWSE,9910,豐泰,20260917,69.1,2.3703703703703707,True,True,True,True,False,False,False,4,等待確認,52.5,剛站回月線(觀察)；K由下往上轉；外資當天淨買超；投信連買3日+；外資+投信同步買超
+TWSE,2399,映泰,20260917,49.0,3.594080338266385,True,False,False,True,False,True,True,4,等待確認,49.0,站穩月線且月線向上；外資當天淨買超；⚠️爆量但留長上影線；MACD翻紅+RSI區間內+5日線剛穿上10日線；站上布林上軌且上軌向上(波動擴張)
+TWSE,3138,耀登,20260917,104.5,9.884332281808623,True,False,False,True,True,False,True,4,等待確認,48.0,剛站回月線(觀察)；帶量突破近20日高且收盤站穩；站上布林上軌且上軌向上(波動擴張)
+TWSE,2845,遠東銀,20260917,13.75,1.1029411764705883,True,True,False,True,False,True,False,4,等待確認,47.0,站穩月線且月線向上；K由下往上轉；外資當天淨買超；MACD翻紅+RSI區間內+5日線剛穿上10日線
+TWSE,2254,巨鎧精密-創,20260917,75.2,1.3477088948787062,True,True,False,True,False,False,True,4,等待確認,44.5,站穩月線且月線向上；K由下往上轉；外資當天淨買超；站上布林上軌且上軌向上(波動擴張)
+TWSE,6214,精誠,20260917,193.0,1.0471204188481675,True,True,False,True,False,False,True,4,等待確認,44.5,站穩月線且月線向上；K由下往上轉；外資當天淨買超；站上布林上軌且上軌向上(波動擴張)
+TWSE,2412,中華電,20260917,145.0,1.0452961672473868,True,True,False,True,False,False,True,4,等待確認,40.5,站穩月線且月線向上；⚠️高檔鈍化已久，KD打勾勿單純追價；外資當天淨買超；站上布林上軌且上軌向上(波動擴張)
+TWSE,2603,長榮,20260917,242.5,1.4644351464435146,True,False,True,True,False,False,False,3,等待確認,60.0,站穩月線且月線向上；外資當天淨買超；投信連買3日+；外資+投信同步買超
+TWSE,9945,潤泰新,20260917,28.95,3.2085561497326207,True,False,True,True,False,False,False,3,等待確認,60.0,剛站回月線(觀察)；外資當天淨買超；投信連買3日+；外資+投信同步買超；量增收紅但尚未突破前高
+TWSE,1710,東聯,20260917,16.65,6.050955414012739,True,True,False,True,False,False,False,3,等待確認,59.0,站穩月線且月線向上；K上穿D golden cross；外資當天淨買超；量增收紅但尚未突破前高
+TWSE,2884,玉山金,20260917,47.3,1.829924650161464,True,False,True,True,False,False,False,3,等待確認,57.5,站穩月線且月線向上；外資當天淨買超；投信連買3日+；外資+投信同步買超
+TWSE,2419,仲琦,20260917,27.9,2.0109689213893973,True,True,False,True,False,False,False,3,等待確認,57.0,站穩月線且月線向上；K上穿D golden cross；外資當天淨買超；量增收紅但尚未突破前高
+TWSE,2520,冠德,20260917,37.35,2.60989010989011,True,True,False,True,False,False,False,3,等待確認,57.0,站穩月線且月線向上；K上穿D golden cross；外資當天淨買超；量增收紅但尚未突破前高
+TWSE,2812,台中銀,20260917,19.5,1.0362694300518136,True,True,False,True,False,False,False,3,等待確認,57.0,站穩月線且月線向上；K上穿D golden cross；外資當天淨買超；量增收紅但尚未突破前高
+TWSE,3094,聯傑,20260917,47.0,5.499438832772166,True,True,False,True,False,False,False,3,等待確認,57.0,站穩月線且月線向上；K上穿D golden cross；外資當天淨買超；量增收紅但尚未突破前高
+TWSE,2816,旺旺保,20260917,40.95,3.2786885245901636,True,True,False,True,False,False,False,3,等待確認,56.5,站穩月線且月線向上；K上穿D golden cross；外資當天淨買超；量增收紅但尚未突破前高
+TWSE,4956,光鋐,20260917,38.75,9.929078014184398,True,False,False,True,True,False,False,3,等待確認,55.0,站穩月線且月線向上；外資當天淨買超；帶量突破近20日高且收盤站穩
+TWSE,1305,華夏,20260917,12.3,2.928870292887029,True,True,False,True,False,False,False,3,等待確認,54.5,站穩月線且月線向上；K上穿D golden cross；外資當天淨買超；量增收紅但尚未突破前高
+TWSE,1308,亞聚,20260917,14.4,2.857142857142857,True,True,False,True,False,False,False,3,等待確認,54.5,站穩月線且月線向上；K上穿D golden cross；外資當天淨買超；量增收紅但尚未突破前高
+TWSE,1310,台苯,20260917,9.03,6.360424028268554,True,True,False,True,False,False,False,3,等待確認,54.5,站穩月線且月線向上；K上穿D golden cross；外資當天淨買超；量增收紅但尚未突破前高
+TWSE,2034,允強,20260917,21.05,1.6908212560386473,True,True,False,True,False,False,False,3,等待確認,54.5,站穩月線且月線向上；K上穿D golden cross；外資當天淨買超；量增收紅但尚未突破前高
+TWSE,5285,界霖,20260917,88.7,5.595238095238096,True,True,False,True,False,False,False,3,等待確認,54.5,站穩月線且月線向上；K上穿D golden cross；外資當天淨買超；量增收紅但尚未突破前高
+TWSE,6257,矽格,20260917,222.5,5.952380952380952,True,True,False,True,False,False,False,3,等待確認,54.5,站穩月線且月線向上；K上穿D golden cross；外資當天淨買超；量增收紅但尚未突破前高
+TWSE,6933,AMAX-KY,20260917,345.5,9.85691573926868,True,True,False,True,False,False,False,3,等待確認,54.5,站穩月線且月線向上；K上穿D golden cross；量增收紅但尚未突破前高
+TWSE,1727,中華化,20260917,105.0,9.832635983263598,True,False,False,True,False,True,False,3,等待確認,54.0,站穩月線且月線向上；外資當天淨買超；量增收紅但尚未突破前高；MACD翻紅+RSI區間內+5日線剛穿上10日線
+TWSE,4770,上品,20260917,242.0,9.750566893424036,True,True,False,True,False,False,False,3,等待確認,54.0,站穩月線且月線向上；K由下往上轉；外資當天淨買超；量增收紅但尚未突破前高
+TWSE,4904,遠傳,20260917,106.5,1.4285714285714286,True,True,False,True,False,False,False,3,等待確認,54.0,站穩月線且月線向上；K由下往上轉；外資當天淨買超；量增收紅但尚未突破前高
+TWSE,2104,國際中橡,20260917,10.75,2.8708133971291865,True,False,False,True,False,True,False,3,等待確認,52.0,站穩月線且月線向上；外資當天淨買超；量增收紅但尚未突破前高；MACD翻紅+RSI區間內+5日線在10日線上
+TWSE,1303,南亞,20260917,236.0,5.357142857142857,True,True,False,True,False,False,False,3,等待確認,51.5,站穩月線且月線向上；K由下往上轉；投信連買3日+；量增收紅但尚未突破前高
+TWSE,00900,富邦特選高股息30,20260917,19.77,0.7131940906775345,True,True,False,True,False,False,False,3,等待確認,49.0,站穩月線且月線向上；K上穿D golden cross；外資當天淨買超；⚠️爆量但留長上影線
+TWSE,2006,東和鋼鐵,20260917,82.5,1.726263871763255,True,True,False,True,False,False,False,3,等待確認,49.0,站穩月線且月線向上；K上穿D golden cross；外資當天淨買超；⚠️爆量但留長上影線
+TWSE,2515,中工,20260917,12.05,2.11864406779661,True,True,False,True,False,False,False,3,等待確認,49.0,站穩月線且月線向上；K上穿D golden cross；外資當天淨買超；⚠️爆量但留長上影線
+TWSE,3702,大聯大,20260917,111.0,4.716981132075472,True,True,False,True,False,False,False,3,等待確認,48.0,站上月線；K由下往上轉；外資當天淨買超；量增收紅但尚未突破前高
+TWSE,3036,文曄,20260917,204.0,6.806282722513089,True,True,False,True,False,False,False,3,等待確認,47.0,剛站回月線(觀察)；K上穿D golden cross；外資當天淨買超；量增收紅但尚未突破前高
+TWSE,00940,元大台灣價值高息,20260917,12.99,0.7757951900698216,True,True,False,True,False,False,False,3,等待確認,46.5,站穩月線且月線向上；K上穿D golden cross；外資當天淨買超；⚠️爆量但留長上影線
+TWSE,1612,宏泰,20260917,34.95,0.2869440459110474,True,True,False,True,False,False,False,3,等待確認,46.5,站穩月線且月線向上；K上穿D golden cross；外資當天淨買超；⚠️爆量但留長上影線
+TWSE,3714,富采,20260917,65.5,1.8662519440124419,True,True,False,True,False,False,False,3,等待確認,46.5,站穩月線且月線向上；K上穿D golden cross；⚠️爆量但留長上影線
+TWSE,4927,泰鼎-KY,20260917,43.4,1.8779342723004695,True,True,False,True,False,False,False,3,等待確認,46.5,站穩月線且月線向上；K上穿D golden cross；外資當天淨買超；⚠️爆量但留長上影線
+TWSE,8021,尖點,20260917,450.0,2.272727272727273,True,True,False,True,False,False,False,3,等待確認,46.5,站穩月線且月線向上；K上穿D golden cross；外資當天淨買超；⚠️爆量但留長上影線
+TWSE,2455,全新,20260917,534.0,3.6893203883495143,True,True,False,True,False,False,False,3,等待確認,46.0,站穩月線且月線向上；K由下往上轉；外資當天淨買超；⚠️爆量但留長上影線
+TWSE,9904,寶成,20260917,24.8,1.2244897959183674,True,False,True,True,False,False,False,3,等待確認,45.5,剛站回月線(觀察)；外資當天淨買超；投信連買3日+；外資+投信同步買超
+TWSE,1304,台聚,20260917,12.6,3.278688524590164,True,True,False,True,False,False,False,3,等待確認,45.0,站穩月線且月線向上；K上穿D golden cross；外資當天淨買超
+TWSE,1789,神隆,20260917,19.6,7.988980716253442,True,True,False,True,False,False,False,3,等待確認,45.0,剛站回月線(觀察)；K上穿D golden cross；外資當天淨買超；量增收紅但尚未突破前高
+TWSE,2493,揚博,20260917,206.5,9.840425531914894,True,False,False,True,True,False,False,3,等待確認,45.0,剛站回月線(觀察)；帶量突破近20日高且收盤站穩
+TWSE,2637,慧洋-KY,20260917,102.0,-0.4878048780487805,True,True,False,True,False,False,False,3,等待確認,45.0,站穩月線且月線向上；K上穿D golden cross；外資當天淨買超
+TWSE,4960,誠美材,20260917,22.0,10.0,True,True,False,True,False,False,False,3,等待確認,45.0,剛站回月線(觀察)；K上穿D golden cross；外資當天淨買超；量增收紅但尚未突破前高
+TWSE,00669R,國泰美國道瓊反1,20260917,5.34,0.945179584120983,True,False,False,True,False,False,True,3,等待確認,44.0,站穩月線且月線向上；⚠️爆量但留長上影線；站上布林上軌且上軌向上(波動擴張)
+TWSE,3605,宏致,20260917,140.0,0.0,True,False,False,True,False,True,False,3,等待確認,44.0,站穩月線且月線向上；外資當天淨買超；⚠️爆量但留長上影線；MACD翻紅+RSI區間內+5日線在10日線上
+TWSE,00913,兆豐台灣晶圓製造,20260917,49.04,1.0925582354153784,True,True,False,True,False,False,False,3,等待確認,43.5,站穩月線且月線向上；K由下往上轉；⚠️爆量但留長上影線
+TWSE,1609,大亞,20260917,37.65,0.938337801608579,True,True,False,True,False,False,False,3,等待確認,43.5,站穩月線且月線向上；K由下往上轉；外資當天淨買超；⚠️爆量但留長上影線
+TWSE,0056,元大高股息,20260917,56.3,1.3501350135013503,True,True,False,True,False,False,False,3,等待確認,42.5,站穩月線且月線向上；K上穿D golden cross；外資當天淨買超
+TWSE,2328,廣宇,20260917,46.35,1.3114754098360655,True,True,False,True,False,False,False,3,等待確認,42.5,站穩月線且月線向上；K上穿D golden cross；外資當天淨買超
+TWSE,2605,新興,20260917,37.15,3.051317614424411,True,True,False,True,False,False,False,3,等待確認,42.5,站穩月線且月線向上；K上穿D golden cross；外資當天淨買超
+TWSE,2915,潤泰全,20260917,58.6,3.53356890459364,True,True,False,True,False,False,False,3,等待確認,42.5,剛站回月線(觀察)；K上穿D golden cross；外資當天淨買超；量增收紅但尚未突破前高
+TWSE,4906,正文,20260917,36.1,1.5471167369901546,True,True,False,True,False,False,False,3,等待確認,42.5,站穩月線且月線向上；K上穿D golden cross；外資當天淨買超
+TWSE,00915,凱基優選高股息30,20260917,33.03,1.3501073949064128,True,True,False,True,False,False,False,3,等待確認,42.0,站穩月線且月線向上；K由下往上轉；外資當天淨買超
+TWSE,1309,台達化,20260917,14.1,2.9197080291970807,True,True,False,True,False,False,False,3,等待確認,42.0,站穩月線且月線向上；K由下往上轉；外資當天淨買超
+TWSE,2347,聯強,20260917,89.5,0.9019165727170236,True,True,False,True,False,False,False,3,等待確認,42.0,站穩月線且月線向上；K由下往上轉；外資當天淨買超
+TWSE,2617,台航,20260917,33.1,2.0030816640986133,True,True,False,True,False,False,False,3,等待確認,42.0,站穩月線且月線向上；K由下往上轉；外資當天淨買超
+TWSE,2820,華票,20260917,17.45,0.8670520231213872,True,True,False,True,False,False,False,3,等待確認,42.0,站穩月線且月線向上；K由下往上轉；外資當天淨買超
+TWSE,2851,中再保,20260917,47.0,1.4023732470334414,True,True,False,True,False,False,False,3,等待確認,42.0,站穩月線且月線向上；K由下往上轉；外資當天淨買超
+TWSE,2609,陽明,20260917,62.0,2.9900332225913617,True,False,False,True,False,True,False,3,等待確認,40.0,站穩月線且月線向上；外資當天淨買超；MACD翻紅+RSI區間內+5日線在10日線上
+TWSE,3016,嘉晶,20260917,115.5,0.0,True,False,False,True,False,False,True,3,等待確認,40.0,站穩月線且月線向上；站上布林上軌且上軌向上(波動擴張)
+TWSE,3443,創意,20260917,6500.0,5.348460291734198,True,False,False,True,False,False,True,3,等待確認,40.0,站穩月線且月線向上；投信連買3日+；站上布林上軌且上軌向上(波動擴張)
+TWSE,6176,瑞儀,20260917,93.4,1.3015184381778742,True,False,False,True,False,True,False,3,等待確認,40.0,站穩月線且月線向上；外資當天淨買超；MACD翻紅+RSI區間內+5日線在10日線上
+TWSE,6206,飛捷,20260917,141.5,2.536231884057971,True,False,False,True,False,True,False,3,等待確認,40.0,剛站回月線(觀察)；外資當天淨買超；量增收紅但尚未突破前高；MACD翻紅+RSI區間內+5日線在10日線上
+TWSE,6226,光鼎,20260917,43.85,9.899749373433584,True,False,False,True,False,False,True,3,等待確認,40.0,站穩月線且月線向上；外資當天淨買超；站上布林上軌且上軌向上(波動擴張)
+TWSE,6589,台康生技,20260917,51.2,4.59652706843718,True,False,False,True,False,True,False,3,等待確認,40.0,剛站回月線(觀察)；外資當天淨買超；量增收紅但尚未突破前高；MACD翻紅+RSI區間內+5日線剛穿上10日線
+TWSE,6668,中揚光,20260917,44.8,3.703703703703704,True,False,False,True,False,True,False,3,等待確認,40.0,站穩月線且月線向上；外資當天淨買超；MACD翻紅+RSI區間內+5日線在10日線上
+TWSE,0050,元大台灣50,20260917,108.05,1.0757717492984098,True,True,False,True,False,False,False,3,等待確認,39.5,站穩月線且月線向上；K由下往上轉；外資當天淨買超
+TWSE,0052,富邦科技,20260917,62.7,1.2106537530266344,True,True,False,True,False,False,False,3,等待確認,39.5,站穩月線且月線向上；K由下往上轉；投信連買3日+
+TWSE,006208,富邦台50,20260917,247.4,1.1447260834014716,True,True,False,True,False,False,False,3,等待確認,39.5,站穩月線且月線向上；K由下往上轉；外資當天淨買超
+TWSE,00631L,元大台灣50正2,20260917,36.41,2.390326209223847,True,True,False,True,False,False,False,3,等待確認,39.5,站穩月線且月線向上；K由下往上轉；外資當天淨買超
+TWSE,00663L,國泰臺灣加權正2,20260917,104.8,2.1940516821062896,True,True,False,True,False,False,False,3,等待確認,39.5,站穩月線且月線向上；K由下往上轉
+TWSE,00891,中信關鍵半導體,20260917,35.41,1.2003429551300373,True,True,False,True,False,False,False,3,等待確認,39.5,站穩月線且月線向上；K由下往上轉；外資當天淨買超
+TWSE,00922,國泰台灣領袖50,20260917,41.96,0.8411439557798606,True,True,False,True,False,False,False,3,等待確認,39.5,站穩月線且月線向上；K由下往上轉
+TWSE,00927,群益半導體收益,20260917,37.6,1.0481053480247244,True,True,False,True,False,False,False,3,等待確認,39.5,站穩月線且月線向上；K由下往上轉；外資當天淨買超
+TWSE,00930,永豐ESG低碳高息,20260917,24.1,0.7525083612040133,True,True,False,True,False,False,False,3,等待確認,39.5,站穩月線且月線向上；K由下往上轉；外資當天淨買超
+TWSE,00938,凱基優選30,20260917,27.1,0.8559732043170823,True,True,False,True,False,False,False,3,等待確認,39.5,站穩月線且月線向上；K由下往上轉；外資當天淨買超
+TWSE,009816,凱基台灣TOP50,20260917,16.04,0.9439899307740718,True,True,False,True,False,False,False,3,等待確認,39.5,站穩月線且月線向上；K由下往上轉
+TWSE,1301,台塑,20260917,64.6,3.5256410256410264,True,True,False,True,False,False,False,3,等待確認,39.5,站穩月線且月線向上；K由下往上轉；外資當天淨買超
+TWSE,1326,台化,20260917,68.6,4.25531914893617,True,True,False,True,False,False,False,3,等待確認,39.5,站穩月線且月線向上；K由下往上轉；外資當天淨買超
+TWSE,2030,彰源,20260917,23.5,3.524229074889868,True,True,False,True,False,False,False,3,等待確認,39.5,站穩月線且月線向上；K由下往上轉；外資當天淨買超
+TWSE,2201,裕隆,20260917,30.6,2.5125628140703515,True,True,False,True,False,False,False,3,等待確認,39.5,站穩月線且月線向上；K由下往上轉；外資當天淨買超
+TWSE,2330,台積電,20260917,2425.0,1.8907563025210083,True,True,False,True,False,False,False,3,等待確認,39.5,站穩月線且月線向上；K由下往上轉；外資當天淨買超
+TWSE,2606,裕民,20260917,77.0,1.3157894736842104,True,True,False,True,False,False,False,3,等待確認,39.5,站穩月線且月線向上；K由下往上轉；投信連買3日+
+TWSE,2897,王道銀行,20260917,11.25,0.8968609865470852,True,True,False,True,False,False,False,3,等待確認,39.5,站穩月線且月線向上；K由下往上轉；外資當天淨買超
+TWSE,5880,合庫金,20260917,27.55,0.7312614259597806,True,True,False,True,False,False,False,3,等待確認,38.0,站穩月線且月線向上；⚠️高檔鈍化已久，KD打勾勿單純追價；外資當天淨買超
+TWSE,2305,全友,20260917,54.3,9.919028340080972,True,False,False,True,False,False,True,3,等待確認,37.5,站穩月線且月線向上；外資當天淨買超；站上布林上軌且上軌向上(波動擴張)
+TWSE,6426,統新,20260917,363.0,10.0,True,False,False,True,False,False,True,3,等待確認,37.5,站穩月線且月線向上；外資當天淨買超；站上布林上軌且上軌向上(波動擴張)
+TWSE,00685L,群益臺灣加權正2,20260917,11.98,2.131287297527707,True,True,False,True,False,False,False,3,等待確認,37.0,站穩月線且月線向上；K由下往上轉；外資當天淨買超
+TWSE,3035,智原,20260917,179.0,3.170028818443804,True,True,False,True,False,False,False,3,等待確認,37.0,剛站回月線(觀察)；K上穿D golden cross；外資當天淨買超；⚠️爆量但留長上影線
+TWSE,2834,臺企銀,20260917,18.75,3.0219780219780223,True,True,False,True,False,False,False,3,等待確認,35.5,站穩月線且月線向上；⚠️高檔鈍化已久，KD打勾勿單純追價；外資當天淨買超
+TWSE,2363,矽統,20260917,52.9,1.7307692307692308,True,True,False,True,False,False,False,3,等待確認,34.5,剛站回月線(觀察)；K上穿D golden cross；外資當天淨買超；⚠️爆量但留長上影線
+TWSE,3701,大眾控,20260917,41.25,3.125,True,True,False,True,False,False,False,3,等待確認,34.5,剛站回月線(觀察)；K上穿D golden cross；⚠️爆量但留長上影線
+TWSE,6197,佳必琪,20260917,304.5,3.2203389830508473,True,True,False,True,False,False,False,3,等待確認,34.5,剛站回月線(觀察)；K上穿D golden cross；外資當天淨買超；⚠️爆量但留長上影線
+TWSE,9933,中鼎,20260917,42.4,-0.8187134502923975,True,False,False,True,False,True,False,3,等待確認,34.0,站上月線；MACD翻紅+RSI區間內+5日線在10日線上
+TWSE,1905,華紙,20260917,13.5,3.053435114503817,True,True,False,True,False,False,False,3,等待確認,33.0,剛站回月線(觀察)；K上穿D golden cross；外資當天淨買超
+TWSE,3060,銘異,20260917,26.65,2.1072796934865905,True,True,False,True,False,False,False,3,等待確認,32.0,剛站回月線(觀察)；K上穿D golden cross；外資當天淨買超；⚠️爆量但留長上影線
+TWSE,6715,嘉基,20260917,394.0,0.2544529262086514,True,False,False,True,False,True,False,3,等待確認,32.0,剛站回月線(觀察)；外資當天淨買超；⚠️爆量但留長上影線；MACD翻紅+RSI區間內+5日線在10日線上
+TWSE,009824,群益美國科技巨頭,20260917,10.05,0.7014028056112225,True,True,False,True,False,False,False,3,等待確認,31.5,剛站回月線(觀察)；K由下往上轉；外資當天淨買超；⚠️爆量但留長上影線
+TWSE,2618,長榮航,20260917,42.05,1.8159806295399519,False,True,True,True,False,False,False,3,等待確認,31.5,K上穿D golden cross；外資當天淨買超；投信連買3日+；外資+投信同步買超
+TWSE,00402A,主動安聯美國科技,20260917,9.52,1.1689691817215728,True,True,False,True,False,False,False,3,等待確認,30.5,剛站回月線(觀察)；K上穿D golden cross；外資當天淨買超
+TWSE,009813,貝萊德標普卓越50,20260917,11.27,0.3561887800534283,True,True,False,True,False,False,False,3,等待確認,30.5,剛站回月線(觀察)；K上穿D golden cross；外資當天淨買超
+TWSE,1904,正隆,20260917,25.0,2.459016393442623,True,True,False,True,False,False,False,3,等待確認,30.5,剛站回月線(觀察)；K上穿D golden cross；外資當天淨買超
+TWSE,2352,佳世達,20260917,29.0,-0.5145797598627788,True,True,False,True,False,False,False,3,等待確認,30.5,剛站回月線(觀察)；K上穿D golden cross；外資當天淨買超
+TWSE,2376,技嘉,20260917,355.0,1.4285714285714286,True,True,False,True,False,False,False,3,等待確認,30.5,剛站回月線(觀察)；K上穿D golden cross；投信連買3日+
+TWSE,5521,工信,20260917,10.65,1.9138755980861244,True,True,False,True,False,False,False,3,等待確認,30.5,剛站回月線(觀察)；K上穿D golden cross；外資當天淨買超
+TWSE,00646,元大S&P500,20260917,76.3,0.26281208935611045,False,True,True,True,False,False,False,3,等待確認,29.0,K上穿D golden cross；外資當天淨買超；投信連買3日+；外資+投信同步買超
+TWSE,2027,大成鋼,20260917,47.1,1.1815252416756177,False,True,True,True,False,False,False,3,等待確認,29.0,K上穿D golden cross；外資當天淨買超；投信連買3日+；外資+投信同步買超
+TWSE,2547,日勝生,20260917,9.87,1.8575851393188854,False,True,True,True,False,False,False,3,等待確認,29.0,K上穿D golden cross；外資當天淨買超；投信連買3日+；外資+投信同步買超
+TWSE,2912,統一超,20260917,217.5,1.1627906976744187,False,True,True,True,False,False,False,3,等待確認,29.0,K上穿D golden cross；外資當天淨買超；投信連買3日+；外資+投信同步買超
+TWSE,00865B,國泰US短期公債,20260917,48.95,0.2047082906857728,True,False,False,True,False,True,False,3,等待確認,28.0,剛站回月線(觀察)；外資當天淨買超；MACD翻紅+RSI區間內+5日線在10日線上
+TWSE,2439,美律,20260917,79.3,1.6666666666666667,True,False,False,True,False,True,False,3,等待確認,28.0,剛站回月線(觀察)；外資當天淨買超；MACD翻紅+RSI區間內+5日線在10日線上
+TWSE,3481,群創,20260917,48.5,-0.41067761806981523,True,True,False,True,False,False,False,3,等待確認,28.0,剛站回月線(觀察)；K上穿D golden cross
+TWSE,4763,材料*-KY,20260917,47.7,6.236080178173718,False,True,True,True,False,False,False,3,等待確認,27.8,K由下往上轉；外資當天淨買超；投信連買3日+；外資+投信同步買超
+TWSE,6278,台表科,20260917,184.0,0.546448087431694,False,True,True,True,False,False,False,3,等待確認,27.8,K由下往上轉；外資當天淨買超；投信連買3日+；外資+投信同步買超
+TWSE,009820,元大納斯達克精選,20260917,9.82,1.2371134020618555,True,True,False,True,False,False,False,3,等待確認,27.5,剛站回月線(觀察)；K由下往上轉
+TWSE,1409,新纖,20260917,24.8,3.549060542797495,True,True,False,True,False,False,False,3,等待確認,27.5,剛站回月線(觀察)；K由下往上轉；外資當天淨買超
+TWSE,8070,長華*,20260917,50.1,1.7258883248730965,True,True,False,True,False,False,False,3,等待確認,27.5,剛站回月線(觀察)；K由下往上轉；外資當天淨買超
+TWSE,00923,群益台ESG低碳50,20260917,39.9,0.808489135927236,True,True,False,True,False,False,False,3,等待確認,25.0,剛站回月線(觀察)；K由下往上轉；外資當天淨買超
+TWSE,2317,鴻海,20260917,250.5,1.0080645161290323,True,True,False,True,False,False,False,3,等待確認,25.0,剛站回月線(觀察)；K由下往上轉；外資當天淨買超
