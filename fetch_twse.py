@@ -26,6 +26,9 @@ T86_URL = "https://www.twse.com.tw/rwd/zh/fund/T86"
 MI_MARGN_URL = "https://www.twse.com.tw/rwd/zh/marginTrading/MI_MARGN"
 TWTB4U_URL = "https://www.twse.com.tw/rwd/zh/afterTrading/TWTB4U"
 
+# 最近幾天內「有收盤價但法人/融資是空的」日期，下次執行會重抓（資料通常傍晚才公告）
+RETRY_EMPTY_WITHIN_DAYS = 7
+
 
 def _fetch_prices(date_str: str):
     data = get_json(MI_INDEX_URL, {"date": date_str, "type": "ALLBUT0999", "response": "json"})
@@ -233,7 +236,16 @@ def fetch_and_cache_range(end_date: datetime, n_days: int = BACKFILL_TRADING_DAY
         # 只保留當天有收盤價的股票：T86 另外含一萬多檔權證，選股用不到，卻會讓快取檔爆掉 GitHub 100MB 上限
         stock_codes = {c for c, _ in db.list_codes_with_price_on(MARKET, date_str)}
 
-        if not db.already_fetched(MARKET, "institutional", date_str):
+        # 法人/融資要等傍晚才公告：太早執行（例如下午手動按 Run workflow）會抓到空的並記成 EMPTY。
+        # 所以「當天有收盤價、但法人/融資是空的」且是最近幾天的日期，下次執行會再抓一次；
+        # 更早的日期就不再重試，避免官方真的沒資料時每天白打一堆請求。
+        recent = (end_date - d).days <= RETRY_EMPTY_WITHIN_DAYS
+
+        def need_fetch(dataset):
+            status = db.fetch_status(MARKET, dataset, date_str)
+            return status is None or (status == "EMPTY" and bool(stock_codes) and recent)
+
+        if need_fetch("institutional"):
             rows = _fetch_institutional(date_str)
             if stock_codes:
                 rows = [r for r in rows if r["code"] in stock_codes]
@@ -242,16 +254,17 @@ def fetch_and_cache_range(end_date: datetime, n_days: int = BACKFILL_TRADING_DAY
             db.mark_fetched(MARKET, "institutional", date_str, status)
             if rows:
                 print(f"  [TWSE] {date_str} 三大法人 {len(rows)} 檔")
+            elif stock_codes:
+                print(f"  [TWSE] {date_str} 三大法人尚未公告（下次執行會再抓）")
 
-        # 融資：早期解析格式不符，交易日也被記成 EMPTY，這裡讓「有收盤價卻沒融資」的日子重抓一次；
-        # 重抓還是空的就記成 NODATA，之後不再重試，避免每天白打幾十次請求
-        margin_status = db.fetch_status(MARKET, "margin", date_str)
-        if margin_status is None or (margin_status == "EMPTY" and stock_codes):
+        if need_fetch("margin"):
             rows = _fetch_margin(date_str)
-            status = "OK" if rows else ("EMPTY" if margin_status is None else "NODATA")
+            status = "OK" if rows else "EMPTY"
             db.save_margin(rows)
             db.mark_fetched(MARKET, "margin", date_str, status)
             if rows:
                 print(f"  [TWSE] {date_str} 融資融券 {len(rows)} 檔")
+            elif stock_codes:
+                print(f"  [TWSE] {date_str} 融資融券尚未公告（下次執行會再抓）")
 
     return fetched_trading_days
