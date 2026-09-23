@@ -122,10 +122,14 @@ def main():
         print("   可以稍後再試，或用 --date 指定確定有交易的日期。")
         sys.exit(1)
 
-    if not args.daytrade_only:
-        run_swing(args, target_date_str)
-    if not args.no_daytrade:
-        run_daytrade(args, target_date_str)
+    swing_results = run_swing(args, target_date_str) if not args.daytrade_only else None
+    daytrade_results = run_daytrade(args, target_date_str) if not args.no_daytrade else None
+
+    # ⭐ 我的關注頁：內嵌當天所有股票的收盤／漲跌，以及有沒有進兩份名單
+    day_prices = [row for m in MARKETS for row in db.get_day_prices(m, target_date_str)]
+    snapshot = report.build_watchlist_snapshot(target_date_str, day_prices, swing_results, daytrade_results)
+    report.write_watchlist_page(snapshot, DOCS_DIR)
+    print(f"已輸出我的關注頁：{os.path.join(DOCS_DIR, 'watchlist.html')}")
 
 
 def run_swing(args, target_date_str):
@@ -169,6 +173,7 @@ def run_swing(args, target_date_str):
 
     report.write_reports(results, target_date_str, scanned_count, args.min, DOCS_DIR)
     print(f"已輸出網頁報表：{os.path.join(DOCS_DIR, 'index.html')}")
+    return results
 
 
 def run_daytrade(args, target_date_str):
@@ -206,6 +211,7 @@ def run_daytrade(args, target_date_str):
     report.write_daytrade_reports(results, target_date_str, scanned_count, args.dt_min_score,
                                   list_applied, DOCS_DIR)
     print(f"已輸出當沖網頁報表：{os.path.join(DOCS_DIR, 'daytrade.html')}")
+    return results
 
 
 if __name__ == "__main__":

@@ -125,12 +125,48 @@ BASE_CSS = """<style>
   }}
   .levels b {{ color: var(--text); font-weight: 600; }}
   .stats {{ margin-top: 6px; font-size: 0.8rem; color: var(--muted); }}
+  .card {{ position: relative; }}
+  .wl-wrap {{ position: relative; display: flex; justify-content: flex-end; margin-top: 10px; }}
+  .wl-btn, .wl-small, .wl-tab {{
+    font: inherit; font-size: 0.8rem; cursor: pointer; border-radius: 999px;
+    border: 1px solid var(--border); background: var(--card-bg); color: var(--text); padding: 4px 12px;
+  }}
+  .wl-btn.wl-on {{ color: #b45309; border-color: #f59e0b; background: #fffbeb; }}
+  .wl-small:disabled, .wl-tab:disabled {{ opacity: 0.45; cursor: not-allowed; }}
+  .wl-danger {{ color: var(--fire); }}
+  .wl-menu {{
+    position: absolute; right: 0; top: 100%; margin-top: 4px; z-index: 10; min-width: 200px;
+    background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15); padding: 6px;
+  }}
+  .wl-menu-title {{ font-size: 0.75rem; color: var(--muted); padding: 4px 8px; }}
+  .wl-menu-item {{
+    display: block; width: 100%; text-align: left; font: inherit; font-size: 0.88rem;
+    background: none; border: 0; color: var(--text); padding: 8px; border-radius: 6px; cursor: pointer;
+  }}
+  .wl-menu-item:hover {{ background: var(--watch-bg); }}
+  .wl-menu-link {{ display: block; font-size: 0.8rem; padding: 6px 8px; color: var(--good); text-decoration: none; }}
+  .wl-tabs {{ display: flex; flex-wrap: wrap; gap: 6px; }}
+  .wl-tab.active {{ background: var(--good); border-color: var(--good); color: #fff; font-weight: 600; }}
+  .wl-tab-add {{ border-style: dashed; color: var(--good); }}
+  .wl-hint {{ font-size: 0.78rem; color: var(--muted); margin: 6px 0; min-height: 1em; }}
+  .wl-bar {{ display: flex; gap: 8px; margin: 10px 0; }}
+  .wl-add {{ display: flex; gap: 8px; margin-top: 6px; }}
+  .wl-add input, .wl-io-box {{
+    flex: 1; min-width: 0; font: inherit; font-size: 0.9rem; padding: 6px 10px;
+    border: 1px solid var(--border); border-radius: 8px; background: var(--card-bg); color: var(--text);
+  }}
+  .wl-io-box {{ display: block; width: 100%; margin-top: 8px; font-size: 0.75rem; }}
+  .wl-io {{ display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }}
+  .wl-remove {{ margin-top: 10px; }}
+  [hidden] {{ display: none !important; }}
   @media (prefers-color-scheme: dark) {{
     :root {{
       --bg: #111318; --card-bg: #1a1d23; --text: #e5e7eb; --muted: #9ca3af;
       --border: #2b2f38; --fire-bg: #3a1a1a; --good-bg: #16233d; --watch-bg: #23262e;
     }}
     .disclaimer {{ background: #2a2210; border-color: #4a3b12; color: #fbbf24; }}
+    .wl-btn.wl-on {{ background: #2a2210; border-color: #b45309; color: #fbbf24; }}
   }}
 </style>"""
 
@@ -146,7 +182,7 @@ PAGE_TEMPLATE = """<!doctype html>
 <header>
   <h1>每日收盤後選股</h1>
   <div class="subtitle">資料日期：{date_display}　｜　模擬掃描 {scanned} 檔，符合門檻(達成≥{min_checklist}項) {matched} 檔</div>
-  <div class="nav"><a href="{daytrade_href}">⚡ 看隔日當沖候選名單 →</a></div>
+  <div class="nav"><a href="{daytrade_href}">⚡ 看隔日當沖候選名單 →</a>　<a href="{asset_prefix}watchlist.html">⭐ 我的關注</a></div>
 </header>
 <div class="disclaimer">
   這份名單是把你自訂的技術面／籌碼面規則機械化跑一遍，用來縮小觀察範圍，<b>不是投資建議</b>，
@@ -161,12 +197,13 @@ PAGE_TEMPLATE = """<!doctype html>
 <footer>
   由 stock-screener 自動產生（GitHub Actions 排程執行）。權重：月線30 ＞ 籌碼25 ＞ 成交量20 ＞ KD10≈動能10 ＞ 布林5，融資暴增扣分。
 </footer>
+<script src="{asset_prefix}watchlist.js" data-wl-href="{asset_prefix}watchlist.html"></script>
 </body>
 </html>
 """
 
 CARD_TEMPLATE = """
-<div class="card">
+<div class="card" data-code="{code}">
   <div class="card-top">
     <div>
       <div class="name">{name}</div>
@@ -246,6 +283,7 @@ def render_report_html(results, target_date: str, scanned_count: int, min_checkl
         content=content,
         history_links=links,
         daytrade_href="daytrade.html" if is_index else f"../daytrade/{target_date}.html",
+        asset_prefix="" if is_index else "../",
     )
 
 
@@ -302,7 +340,7 @@ DT_PAGE_TEMPLATE = """<!doctype html>
   <h1>⚡ 隔日當沖候選名單</h1>
   <div class="subtitle">資料日期：{date_display}（給下一個交易日盤前參考）　｜　通過流動性濾網 {scanned} 檔，
     分數≥{min_score} 列出 {matched} 檔（偏多 {n_long}／偏空 {n_short}）{list_note}</div>
-  <div class="nav"><a href="{swing_href}">← 回波段選股名單</a></div>
+  <div class="nav"><a href="{swing_href}">← 回波段選股名單</a>　<a href="{asset_prefix}watchlist.html">⭐ 我的關注</a></div>
 </header>
 <div class="disclaimer">
   只用<b>日K資料</b>挑「明天值得盯盤」的股票：流動性夠、波動夠、有人氣、方向清楚。看不到盤中分時與開盤跳空，
@@ -319,12 +357,13 @@ DT_PAGE_TEMPLATE = """<!doctype html>
   權重：波動25 ＋ 流動性20 ＋ 量能20 ＋ 收盤強弱15 ＋ 順勢10 ＋ 法人10，漲跌停附近扣分。
   Pivot=(高+低+收)/3，R1=2P−低，S1=2P−高；參考停損＝ATR×倍數（可在 config.py 調整）。
 </footer>
+<script src="{asset_prefix}watchlist.js" data-wl-href="{asset_prefix}watchlist.html"></script>
 </body>
 </html>
 """
 
 DT_CARD_TEMPLATE = """
-<div class="card">
+<div class="card" data-code="{code}">
   <div class="card-top">
     <div>
       <div class="name">{name}</div>
@@ -408,6 +447,7 @@ def render_daytrade_html(results, target_date: str, scanned_count: int, min_scor
         n_short=len(results) - n_long,
         list_note="" if list_applied else "　｜　⚠️本次未取得官方可當沖清單，請自行確認標的可當沖",
         swing_href="index.html" if is_index else f"../reports/{target_date}.html",
+        asset_prefix="" if is_index else "../",
         content=content,
         history_links=links,
     )
@@ -428,3 +468,71 @@ def write_daytrade_reports(results, target_date: str, scanned_count: int, min_sc
         f.write(render_daytrade_html(*args))
     with open(os.path.join(archive_dir, f"{target_date}.html"), "w", encoding="utf-8") as f:
         f.write(render_daytrade_html(*args, is_index=False))
+
+
+# =====================================================================
+# ⭐ 我的關注（docs/watchlist.html）
+# =====================================================================
+# 選單本身存在瀏覽器（見 docs/watchlist.js），這裡只負責把「當天所有股票的收盤、漲跌，
+# 以及有沒有進波段／當沖名單」內嵌進頁面，讓關注清單打開就看得到最新狀況。
+
+WL_PAGE_TEMPLATE = """<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>我的關注 {date_display}</title>
+""" + BASE_CSS + """
+</head>
+<body>
+<header>
+  <h1>⭐ 我的關注</h1>
+  <div class="subtitle">資料日期：{date_display}　｜　自設選單最多 5 個，可以改名</div>
+  <div class="nav"><a href="index.html">← 波段選股</a>　<a href="daytrade.html">⚡ 當沖名單</a></div>
+</header>
+<div class="disclaimer">
+  選單存在<b>這支手機／這台電腦的瀏覽器</b>裡，不同裝置、不同瀏覽器各自一份；清除瀏覽器資料會一起清掉。
+  換裝置或想備份，用最下面的「匯出選單／匯入選單」搬過去。
+</div>
+<main>
+  <div id="wl-root"><div class="empty">載入中…（需要開啟 JavaScript）</div></div>
+</main>
+<div class="history">
+  <div class="wl-io" id="wl-io"></div>
+</div>
+<footer>
+  價格與「是否在名單上」是每天收盤後自動更新的資料；不在波段／當沖名單上不代表不能買賣，只是當天沒有符合那套條件。
+</footer>
+<script type="application/json" id="wl-data">{data_json}</script>
+<script src="watchlist.js"></script>
+</body>
+</html>
+"""
+
+
+def build_watchlist_snapshot(target_date, day_prices, swing_results=None, daytrade_results=None):
+    """day_prices: [(code, name, close, change)]；回傳內嵌在關注頁的精簡資料。"""
+    stocks = {}
+    for code, name, close, change in day_prices:
+        prev = (close or 0) - (change or 0)
+        stocks[code] = {
+            "n": name,
+            "c": round(close or 0.0, 2),
+            "p": round((change or 0) / prev * 100, 2) if prev else 0.0,
+        }
+    for r in swing_results or []:
+        if r["code"] in stocks:
+            stocks[r["code"]]["s"] = f"{r['tier']} {r['checklist_count']}/{TOTAL_CONDITIONS}・{r['score']:.1f}分"
+    for r in daytrade_results or []:
+        if r["code"] in stocks:
+            stocks[r["code"]]["d"] = f"偏{r['side']}・{r['score']:.1f}分"
+    return {"date": target_date, "stocks": stocks}
+
+
+def write_watchlist_page(snapshot, docs_dir: str):
+    import json
+    d = snapshot["date"]
+    data_json = json.dumps(snapshot, ensure_ascii=False, separators=(",", ":"))
+    data_json = data_json.replace("</", "<\\/")  # 避免股票名稱裡出現 </script> 之類的字串把頁面截斷
+    with open(os.path.join(docs_dir, "watchlist.html"), "w", encoding="utf-8") as f:
+        f.write(WL_PAGE_TEMPLATE.format(date_display=f"{d[0:4]}-{d[4:6]}-{d[6:8]}", data_json=data_json))
