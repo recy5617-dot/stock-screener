@@ -100,20 +100,56 @@
   }
   .levels b { color: var(--text); font-weight: 600; }
   .stats { margin-top: 6px; font-size: 0.8rem; color: var(--muted); }
+  .card { position: relative; }
+  .wl-wrap { position: relative; display: flex; justify-content: flex-end; margin-top: 10px; }
+  .wl-btn, .wl-small, .wl-tab {
+    font: inherit; font-size: 0.8rem; cursor: pointer; border-radius: 999px;
+    border: 1px solid var(--border); background: var(--card-bg); color: var(--text); padding: 4px 12px;
+  }
+  .wl-btn.wl-on { color: #b45309; border-color: #f59e0b; background: #fffbeb; }
+  .wl-small:disabled, .wl-tab:disabled { opacity: 0.45; cursor: not-allowed; }
+  .wl-danger { color: var(--fire); }
+  .wl-menu {
+    position: absolute; right: 0; top: 100%; margin-top: 4px; z-index: 10; min-width: 200px;
+    background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15); padding: 6px;
+  }
+  .wl-menu-title { font-size: 0.75rem; color: var(--muted); padding: 4px 8px; }
+  .wl-menu-item {
+    display: block; width: 100%; text-align: left; font: inherit; font-size: 0.88rem;
+    background: none; border: 0; color: var(--text); padding: 8px; border-radius: 6px; cursor: pointer;
+  }
+  .wl-menu-item:hover { background: var(--watch-bg); }
+  .wl-menu-link { display: block; font-size: 0.8rem; padding: 6px 8px; color: var(--good); text-decoration: none; }
+  .wl-tabs { display: flex; flex-wrap: wrap; gap: 6px; }
+  .wl-tab.active { background: var(--good); border-color: var(--good); color: #fff; font-weight: 600; }
+  .wl-tab-add { border-style: dashed; color: var(--good); }
+  .wl-hint { font-size: 0.78rem; color: var(--muted); margin: 6px 0; min-height: 1em; }
+  .wl-bar { display: flex; gap: 8px; margin: 10px 0; }
+  .wl-add { display: flex; gap: 8px; margin-top: 6px; }
+  .wl-add input, .wl-io-box {
+    flex: 1; min-width: 0; font: inherit; font-size: 0.9rem; padding: 6px 10px;
+    border: 1px solid var(--border); border-radius: 8px; background: var(--card-bg); color: var(--text);
+  }
+  .wl-io-box { display: block; width: 100%; margin-top: 8px; font-size: 0.75rem; }
+  .wl-io { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .wl-remove { margin-top: 10px; }
+  [hidden] { display: none !important; }
   @media (prefers-color-scheme: dark) {
     :root {
       --bg: #111318; --card-bg: #1a1d23; --text: #e5e7eb; --muted: #9ca3af;
       --border: #2b2f38; --fire-bg: #3a1a1a; --good-bg: #16233d; --watch-bg: #23262e;
     }
     .disclaimer { background: #2a2210; border-color: #4a3b12; color: #fbbf24; }
+    .wl-btn.wl-on { background: #2a2210; border-color: #b45309; color: #fbbf24; }
   }
 </style>
 </head>
 <body>
 <header>
   <h1>每日收盤後選股</h1>
-  <div class="subtitle">資料日期：2026-09-23　｜　模擬掃描 490 檔，符合門檻(達成≥3項) 152 檔</div>
-  <div class="nav"><a href="../daytrade/20260923.html">⚡ 看隔日當沖候選名單 →</a></div>
+  <div class="subtitle">資料日期：2026-09-23　｜　模擬掃描 490 檔，符合門檻(達成≥3項) 136 檔</div>
+  <div class="nav"><a href="../daytrade/20260923.html">⚡ 看隔日當沖候選名單 →</a>　<a href="../watchlist.html">⭐ 我的關注</a></div>
 </header>
 <div class="disclaimer">
   這份名單是把你自訂的技術面／籌碼面規則機械化跑一遍，用來縮小觀察範圍，<b>不是投資建議</b>，
@@ -121,24 +157,41 @@
 </div>
 <main>
 <div class="grid">
-<div class="card">
+<div class="card" data-code="1102">
   <div class="card-top">
     <div>
-      <div class="name">詮欣</div>
-      <div class="code">6205　TWSE</div>
+      <div class="name">亞泥</div>
+      <div class="code">1102　TWSE</div>
     </div>
     <div class="price">
-      <div class="close">72.00</div>
-      <div class="change-up">+9.92%</div>
+      <div class="close">35.95</div>
+      <div class="change-up">+1.41%</div>
     </div>
   </div>
   <span class="badge tier-good">值得研究（6/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond pass">②KD ✓</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond pass">⑤量 ✓</span><span class="cond pass">⑥動能 ✓</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>72.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；K由下往上轉；帶量突破近20日高且收盤站穩；MACD翻紅+RSI區間內+5日線在10日線上；站上布林上軌且上軌向上(波動擴張)</div>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond pass">③籌碼 ✓</span><span class="cond pass">④融資 ✓</span><span class="cond pass">⑤量 ✓</span><span class="cond pass">⑥動能 ✓</span><span class="cond pass">⑦布林 ✓</span></div>
+  <div class="score">加權分數：<b>95.0</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；投信連買3日+；外資+投信同步買超；價漲、融資未增(甚至下降)，籌碼乾淨；帶量突破近20日高且收盤站穩；MACD翻紅+RSI區間內+5日線剛穿上10日線；站上布林上軌且上軌向上(波動擴張)</div>
 </div>
 
-<div class="card">
+<div class="card" data-code="2404">
+  <div class="card-top">
+    <div>
+      <div class="name">漢唐</div>
+      <div class="code">2404　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">1250.00</div>
+      <div class="change-up">+9.65%</div>
+    </div>
+  </div>
+  <span class="badge tier-good">值得研究（5/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond pass">③籌碼 ✓</span><span class="cond pass">④融資 ✓</span><span class="cond pass">⑤量 ✓</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
+  <div class="score">加權分數：<b>82.5</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；投信連買3日+；外資+投信同步買超；帶量突破近20日高且收盤站穩；站上布林上軌且上軌向上(波動擴張)</div>
+</div>
+
+<div class="card" data-code="2347">
   <div class="card-top">
     <div>
       <div class="name">聯強</div>
@@ -151,11 +204,11 @@
   </div>
   <span class="badge tier-good">值得研究（5/7）</span>
   <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond pass">②KD ✓</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond pass">⑤量 ✓</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>70.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；K上穿D golden cross；帶量突破近20日高且收盤站穩；站上布林上軌且上軌向上(波動擴張)</div>
+  <div class="score">加權分數：<b>75.0</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；K上穿D golden cross；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨；帶量突破近20日高且收盤站穩；站上布林上軌且上軌向上(波動擴張)</div>
 </div>
 
-<div class="card">
+<div class="card" data-code="00909">
   <div class="card-top">
     <div>
       <div class="name">國泰數位支付服務</div>
@@ -168,45 +221,96 @@
   </div>
   <span class="badge tier-good">值得研究（5/7）</span>
   <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond pass">⑤量 ✓</span><span class="cond pass">⑥動能 ✓</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>65.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；帶量突破近20日高且收盤站穩；MACD翻紅+RSI區間內+5日線在10日線上；站上布林上軌且上軌向上(波動擴張)</div>
+  <div class="score">加權分數：<b>70.0</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨；帶量突破近20日高且收盤站穩；MACD翻紅+RSI區間內+5日線在10日線上；站上布林上軌且上軌向上(波動擴張)</div>
 </div>
 
-<div class="card">
+<div class="card" data-code="6205">
   <div class="card-top">
     <div>
-      <div class="name">亞泥</div>
-      <div class="code">1102　TWSE</div>
+      <div class="name">詮欣</div>
+      <div class="code">6205　TWSE</div>
     </div>
     <div class="price">
-      <div class="close">35.95</div>
-      <div class="change-up">+1.41%</div>
+      <div class="close">72.00</div>
+      <div class="change-up">+9.92%</div>
     </div>
   </div>
   <span class="badge tier-good">值得研究（5/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond pass">⑤量 ✓</span><span class="cond pass">⑥動能 ✓</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>65.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；帶量突破近20日高且收盤站穩；MACD翻紅+RSI區間內+5日線剛穿上10日線；站上布林上軌且上軌向上(波動擴張)</div>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond pass">②KD ✓</span><span class="cond">③籌碼 ✕</span><span class="cond">④融資 ✕</span><span class="cond pass">⑤量 ✓</span><span class="cond pass">⑥動能 ✓</span><span class="cond pass">⑦布林 ✓</span></div>
+  <div class="score">加權分數：<b>57.0</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；K由下往上轉；外資當天淨買超；⚠️股價漲但融資同步暴增(散戶追價，小心)；帶量突破近20日高且收盤站穩；MACD翻紅+RSI區間內+5日線在10日線上；站上布林上軌且上軌向上(波動擴張)</div>
 </div>
 
-<div class="card">
+<div class="card" data-code="6531">
   <div class="card-top">
     <div>
-      <div class="name">聯陽</div>
-      <div class="code">3014　TWSE</div>
+      <div class="name">愛普*</div>
+      <div class="code">6531　TWSE</div>
     </div>
     <div class="price">
-      <div class="close">143.00</div>
-      <div class="change-up">+2.88%</div>
+      <div class="close">987.00</div>
+      <div class="change-up">+5.67%</div>
     </div>
   </div>
-  <span class="badge tier-good">值得研究（5/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond pass">②KD ✓</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond pass">⑤量 ✓</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>64.5</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；K由下往上轉；帶量突破近20日高且收盤站穩；站上布林上軌且上軌向上(波動擴張)</div>
+  <span class="badge tier-watch">等待確認（4/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond pass">②KD ✓</span><span class="cond pass">③籌碼 ✓</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond">⑦布林 ✕</span></div>
+  <div class="score">加權分數：<b>84.5</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；K上穿D golden cross；外資當天淨買超；投信連買3日+；外資+投信同步買超；價漲、融資未增(甚至下降)，籌碼乾淨；量增收紅但尚未突破前高</div>
 </div>
 
-<div class="card">
+<div class="card" data-code="1560">
+  <div class="card-top">
+    <div>
+      <div class="name">中砂</div>
+      <div class="code">1560　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">955.00</div>
+      <div class="change-up">+0.53%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（4/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond pass">③籌碼 ✓</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
+  <div class="score">加權分數：<b>67.5</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；投信連買3日+；外資+投信同步買超；價漲、融資未增(甚至下降)，籌碼乾淨；站上布林上軌且上軌向上(波動擴張)</div>
+</div>
+
+<div class="card" data-code="9904">
+  <div class="card-top">
+    <div>
+      <div class="name">寶成</div>
+      <div class="code">9904　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">24.90</div>
+      <div class="change-up">+1.22%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（4/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond pass">②KD ✓</span><span class="cond pass">③籌碼 ✓</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond">⑦布林 ✕</span></div>
+  <div class="score">加權分數：<b>66.0</b> / 100</div>
+  <div class="notes">站上月線；K由下往上轉；外資當天淨買超；投信連買3日+；外資+投信同步買超；價漲、融資未增(甚至下降)，籌碼乾淨</div>
+</div>
+
+<div class="card" data-code="2412">
+  <div class="card-top">
+    <div>
+      <div class="name">中華電</div>
+      <div class="code">2412　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">145.50</div>
+      <div class="change-up">+0.34%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（4/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond pass">②KD ✓</span><span class="cond pass">③籌碼 ✓</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond">⑦布林 ✕</span></div>
+  <div class="score">加權分數：<b>65.5</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；⚠️高檔鈍化已久，KD打勾勿單純追價；外資當天淨買超；投信連買3日+；外資+投信同步買超；價漲、融資未增(甚至下降)，籌碼乾淨</div>
+</div>
+
+<div class="card" data-code="009801">
   <div class="card-top">
     <div>
       <div class="name">中信美國創新科技</div>
@@ -219,11 +323,11 @@
   </div>
   <span class="badge tier-watch">等待確認（4/7）</span>
   <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond pass">⑤量 ✓</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>60.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；帶量突破近20日高且收盤站穩；站上布林上軌且上軌向上(波動擴張)</div>
+  <div class="score">加權分數：<b>65.0</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨；帶量突破近20日高且收盤站穩；站上布林上軌且上軌向上(波動擴張)</div>
 </div>
 
-<div class="card">
+<div class="card" data-code="00983A">
   <div class="card-top">
     <div>
       <div class="name">主動中信ARK創新</div>
@@ -236,11 +340,11 @@
   </div>
   <span class="badge tier-watch">等待確認（4/7）</span>
   <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond pass">⑤量 ✓</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>60.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；帶量突破近20日高且收盤站穩；站上布林上軌且上軌向上(波動擴張)</div>
+  <div class="score">加權分數：<b>65.0</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨；帶量突破近20日高且收盤站穩；站上布林上軌且上軌向上(波動擴張)</div>
 </div>
 
-<div class="card">
+<div class="card" data-code="00989A">
   <div class="card-top">
     <div>
       <div class="name">主動摩根美國科技</div>
@@ -253,28 +357,62 @@
   </div>
   <span class="badge tier-watch">等待確認（4/7）</span>
   <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond pass">⑤量 ✓</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>60.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；帶量突破近20日高且收盤站穩；站上布林上軌且上軌向上(波動擴張)</div>
+  <div class="score">加權分數：<b>65.0</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨；帶量突破近20日高且收盤站穩；站上布林上軌且上軌向上(波動擴張)</div>
 </div>
 
-<div class="card">
+<div class="card" data-code="00402A">
   <div class="card-top">
     <div>
-      <div class="name">中釉</div>
-      <div class="code">1809　TWSE</div>
+      <div class="name">主動安聯美國科技</div>
+      <div class="code">00402A　TWSE</div>
     </div>
     <div class="price">
-      <div class="close">41.25</div>
-      <div class="change-up">+1.60%</div>
+      <div class="close">10.08</div>
+      <div class="change-up">+0.80%</div>
     </div>
   </div>
   <span class="badge tier-watch">等待確認（4/7）</span>
   <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond pass">⑤量 ✓</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>60.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；帶量突破近20日高且收盤站穩；站上布林上軌且上軌向上(波動擴張)</div>
+  <div class="score">加權分數：<b>62.5</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨；帶量突破近20日高且收盤站穩；站上布林上軌且上軌向上(波動擴張)</div>
 </div>
 
-<div class="card">
+<div class="card" data-code="2241">
+  <div class="card-top">
+    <div>
+      <div class="name">艾姆勒</div>
+      <div class="code">2241　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">43.65</div>
+      <div class="change-up">+6.33%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（4/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond pass">⑤量 ✓</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
+  <div class="score">加權分數：<b>62.5</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；價漲、融資未增(甚至下降)，籌碼乾淨；帶量突破近20日高且收盤站穩；站上布林上軌且上軌向上(波動擴張)</div>
+</div>
+
+<div class="card" data-code="2254">
+  <div class="card-top">
+    <div>
+      <div class="name">巨鎧精密-創</div>
+      <div class="code">2254　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">86.60</div>
+      <div class="change-up">+5.48%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（4/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond pass">⑤量 ✓</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
+  <div class="score">加權分數：<b>62.5</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨；帶量突破近20日高且收盤站穩；站上布林上軌且上軌向上(波動擴張)</div>
+</div>
+
+<div class="card" data-code="2104">
   <div class="card-top">
     <div>
       <div class="name">國際中橡</div>
@@ -288,61 +426,10 @@
   <span class="badge tier-watch">等待確認（4/7）</span>
   <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond pass">⑤量 ✓</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
   <div class="score">加權分數：<b>60.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；帶量突破近20日高且收盤站穩；站上布林上軌且上軌向上(波動擴張)</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；帶量突破近20日高且收盤站穩；站上布林上軌且上軌向上(波動擴張)</div>
 </div>
 
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">茂矽</div>
-      <div class="code">2342　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">46.35</div>
-      <div class="change-up">+9.96%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（4/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond pass">⑤量 ✓</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>60.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；帶量突破近20日高且收盤站穩；站上布林上軌且上軌向上(波動擴張)</div>
-</div>
-
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">晶技</div>
-      <div class="code">3042　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">198.00</div>
-      <div class="change-up">+7.90%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（4/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond pass">⑤量 ✓</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>60.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；帶量突破近20日高且收盤站穩；站上布林上軌且上軌向上(波動擴張)</div>
-</div>
-
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">主動安聯美國科技</div>
-      <div class="code">00402A　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">10.08</div>
-      <div class="change-up">+0.80%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（4/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond pass">⑤量 ✓</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>57.5</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；帶量突破近20日高且收盤站穩；站上布林上軌且上軌向上(波動擴張)</div>
-</div>
-
-<div class="card">
+<div class="card" data-code="1727">
   <div class="card-top">
     <div>
       <div class="name">中華化</div>
@@ -356,112 +443,10 @@
   <span class="badge tier-watch">等待確認（4/7）</span>
   <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond pass">⑤量 ✓</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
   <div class="score">加權分數：<b>57.5</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；帶量突破近20日高且收盤站穩；站上布林上軌且上軌向上(波動擴張)</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；帶量突破近20日高且收盤站穩；站上布林上軌且上軌向上(波動擴張)</div>
 </div>
 
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">艾姆勒</div>
-      <div class="code">2241　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">43.65</div>
-      <div class="change-up">+6.33%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（4/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond pass">⑤量 ✓</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>57.5</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；帶量突破近20日高且收盤站穩；站上布林上軌且上軌向上(波動擴張)</div>
-</div>
-
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">巨鎧精密-創</div>
-      <div class="code">2254　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">86.60</div>
-      <div class="change-up">+5.48%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（4/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond pass">⑤量 ✓</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>57.5</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；帶量突破近20日高且收盤站穩；站上布林上軌且上軌向上(波動擴張)</div>
-</div>
-
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">漢唐</div>
-      <div class="code">2404　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">1250.00</div>
-      <div class="change-up">+9.65%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（4/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond pass">⑤量 ✓</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>57.5</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；帶量突破近20日高且收盤站穩；站上布林上軌且上軌向上(波動擴張)</div>
-</div>
-
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">嘉晶</div>
-      <div class="code">3016　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">145.50</div>
-      <div class="change-up">+9.81%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（4/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond pass">⑤量 ✓</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>57.5</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；帶量突破近20日高且收盤站穩；站上布林上軌且上軌向上(波動擴張)</div>
-</div>
-
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">上品</div>
-      <div class="code">4770　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">275.00</div>
-      <div class="change-up">+10.00%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（4/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond pass">⑤量 ✓</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>57.5</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；帶量突破近20日高且收盤站穩；站上布林上軌且上軌向上(波動擴張)</div>
-</div>
-
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">達發</div>
-      <div class="code">6526　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">840.00</div>
-      <div class="change-up">+9.95%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（4/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond pass">⑤量 ✓</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>57.5</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；帶量突破近20日高且收盤站穩；站上布林上軌且上軌向上(波動擴張)</div>
-</div>
-
-<div class="card">
+<div class="card" data-code="8438">
   <div class="card-top">
     <div>
       <div class="name">昶昕</div>
@@ -478,7 +463,24 @@
   <div class="notes">站穩月線且月線向上；帶量突破近20日高且收盤站穩；站上布林上軌且上軌向上(波動擴張)</div>
 </div>
 
-<div class="card">
+<div class="card" data-code="2618">
+  <div class="card-top">
+    <div>
+      <div class="name">長榮航</div>
+      <div class="code">2618　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">42.85</div>
+      <div class="change-up">+0.82%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（4/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond pass">③籌碼 ✓</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
+  <div class="score">加權分數：<b>57.0</b> / 100</div>
+  <div class="notes">剛站回月線(觀察)；外資當天淨買超；投信連買3日+；外資+投信同步買超；⚠️爆量但留長上影線；MACD翻紅+RSI區間內+5日線剛穿上10日線</div>
+</div>
+
+<div class="card" data-code="6742">
   <div class="card-top">
     <div>
       <div class="name">澤米</div>
@@ -491,45 +493,11 @@
   </div>
   <span class="badge tier-watch">等待確認（4/7）</span>
   <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond pass">②KD ✓</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>51.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；K由下往上轉；⚠️爆量但留長上影線；站上布林上軌且上軌向上(波動擴張)</div>
+  <div class="score">加權分數：<b>56.0</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；K由下往上轉；價漲、融資未增(甚至下降)，籌碼乾淨；⚠️爆量但留長上影線；站上布林上軌且上軌向上(波動擴張)</div>
 </div>
 
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">牧德</div>
-      <div class="code">3563　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">753.00</div>
-      <div class="change-up">+5.91%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（4/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>49.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；⚠️爆量但留長上影線；MACD翻紅+RSI區間內+5日線在10日線上；站上布林上軌且上軌向上(波動擴張)</div>
-</div>
-
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">GIS-KY</div>
-      <div class="code">6456　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">78.60</div>
-      <div class="change-up">+6.79%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（4/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>49.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；⚠️爆量但留長上影線；MACD翻紅+RSI區間內+5日線在10日線上；站上布林上軌且上軌向上(波動擴張)</div>
-</div>
-
-<div class="card">
+<div class="card" data-code="6805">
   <div class="card-top">
     <div>
       <div class="name">富世達</div>
@@ -542,28 +510,28 @@
   </div>
   <span class="badge tier-watch">等待確認（4/7）</span>
   <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>49.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；⚠️爆量但留長上影線；MACD翻紅+RSI區間內+5日線在10日線上；站上布林上軌且上軌向上(波動擴張)</div>
+  <div class="score">加權分數：<b>54.0</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；投信連買3日+；價漲、融資未增(甚至下降)，籌碼乾淨；⚠️爆量但留長上影線；MACD翻紅+RSI區間內+5日線在10日線上；站上布林上軌且上軌向上(波動擴張)</div>
 </div>
 
-<div class="card">
+<div class="card" data-code="9910">
   <div class="card-top">
     <div>
-      <div class="name">希華</div>
-      <div class="code">2484　TWSE</div>
+      <div class="name">豐泰</div>
+      <div class="code">9910　TWSE</div>
     </div>
     <div class="price">
-      <div class="close">72.90</div>
-      <div class="change-up">+4.74%</div>
+      <div class="close">70.00</div>
+      <div class="change-up">+2.04%</div>
     </div>
   </div>
   <span class="badge tier-watch">等待確認（4/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond pass">②KD ✓</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
-  <div class="score">加權分數：<b>47.0</b> / 100</div>
-  <div class="notes">剛站回月線(觀察)；K由下往上轉；量增收紅但尚未突破前高；MACD翻紅+RSI區間內+5日線在10日線上</div>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond pass">③籌碼 ✓</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
+  <div class="score">加權分數：<b>53.0</b> / 100</div>
+  <div class="notes">剛站回月線(觀察)；外資當天淨買超；投信連買3日+；外資+投信同步買超；MACD翻紅+RSI區間內+5日線在10日線上</div>
 </div>
 
-<div class="card">
+<div class="card" data-code="00403A">
   <div class="card-top">
     <div>
       <div class="name">主動統一升級50</div>
@@ -576,11 +544,62 @@
   </div>
   <span class="badge tier-watch">等待確認（4/7）</span>
   <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>45.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；MACD翻紅+RSI區間內+5日線在10日線上；站上布林上軌且上軌向上(波動擴張)</div>
+  <div class="score">加權分數：<b>50.0</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨；MACD翻紅+RSI區間內+5日線在10日線上；站上布林上軌且上軌向上(波動擴張)</div>
 </div>
 
-<div class="card">
+<div class="card" data-code="0050">
+  <div class="card-top">
+    <div>
+      <div class="name">元大台灣50</div>
+      <div class="code">0050　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">112.45</div>
+      <div class="change-up">+0.54%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（4/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond pass">⑦布林 ✓</span></div>
+  <div class="score">加權分數：<b>50.0</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；投信連買3日+；價漲、融資未增(甚至下降)，籌碼乾淨；MACD翻紅+RSI區間內+5日線在10日線上；站上布林上軌且上軌向上(波動擴張)</div>
+</div>
+
+<div class="card" data-code="006208">
+  <div class="card-top">
+    <div>
+      <div class="name">富邦台50</div>
+      <div class="code">006208　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">257.00</div>
+      <div class="change-up">+0.51%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（4/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond pass">⑦布林 ✓</span></div>
+  <div class="score">加權分數：<b>50.0</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨；MACD翻紅+RSI區間內+5日線在10日線上；站上布林上軌且上軌向上(波動擴張)</div>
+</div>
+
+<div class="card" data-code="3014">
+  <div class="card-top">
+    <div>
+      <div class="name">聯陽</div>
+      <div class="code">3014　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">143.00</div>
+      <div class="change-up">+2.88%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（4/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond pass">②KD ✓</span><span class="cond">③籌碼 ✕</span><span class="cond">④融資 ✕</span><span class="cond pass">⑤量 ✓</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
+  <div class="score">加權分數：<b>49.5</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；K由下往上轉；⚠️股價漲但融資同步暴增(散戶追價，小心)；帶量突破近20日高且收盤站穩；站上布林上軌且上軌向上(波動擴張)</div>
+</div>
+
+<div class="card" data-code="00405A">
   <div class="card-top">
     <div>
       <div class="name">主動富邦台灣龍耀</div>
@@ -594,27 +613,10 @@
   <span class="badge tier-watch">等待確認（4/7）</span>
   <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond pass">⑦布林 ✓</span></div>
   <div class="score">加權分數：<b>45.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；MACD翻紅+RSI區間內+5日線在10日線上；站上布林上軌且上軌向上(波動擴張)</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；MACD翻紅+RSI區間內+5日線在10日線上；站上布林上軌且上軌向上(波動擴張)</div>
 </div>
 
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">元大台灣50</div>
-      <div class="code">0050　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">112.45</div>
-      <div class="change-up">+0.54%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（4/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>45.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；MACD翻紅+RSI區間內+5日線在10日線上；站上布林上軌且上軌向上(波動擴張)</div>
-</div>
-
-<div class="card">
+<div class="card" data-code="0052">
   <div class="card-top">
     <div>
       <div class="name">富邦科技</div>
@@ -631,75 +633,7 @@
   <div class="notes">站穩月線且月線向上；MACD翻紅+RSI區間內+5日線在10日線上；站上布林上軌且上軌向上(波動擴張)</div>
 </div>
 
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">富邦台50</div>
-      <div class="code">006208　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">257.00</div>
-      <div class="change-up">+0.51%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（4/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>45.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；MACD翻紅+RSI區間內+5日線在10日線上；站上布林上軌且上軌向上(波動擴張)</div>
-</div>
-
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">統一FANG+</div>
-      <div class="code">00757　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">144.80</div>
-      <div class="change-up">+0.59%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（4/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>45.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；MACD翻紅+RSI區間內+5日線在10日線上；站上布林上軌且上軌向上(波動擴張)</div>
-</div>
-
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">中信小資高價30</div>
-      <div class="code">00894　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">50.00</div>
-      <div class="change-up">+0.58%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（4/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>45.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；MACD翻紅+RSI區間內+5日線在10日線上；站上布林上軌且上軌向上(波動擴張)</div>
-</div>
-
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">國泰台灣領袖50</div>
-      <div class="code">00922　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">43.79</div>
-      <div class="change-up">+0.18%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（4/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>45.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；MACD翻紅+RSI區間內+5日線在10日線上；站上布林上軌且上軌向上(波動擴張)</div>
-</div>
-
-<div class="card">
+<div class="card" data-code="00947">
   <div class="card-top">
     <div>
       <div class="name">台新臺灣IC設計</div>
@@ -716,24 +650,7 @@
   <div class="notes">站穩月線且月線向上；MACD翻紅+RSI區間內+5日線在10日線上；站上布林上軌且上軌向上(波動擴張)</div>
 </div>
 
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">台泥</div>
-      <div class="code">1101　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">25.65</div>
-      <div class="change-up">+4.48%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（4/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>45.0</b> / 100</div>
-  <div class="notes">剛站回月線(觀察)；量增收紅但尚未突破前高；MACD翻紅+RSI區間內+5日線剛穿上10日線；站上布林上軌且上軌向上(波動擴張)</div>
-</div>
-
-<div class="card">
+<div class="card" data-code="2855">
   <div class="card-top">
     <div>
       <div class="name">統一證</div>
@@ -747,27 +664,44 @@
   <span class="badge tier-watch">等待確認（4/7）</span>
   <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond pass">②KD ✓</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
   <div class="score">加權分數：<b>44.5</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；K由下往上轉；站上布林上軌且上軌向上(波動擴張)</div>
+  <div class="notes">站穩月線且月線向上；K由下往上轉；外資當天淨買超；站上布林上軌且上軌向上(波動擴張)</div>
 </div>
 
-<div class="card">
+<div class="card" data-code="6505">
   <div class="card-top">
     <div>
-      <div class="name">愛普*</div>
-      <div class="code">6531　TWSE</div>
+      <div class="name">台塑化</div>
+      <div class="code">6505　TWSE</div>
     </div>
     <div class="price">
-      <div class="close">987.00</div>
-      <div class="change-up">+5.67%</div>
+      <div class="close">87.30</div>
+      <div class="change-up">+0.11%</div>
     </div>
   </div>
   <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond pass">②KD ✓</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond">⑦布林 ✕</span></div>
-  <div class="score">加權分數：<b>54.5</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；K上穿D golden cross；量增收紅但尚未突破前高</div>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond pass">③籌碼 ✓</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond">⑦布林 ✕</span></div>
+  <div class="score">加權分數：<b>65.0</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；投信連買3日+；外資+投信同步買超；價漲、融資未增(甚至下降)，籌碼乾淨</div>
 </div>
 
-<div class="card">
+<div class="card" data-code="2609">
+  <div class="card-top">
+    <div>
+      <div class="name">陽明</div>
+      <div class="code">2609　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">59.90</div>
+      <div class="change-down">-1.48%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（3/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond pass">③籌碼 ✓</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond">⑦布林 ✕</span></div>
+  <div class="score">加權分數：<b>54.0</b> / 100</div>
+  <div class="notes">站上月線；外資當天淨買超；投信連買3日+；外資+投信同步買超</div>
+</div>
+
+<div class="card" data-code="2208">
   <div class="card-top">
     <div>
       <div class="name">台船</div>
@@ -781,44 +715,27 @@
   <span class="badge tier-watch">等待確認（3/7）</span>
   <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
   <div class="score">加權分數：<b>52.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；量增收紅但尚未突破前高；站上布林上軌且上軌向上(波動擴張)</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；量增收紅但尚未突破前高；站上布林上軌且上軌向上(波動擴張)</div>
 </div>
 
-<div class="card">
+<div class="card" data-code="2610">
   <div class="card-top">
     <div>
-      <div class="name">金像電</div>
-      <div class="code">2368　TWSE</div>
+      <div class="name">華航</div>
+      <div class="code">2610　TWSE</div>
     </div>
     <div class="price">
-      <div class="close">1140.00</div>
-      <div class="change-up">+9.62%</div>
+      <div class="close">20.45</div>
+      <div class="change-down">-0.24%</div>
     </div>
   </div>
   <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond pass">③籌碼 ✓</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond">⑦布林 ✕</span></div>
   <div class="score">加權分數：<b>52.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；量增收紅但尚未突破前高；MACD翻紅+RSI區間內+5日線剛穿上10日線</div>
+  <div class="notes">剛站回月線(觀察)；外資當天淨買超；投信連買3日+；外資+投信同步買超；⚠️爆量但留長上影線</div>
 </div>
 
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">富邦基因免疫生技</div>
-      <div class="code">00897　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">13.78</div>
-      <div class="change-up">+2.23%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
-  <div class="score">加權分數：<b>48.0</b> / 100</div>
-  <div class="notes">站上月線；量增收紅但尚未突破前高；MACD翻紅+RSI區間內+5日線在10日線上</div>
-</div>
-
-<div class="card">
+<div class="card" data-code="3532">
   <div class="card-top">
     <div>
       <div class="name">台勝科</div>
@@ -831,28 +748,572 @@
   </div>
   <span class="badge tier-watch">等待確認（3/7）</span>
   <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond pass">②KD ✓</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond">⑦布林 ✕</span></div>
-  <div class="score">加權分數：<b>46.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；K由下往上轉；⚠️爆量但留長上影線</div>
+  <div class="score">加權分數：<b>51.0</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；K由下往上轉；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨；⚠️爆量但留長上影線</div>
 </div>
 
-<div class="card">
+<div class="card" data-code="2379">
   <div class="card-top">
     <div>
-      <div class="name">光鋐</div>
-      <div class="code">4956　TWSE</div>
+      <div class="name">瑞昱</div>
+      <div class="code">2379　TWSE</div>
     </div>
     <div class="price">
-      <div class="close">43.55</div>
-      <div class="change-up">+3.20%</div>
+      <div class="close">761.00</div>
+      <div class="change-up">+0.79%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（3/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
+  <div class="score">加權分數：<b>49.0</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨；⚠️爆量但留長上影線；站上布林上軌且上軌向上(波動擴張)</div>
+</div>
+
+<div class="card" data-code="2434">
+  <div class="card-top">
+    <div>
+      <div class="name">統懋</div>
+      <div class="code">2434　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">67.40</div>
+      <div class="change-up">+1.05%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（3/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
+  <div class="score">加權分數：<b>49.0</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；價漲、融資未增(甚至下降)，籌碼乾淨；⚠️爆量但留長上影線；MACD翻紅+RSI區間內+5日線在10日線上</div>
+</div>
+
+<div class="card" data-code="6861">
+  <div class="card-top">
+    <div>
+      <div class="name">睿生光電</div>
+      <div class="code">6861　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">273.00</div>
+      <div class="change-up">+2.25%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（3/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
+  <div class="score">加權分數：<b>49.0</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；價漲、融資未增(甚至下降)，籌碼乾淨；⚠️爆量但留長上影線；站上布林上軌且上軌向上(波動擴張)</div>
+</div>
+
+<div class="card" data-code="8150">
+  <div class="card-top">
+    <div>
+      <div class="name">南茂</div>
+      <div class="code">8150　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">107.00</div>
+      <div class="change-up">+1.42%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（3/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
+  <div class="score">加權分數：<b>49.0</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨；⚠️爆量但留長上影線；站上布林上軌且上軌向上(波動擴張)</div>
+</div>
+
+<div class="card" data-code="00915">
+  <div class="card-top">
+    <div>
+      <div class="name">凱基優選高股息30</div>
+      <div class="code">00915　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">33.20</div>
+      <div class="change-up">+0.09%</div>
     </div>
   </div>
   <span class="badge tier-watch">等待確認（3/7）</span>
   <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond pass">②KD ✓</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond">⑦布林 ✕</span></div>
-  <div class="score">加權分數：<b>46.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；K由下往上轉；⚠️爆量但留長上影線</div>
+  <div class="score">加權分數：<b>47.0</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；K由下往上轉；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨</div>
 </div>
 
-<div class="card">
+<div class="card" data-code="1309">
+  <div class="card-top">
+    <div>
+      <div class="name">台達化</div>
+      <div class="code">1309　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">13.85</div>
+      <div class="change-up">+0.73%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（3/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond pass">②KD ✓</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond">⑦布林 ✕</span></div>
+  <div class="score">加權分數：<b>47.0</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；K由下往上轉；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨</div>
+</div>
+
+<div class="card" data-code="2495">
+  <div class="card-top">
+    <div>
+      <div class="name">普安</div>
+      <div class="code">2495　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">38.85</div>
+      <div class="change-up">+1.04%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（3/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond pass">②KD ✓</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond">⑦布林 ✕</span></div>
+  <div class="score">加權分數：<b>47.0</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；K由下往上轉；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨</div>
+</div>
+
+<div class="card" data-code="2851">
+  <div class="card-top">
+    <div>
+      <div class="name">中再保</div>
+      <div class="code">2851　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">47.95</div>
+      <div class="change-up">+1.16%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（3/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond pass">②KD ✓</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond">⑦布林 ✕</span></div>
+  <div class="score">加權分數：<b>47.0</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；K由下往上轉；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨</div>
+</div>
+
+<div class="card" data-code="6243">
+  <div class="card-top">
+    <div>
+      <div class="name">迅杰</div>
+      <div class="code">6243　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">41.25</div>
+      <div class="change-up">+10.00%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（3/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond pass">②KD ✓</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond">⑦布林 ✕</span></div>
+  <div class="score">加權分數：<b>47.0</b> / 100</div>
+  <div class="notes">剛站回月線(觀察)；K由下往上轉；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨；量增收紅但尚未突破前高</div>
+</div>
+
+<div class="card" data-code="6672">
+  <div class="card-top">
+    <div>
+      <div class="name">騰輝電子-KY</div>
+      <div class="code">6672　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">307.00</div>
+      <div class="change-up">+1.66%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（3/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond pass">②KD ✓</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond">⑦布林 ✕</span></div>
+  <div class="score">加權分數：<b>47.0</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；K由下往上轉；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨</div>
+</div>
+
+<div class="card" data-code="6901">
+  <div class="card-top">
+    <div>
+      <div class="name">鑽石投資</div>
+      <div class="code">6901　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">15.75</div>
+      <div class="change-up">+2.61%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（3/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond pass">②KD ✓</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond">⑦布林 ✕</span></div>
+  <div class="score">加權分數：<b>47.0</b> / 100</div>
+  <div class="notes">剛站回月線(觀察)；K由下往上轉；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨；量增收紅但尚未突破前高</div>
+</div>
+
+<div class="card" data-code="009800">
+  <div class="card-top">
+    <div>
+      <div class="name">中信NASDAQ</div>
+      <div class="code">009800　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">13.53</div>
+      <div class="change-up">+0.82%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（3/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
+  <div class="score">加權分數：<b>46.5</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨；⚠️爆量但留長上影線；站上布林上軌且上軌向上(波動擴張)</div>
+</div>
+
+<div class="card" data-code="1709">
+  <div class="card-top">
+    <div>
+      <div class="name">和益</div>
+      <div class="code">1709　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">48.30</div>
+      <div class="change-up">+5.11%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（3/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
+  <div class="score">加權分數：<b>46.5</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；價漲、融資未增(甚至下降)，籌碼乾淨；⚠️爆量但留長上影線；站上布林上軌且上軌向上(波動擴張)</div>
+</div>
+
+<div class="card" data-code="00400A">
+  <div class="card-top">
+    <div>
+      <div class="name">主動國泰動能高息</div>
+      <div class="code">00400A　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">15.57</div>
+      <div class="change-up">+0.52%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（3/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
+  <div class="score">加權分數：<b>45.0</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨；MACD翻紅+RSI區間內+5日線在10日線上</div>
+</div>
+
+<div class="card" data-code="00407A">
+  <div class="card-top">
+    <div>
+      <div class="name">主動凱基台灣</div>
+      <div class="code">00407A　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">10.12</div>
+      <div class="change-up">+0.80%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（3/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
+  <div class="score">加權分數：<b>45.0</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨；MACD翻紅+RSI區間內+5日線在10日線上</div>
+</div>
+
+<div class="card" data-code="00631L">
+  <div class="card-top">
+    <div>
+      <div class="name">元大台灣50正2</div>
+      <div class="code">00631L　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">38.99</div>
+      <div class="change-up">+1.22%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（3/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
+  <div class="score">加權分數：<b>45.0</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨；MACD翻紅+RSI區間內+5日線在10日線上</div>
+</div>
+
+<div class="card" data-code="00881">
+  <div class="card-top">
+    <div>
+      <div class="name">國泰台灣科技龍頭</div>
+      <div class="code">00881　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">52.60</div>
+      <div class="change-up">+0.77%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（3/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
+  <div class="score">加權分數：<b>45.0</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨；站上布林上軌且上軌向上(波動擴張)</div>
+</div>
+
+<div class="card" data-code="00923">
+  <div class="card-top">
+    <div>
+      <div class="name">群益台ESG低碳50</div>
+      <div class="code">00923　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">41.84</div>
+      <div class="change-up">+0.60%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（3/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
+  <div class="score">加權分數：<b>45.0</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨；站上布林上軌且上軌向上(波動擴張)</div>
+</div>
+
+<div class="card" data-code="00927">
+  <div class="card-top">
+    <div>
+      <div class="name">群益半導體收益</div>
+      <div class="code">00927　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">39.89</div>
+      <div class="change-up">+0.03%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（3/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
+  <div class="score">加權分數：<b>45.0</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；價漲、融資未增(甚至下降)，籌碼乾淨；站上布林上軌且上軌向上(波動擴張)</div>
+</div>
+
+<div class="card" data-code="00929">
+  <div class="card-top">
+    <div>
+      <div class="name">復華台灣科技優息</div>
+      <div class="code">00929　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">29.14</div>
+      <div class="change-up">+0.03%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（3/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
+  <div class="score">加權分數：<b>45.0</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；價漲、融資未增(甚至下降)，籌碼乾淨；MACD翻紅+RSI區間內+5日線在10日線上</div>
+</div>
+
+<div class="card" data-code="00935">
+  <div class="card-top">
+    <div>
+      <div class="name">野村臺灣新科技50</div>
+      <div class="code">00935　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">61.45</div>
+      <div class="change-up">+0.74%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（3/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
+  <div class="score">加權分數：<b>45.0</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；價漲、融資未增(甚至下降)，籌碼乾淨；MACD翻紅+RSI區間內+5日線剛穿上10日線</div>
+</div>
+
+<div class="card" data-code="00980A">
+  <div class="card-top">
+    <div>
+      <div class="name">主動野村臺灣優選</div>
+      <div class="code">00980A　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">25.51</div>
+      <div class="change-up">+0.67%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（3/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
+  <div class="score">加權分數：<b>45.0</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨；MACD翻紅+RSI區間內+5日線在10日線上</div>
+</div>
+
+<div class="card" data-code="00982A">
+  <div class="card-top">
+    <div>
+      <div class="name">主動群益台灣強棒</div>
+      <div class="code">00982A　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">23.06</div>
+      <div class="change-up">+0.17%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（3/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
+  <div class="score">加權分數：<b>45.0</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨；MACD翻紅+RSI區間內+5日線在10日線上</div>
+</div>
+
+<div class="card" data-code="00987A">
+  <div class="card-top">
+    <div>
+      <div class="name">主動台新優勢成長</div>
+      <div class="code">00987A　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">17.19</div>
+      <div class="change-up">+1.00%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（3/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
+  <div class="score">加權分數：<b>45.0</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨；MACD翻紅+RSI區間內+5日線在10日線上</div>
+</div>
+
+<div class="card" data-code="00988A">
+  <div class="card-top">
+    <div>
+      <div class="name">主動統一全球創新</div>
+      <div class="code">00988A　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">16.95</div>
+      <div class="change-up">+1.32%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（3/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
+  <div class="score">加權分數：<b>45.0</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨；站上布林上軌且上軌向上(波動擴張)</div>
+</div>
+
+<div class="card" data-code="00990A">
+  <div class="card-top">
+    <div>
+      <div class="name">主動元大AI新經濟</div>
+      <div class="code">00990A　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">15.93</div>
+      <div class="change-up">+1.08%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（3/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
+  <div class="score">加權分數：<b>45.0</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨；站上布林上軌且上軌向上(波動擴張)</div>
+</div>
+
+<div class="card" data-code="00992A">
+  <div class="card-top">
+    <div>
+      <div class="name">主動群益科技創新</div>
+      <div class="code">00992A　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">18.69</div>
+      <div class="change-up">+0.21%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（3/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
+  <div class="score">加權分數：<b>45.0</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨；MACD翻紅+RSI區間內+5日線在10日線上</div>
+</div>
+
+<div class="card" data-code="00993A">
+  <div class="card-top">
+    <div>
+      <div class="name">主動安聯台灣</div>
+      <div class="code">00993A　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">13.85</div>
+      <div class="change-up">+0.51%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（3/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
+  <div class="score">加權分數：<b>45.0</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨；MACD翻紅+RSI區間內+5日線在10日線上</div>
+</div>
+
+<div class="card" data-code="00995A">
+  <div class="card-top">
+    <div>
+      <div class="name">主動中信台灣卓越</div>
+      <div class="code">00995A　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">17.76</div>
+      <div class="change-up">+0.79%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（3/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
+  <div class="score">加權分數：<b>45.0</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨；MACD翻紅+RSI區間內+5日線在10日線上</div>
+</div>
+
+<div class="card" data-code="00996A">
+  <div class="card-top">
+    <div>
+      <div class="name">主動兆豐台灣豐收</div>
+      <div class="code">00996A　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">14.51</div>
+      <div class="change-up">+0.14%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（3/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
+  <div class="score">加權分數：<b>45.0</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨；MACD翻紅+RSI區間內+5日線在10日線上</div>
+</div>
+
+<div class="card" data-code="1809">
+  <div class="card-top">
+    <div>
+      <div class="name">中釉</div>
+      <div class="code">1809　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">41.25</div>
+      <div class="change-up">+1.60%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（3/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond">④融資 ✕</span><span class="cond pass">⑤量 ✓</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
+  <div class="score">加權分數：<b>45.0</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；⚠️股價漲但融資同步暴增(散戶追價，小心)；帶量突破近20日高且收盤站穩；站上布林上軌且上軌向上(波動擴張)</div>
+</div>
+
+<div class="card" data-code="2330">
+  <div class="card-top">
+    <div>
+      <div class="name">台積電</div>
+      <div class="code">2330　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">2500.00</div>
+      <div class="change-up">+1.63%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（3/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
+  <div class="score">加權分數：<b>45.0</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨；MACD翻紅+RSI區間內+5日線在10日線上</div>
+</div>
+
+<div class="card" data-code="2342">
+  <div class="card-top">
+    <div>
+      <div class="name">茂矽</div>
+      <div class="code">2342　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">46.35</div>
+      <div class="change-up">+9.96%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（3/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond">④融資 ✕</span><span class="cond pass">⑤量 ✓</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
+  <div class="score">加權分數：<b>45.0</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；⚠️股價漲但融資同步暴增(散戶追價，小心)；帶量突破近20日高且收盤站穩；站上布林上軌且上軌向上(波動擴張)</div>
+</div>
+
+<div class="card" data-code="2606">
   <div class="card-top">
     <div>
       <div class="name">裕民</div>
@@ -869,92 +1330,75 @@
   <div class="notes">站穩月線且月線向上；K上穿D golden cross</div>
 </div>
 
-<div class="card">
+<div class="card" data-code="3032">
   <div class="card-top">
     <div>
-      <div class="name">AMAX-KY</div>
-      <div class="code">6933　TWSE</div>
+      <div class="name">偉訓</div>
+      <div class="code">3032　TWSE</div>
     </div>
     <div class="price">
-      <div class="close">350.00</div>
-      <div class="change-up">+9.89%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond pass">②KD ✓</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond">⑦布林 ✕</span></div>
-  <div class="score">加權分數：<b>45.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；K上穿D golden cross</div>
-</div>
-
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">榮星</div>
-      <div class="code">1617　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">20.15</div>
-      <div class="change-up">+2.81%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>44.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；⚠️爆量但留長上影線；站上布林上軌且上軌向上(波動擴張)</div>
-</div>
-
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">彰源</div>
-      <div class="code">2030　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">27.65</div>
-      <div class="change-up">+1.47%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>44.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；⚠️爆量但留長上影線；站上布林上軌且上軌向上(波動擴張)</div>
-</div>
-
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">瑞昱</div>
-      <div class="code">2379　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">761.00</div>
-      <div class="change-up">+0.79%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>44.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；⚠️爆量但留長上影線；站上布林上軌且上軌向上(波動擴張)</div>
-</div>
-
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">統懋</div>
-      <div class="code">2434　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">67.40</div>
-      <div class="change-up">+1.05%</div>
+      <div class="close">82.00</div>
+      <div class="change-up">+5.26%</div>
     </div>
   </div>
   <span class="badge tier-watch">等待確認（3/7）</span>
   <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
-  <div class="score">加權分數：<b>44.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；⚠️爆量但留長上影線；MACD翻紅+RSI區間內+5日線在10日線上</div>
+  <div class="score">加權分數：<b>45.0</b> / 100</div>
+  <div class="notes">剛站回月線(觀察)；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨；量增收紅但尚未突破前高；MACD翻紅+RSI區間內+5日線在10日線上</div>
 </div>
 
-<div class="card">
+<div class="card" data-code="3042">
+  <div class="card-top">
+    <div>
+      <div class="name">晶技</div>
+      <div class="code">3042　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">198.00</div>
+      <div class="change-up">+7.90%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（3/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond">④融資 ✕</span><span class="cond pass">⑤量 ✓</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
+  <div class="score">加權分數：<b>45.0</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；⚠️股價漲但融資同步暴增(散戶追價，小心)；帶量突破近20日高且收盤站穩；站上布林上軌且上軌向上(波動擴張)</div>
+</div>
+
+<div class="card" data-code="3653">
+  <div class="card-top">
+    <div>
+      <div class="name">健策</div>
+      <div class="code">3653　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">6410.00</div>
+      <div class="change-up">+9.95%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（3/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
+  <div class="score">加權分數：<b>45.0</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨；站上布林上軌且上軌向上(波動擴張)</div>
+</div>
+
+<div class="card" data-code="8046">
+  <div class="card-top">
+    <div>
+      <div class="name">南電</div>
+      <div class="code">8046　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">1210.00</div>
+      <div class="change-up">+3.86%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（3/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
+  <div class="score">加權分數：<b>45.0</b> / 100</div>
+  <div class="notes">剛站回月線(觀察)；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨；量增收紅但尚未突破前高；MACD翻紅+RSI區間內+5日線在10日線上</div>
+</div>
+
+<div class="card" data-code="2466">
   <div class="card-top">
     <div>
       <div class="name">冠西電</div>
@@ -971,7 +1415,7 @@
   <div class="notes">站穩月線且月線向上；⚠️爆量但留長上影線；MACD翻紅+RSI區間內+5日線在10日線上</div>
 </div>
 
-<div class="card">
+<div class="card" data-code="3189">
   <div class="card-top">
     <div>
       <div class="name">景碩</div>
@@ -985,44 +1429,10 @@
   <span class="badge tier-watch">等待確認（3/7）</span>
   <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
   <div class="score">加權分數：<b>44.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；⚠️爆量但留長上影線；MACD翻紅+RSI區間內+5日線在10日線上</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；⚠️爆量但留長上影線；MACD翻紅+RSI區間內+5日線在10日線上</div>
 </div>
 
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">達邁</div>
-      <div class="code">3645　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">72.60</div>
-      <div class="change-up">+4.76%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
-  <div class="score">加權分數：<b>44.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；⚠️爆量但留長上影線；MACD翻紅+RSI區間內+5日線剛穿上10日線</div>
-</div>
-
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">新唐</div>
-      <div class="code">4919　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">134.00</div>
-      <div class="change-up">+0.37%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>44.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；⚠️爆量但留長上影線；站上布林上軌且上軌向上(波動擴張)</div>
-</div>
-
-<div class="card">
+<div class="card" data-code="6278">
   <div class="card-top">
     <div>
       <div class="name">台表科</div>
@@ -1039,24 +1449,7 @@
   <div class="notes">站穩月線且月線向上；⚠️爆量但留長上影線；MACD翻紅+RSI區間內+5日線在10日線上</div>
 </div>
 
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">睿生光電</div>
-      <div class="code">6861　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">273.00</div>
-      <div class="change-up">+2.25%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>44.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；⚠️爆量但留長上影線；站上布林上軌且上軌向上(波動擴張)</div>
-</div>
-
-<div class="card">
+<div class="card" data-code="6869">
   <div class="card-top">
     <div>
       <div class="name">雲豹能源</div>
@@ -1070,78 +1463,146 @@
   <span class="badge tier-watch">等待確認（3/7）</span>
   <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
   <div class="score">加權分數：<b>44.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；⚠️爆量但留長上影線；站上布林上軌且上軌向上(波動擴張)</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；⚠️爆量但留長上影線；站上布林上軌且上軌向上(波動擴張)</div>
 </div>
 
-<div class="card">
+<div class="card" data-code="9945">
   <div class="card-top">
     <div>
-      <div class="name">南茂</div>
-      <div class="code">8150　TWSE</div>
+      <div class="name">潤泰新</div>
+      <div class="code">9945　TWSE</div>
     </div>
     <div class="price">
-      <div class="close">107.00</div>
-      <div class="change-up">+1.42%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>44.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；⚠️爆量但留長上影線；站上布林上軌且上軌向上(波動擴張)</div>
-</div>
-
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">統新</div>
-      <div class="code">6426　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">391.50</div>
-      <div class="change-up">+9.97%</div>
+      <div class="close">29.55</div>
+      <div class="change-up">+2.07%</div>
     </div>
   </div>
   <span class="badge tier-watch">等待確認（3/7）</span>
   <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond pass">②KD ✓</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond">⑦布林 ✕</span></div>
-  <div class="score">加權分數：<b>42.5</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；K上穿D golden cross</div>
+  <div class="score">加權分數：<b>43.0</b> / 100</div>
+  <div class="notes">站上月線；K由下往上轉；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨</div>
 </div>
 
-<div class="card">
+<div class="card" data-code="009813">
   <div class="card-top">
     <div>
-      <div class="name">凱基優選高股息30</div>
-      <div class="code">00915　TWSE</div>
+      <div class="name">貝萊德標普卓越50</div>
+      <div class="code">009813　TWSE</div>
     </div>
     <div class="price">
-      <div class="close">33.20</div>
+      <div class="close">11.59</div>
       <div class="change-up">+0.09%</div>
     </div>
   </div>
   <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond pass">②KD ✓</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond">⑦布林 ✕</span></div>
-  <div class="score">加權分數：<b>42.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；K由下往上轉</div>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
+  <div class="score">加權分數：<b>42.5</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨；站上布林上軌且上軌向上(波動擴張)</div>
 </div>
 
-<div class="card">
+<div class="card" data-code="009824">
   <div class="card-top">
     <div>
-      <div class="name">台達化</div>
-      <div class="code">1309　TWSE</div>
+      <div class="name">群益美國科技巨頭</div>
+      <div class="code">009824　TWSE</div>
     </div>
     <div class="price">
-      <div class="close">13.85</div>
-      <div class="change-up">+0.73%</div>
+      <div class="close">10.61</div>
+      <div class="change-up">+0.95%</div>
     </div>
   </div>
   <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond pass">②KD ✓</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond">⑦布林 ✕</span></div>
-  <div class="score">加權分數：<b>42.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；K由下往上轉</div>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
+  <div class="score">加權分數：<b>42.5</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨；站上布林上軌且上軌向上(波動擴張)</div>
 </div>
 
-<div class="card">
+<div class="card" data-code="3016">
+  <div class="card-top">
+    <div>
+      <div class="name">嘉晶</div>
+      <div class="code">3016　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">145.50</div>
+      <div class="change-up">+9.81%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（3/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond">④融資 ✕</span><span class="cond pass">⑤量 ✓</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
+  <div class="score">加權分數：<b>42.5</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；⚠️股價漲但融資同步暴增(散戶追價，小心)；帶量突破近20日高且收盤站穩；站上布林上軌且上軌向上(波動擴張)</div>
+</div>
+
+<div class="card" data-code="3443">
+  <div class="card-top">
+    <div>
+      <div class="name">創意</div>
+      <div class="code">3443　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">8385.00</div>
+      <div class="change-up">+0.12%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（3/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
+  <div class="score">加權分數：<b>42.5</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨；站上布林上軌且上軌向上(波動擴張)</div>
+</div>
+
+<div class="card" data-code="3605">
+  <div class="card-top">
+    <div>
+      <div class="name">宏致</div>
+      <div class="code">3605　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">180.00</div>
+      <div class="change-up">+4.96%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（3/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
+  <div class="score">加權分數：<b>42.5</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨；站上布林上軌且上軌向上(波動擴張)</div>
+</div>
+
+<div class="card" data-code="4770">
+  <div class="card-top">
+    <div>
+      <div class="name">上品</div>
+      <div class="code">4770　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">275.00</div>
+      <div class="change-up">+10.00%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（3/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond">④融資 ✕</span><span class="cond pass">⑤量 ✓</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
+  <div class="score">加權分數：<b>42.5</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；⚠️股價漲但融資同步暴增(散戶追價，小心)；帶量突破近20日高且收盤站穩；站上布林上軌且上軌向上(波動擴張)</div>
+</div>
+
+<div class="card" data-code="6526">
+  <div class="card-top">
+    <div>
+      <div class="name">達發</div>
+      <div class="code">6526　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">840.00</div>
+      <div class="change-up">+9.95%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（3/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond">④融資 ✕</span><span class="cond pass">⑤量 ✓</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
+  <div class="score">加權分數：<b>42.5</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；⚠️股價漲但融資同步暴增(散戶追價，小心)；帶量突破近20日高且收盤站穩；站上布林上軌且上軌向上(波動擴張)</div>
+</div>
+
+<div class="card" data-code="1310">
   <div class="card-top">
     <div>
       <div class="name">台苯</div>
@@ -1155,27 +1616,10 @@
   <span class="badge tier-watch">等待確認（3/7）</span>
   <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond pass">②KD ✓</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond">⑦布林 ✕</span></div>
   <div class="score">加權分數：<b>42.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；K由下往上轉</div>
+  <div class="notes">站穩月線且月線向上；K由下往上轉；外資當天淨買超</div>
 </div>
 
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">中石化</div>
-      <div class="code">1314　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">9.01</div>
-      <div class="change-up">+3.09%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond pass">②KD ✓</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond">⑦布林 ✕</span></div>
-  <div class="score">加權分數：<b>42.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；K由下往上轉</div>
-</div>
-
-<div class="card">
+<div class="card" data-code="2329">
   <div class="card-top">
     <div>
       <div class="name">華泰</div>
@@ -1189,10 +1633,10 @@
   <span class="badge tier-watch">等待確認（3/7）</span>
   <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond pass">②KD ✓</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond">⑦布林 ✕</span></div>
   <div class="score">加權分數：<b>42.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；K由下往上轉</div>
+  <div class="notes">站穩月線且月線向上；K由下往上轉；外資當天淨買超</div>
 </div>
 
-<div class="card">
+<div class="card" data-code="2354">
   <div class="card-top">
     <div>
       <div class="name">鴻準</div>
@@ -1206,95 +1650,10 @@
   <span class="badge tier-watch">等待確認（3/7）</span>
   <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond pass">②KD ✓</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond">⑦布林 ✕</span></div>
   <div class="score">加權分數：<b>42.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；K由下往上轉</div>
+  <div class="notes">站穩月線且月線向上；K由下往上轉；外資當天淨買超</div>
 </div>
 
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">普安</div>
-      <div class="code">2495　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">38.85</div>
-      <div class="change-up">+1.04%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond pass">②KD ✓</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond">⑦布林 ✕</span></div>
-  <div class="score">加權分數：<b>42.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；K由下往上轉</div>
-</div>
-
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">中再保</div>
-      <div class="code">2851　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">47.95</div>
-      <div class="change-up">+1.16%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond pass">②KD ✓</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond">⑦布林 ✕</span></div>
-  <div class="score">加權分數：<b>42.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；K由下往上轉</div>
-</div>
-
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">帆宣</div>
-      <div class="code">6196　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">549.00</div>
-      <div class="change-up">+2.62%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond pass">②KD ✓</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond">⑦布林 ✕</span></div>
-  <div class="score">加權分數：<b>42.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；K由下往上轉</div>
-</div>
-
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">迅杰</div>
-      <div class="code">6243　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">41.25</div>
-      <div class="change-up">+10.00%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond pass">②KD ✓</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond">⑦布林 ✕</span></div>
-  <div class="score">加權分數：<b>42.0</b> / 100</div>
-  <div class="notes">剛站回月線(觀察)；K由下往上轉；量增收紅但尚未突破前高</div>
-</div>
-
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">騰輝電子-KY</div>
-      <div class="code">6672　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">307.00</div>
-      <div class="change-up">+1.66%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond pass">②KD ✓</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond">⑦布林 ✕</span></div>
-  <div class="score">加權分數：<b>42.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；K由下往上轉</div>
-</div>
-
-<div class="card">
+<div class="card" data-code="6834">
   <div class="card-top">
     <div>
       <div class="name">天二科技</div>
@@ -1311,58 +1670,7 @@
   <div class="notes">站穩月線且月線向上；K由下往上轉</div>
 </div>
 
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">鑽石投資</div>
-      <div class="code">6901　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">15.75</div>
-      <div class="change-up">+2.61%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond pass">②KD ✓</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond">⑦布林 ✕</span></div>
-  <div class="score">加權分數：<b>42.0</b> / 100</div>
-  <div class="notes">剛站回月線(觀察)；K由下往上轉；量增收紅但尚未突破前高</div>
-</div>
-
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">華東</div>
-      <div class="code">8110　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">49.70</div>
-      <div class="change-up">+1.53%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond pass">②KD ✓</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond">⑦布林 ✕</span></div>
-  <div class="score">加權分數：<b>42.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；K由下往上轉</div>
-</div>
-
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">中信NASDAQ</div>
-      <div class="code">009800　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">13.53</div>
-      <div class="change-up">+0.82%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>41.5</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；⚠️爆量但留長上影線；站上布林上軌且上軌向上(波動擴張)</div>
-</div>
-
-<div class="card">
+<div class="card" data-code="009820">
   <div class="card-top">
     <div>
       <div class="name">元大納斯達克精選</div>
@@ -1379,24 +1687,7 @@
   <div class="notes">站穩月線且月線向上；⚠️爆量但留長上影線；站上布林上軌且上軌向上(波動擴張)</div>
 </div>
 
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">和益</div>
-      <div class="code">1709　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">48.30</div>
-      <div class="change-up">+5.11%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>41.5</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；⚠️爆量但留長上影線；站上布林上軌且上軌向上(波動擴張)</div>
-</div>
-
-<div class="card">
+<div class="card" data-code="2033">
   <div class="card-top">
     <div>
       <div class="name">佳大</div>
@@ -1413,7 +1704,7 @@
   <div class="notes">站穩月線且月線向上；⚠️爆量但留長上影線；站上布林上軌且上軌向上(波動擴張)</div>
 </div>
 
-<div class="card">
+<div class="card" data-code="2444">
   <div class="card-top">
     <div>
       <div class="name">兆勁</div>
@@ -1427,10 +1718,10 @@
   <span class="badge tier-watch">等待確認（3/7）</span>
   <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
   <div class="score">加權分數：<b>41.5</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；⚠️爆量但留長上影線；站上布林上軌且上軌向上(波動擴張)</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；⚠️爆量但留長上影線；站上布林上軌且上軌向上(波動擴張)</div>
 </div>
 
-<div class="card">
+<div class="card" data-code="3055">
   <div class="card-top">
     <div>
       <div class="name">蔚華科</div>
@@ -1444,27 +1735,10 @@
   <span class="badge tier-watch">等待確認（3/7）</span>
   <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
   <div class="score">加權分數：<b>41.5</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；⚠️爆量但留長上影線；站上布林上軌且上軌向上(波動擴張)</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；⚠️爆量但留長上影線；站上布林上軌且上軌向上(波動擴張)</div>
 </div>
 
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">聯嘉投控</div>
-      <div class="code">3717　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">26.05</div>
-      <div class="change-up">+3.17%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>41.5</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；⚠️爆量但留長上影線；站上布林上軌且上軌向上(波動擴張)</div>
-</div>
-
-<div class="card">
+<div class="card" data-code="6902">
   <div class="card-top">
     <div>
       <div class="name">GOGOLOOK</div>
@@ -1478,27 +1752,27 @@
   <span class="badge tier-watch">等待確認（3/7）</span>
   <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
   <div class="score">加權分數：<b>41.5</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；⚠️爆量但留長上影線；站上布林上軌且上軌向上(波動擴張)</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；⚠️爆量但留長上影線；站上布林上軌且上軌向上(波動擴張)</div>
 </div>
 
-<div class="card">
+<div class="card" data-code="2915">
   <div class="card-top">
     <div>
-      <div class="name">主動國泰動能高息</div>
-      <div class="code">00400A　TWSE</div>
+      <div class="name">潤泰全</div>
+      <div class="code">2915　TWSE</div>
     </div>
     <div class="price">
-      <div class="close">15.57</div>
-      <div class="change-up">+0.52%</div>
+      <div class="close">60.10</div>
+      <div class="change-up">+1.35%</div>
     </div>
   </div>
   <span class="badge tier-watch">等待確認（3/7）</span>
   <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
-  <div class="score">加權分數：<b>40.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；MACD翻紅+RSI區間內+5日線在10日線上</div>
+  <div class="score">加權分數：<b>41.0</b> / 100</div>
+  <div class="notes">站上月線；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨；MACD翻紅+RSI區間內+5日線在10日線上</div>
 </div>
 
-<div class="card">
+<div class="card" data-code="00401A">
   <div class="card-top">
     <div>
       <div class="name">主動摩根台灣鑫收</div>
@@ -1512,78 +1786,10 @@
   <span class="badge tier-watch">等待確認（3/7）</span>
   <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
   <div class="score">加權分數：<b>40.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；MACD翻紅+RSI區間內+5日線在10日線上</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；MACD翻紅+RSI區間內+5日線在10日線上</div>
 </div>
 
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">主動中信台灣收益</div>
-      <div class="code">00406A　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">9.92</div>
-      <div class="change-up">+0.81%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
-  <div class="score">加權分數：<b>40.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；MACD翻紅+RSI區間內+5日線在10日線上</div>
-</div>
-
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">主動凱基台灣</div>
-      <div class="code">00407A　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">10.12</div>
-      <div class="change-up">+0.80%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
-  <div class="score">加權分數：<b>40.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；MACD翻紅+RSI區間內+5日線在10日線上</div>
-</div>
-
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">元大台灣50正2</div>
-      <div class="code">00631L　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">38.99</div>
-      <div class="change-up">+1.22%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
-  <div class="score">加權分數：<b>40.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；MACD翻紅+RSI區間內+5日線在10日線上</div>
-</div>
-
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">國泰臺灣加權正2</div>
-      <div class="code">00663L　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">112.85</div>
-      <div class="change-up">+0.98%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
-  <div class="score">加權分數：<b>40.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；MACD翻紅+RSI區間內+5日線在10日線上</div>
-</div>
-
-<div class="card">
+<div class="card" data-code="00830">
   <div class="card-top">
     <div>
       <div class="name">國泰費城半導體</div>
@@ -1597,27 +1803,10 @@
   <span class="badge tier-watch">等待確認（3/7）</span>
   <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
   <div class="score">加權分數：<b>40.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；站上布林上軌且上軌向上(波動擴張)</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；站上布林上軌且上軌向上(波動擴張)</div>
 </div>
 
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">國泰台灣科技龍頭</div>
-      <div class="code">00881　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">52.60</div>
-      <div class="change-up">+0.77%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>40.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；站上布林上軌且上軌向上(波動擴張)</div>
-</div>
-
-<div class="card">
+<div class="card" data-code="00891">
   <div class="card-top">
     <div>
       <div class="name">中信關鍵半導體</div>
@@ -1634,92 +1823,7 @@
   <div class="notes">站穩月線且月線向上；站上布林上軌且上軌向上(波動擴張)</div>
 </div>
 
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">國泰基因免疫革命</div>
-      <div class="code">00898　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">11.76</div>
-      <div class="change-up">+2.26%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>40.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；站上布林上軌且上軌向上(波動擴張)</div>
-</div>
-
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">群益台ESG低碳50</div>
-      <div class="code">00923　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">41.84</div>
-      <div class="change-up">+0.60%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>40.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；站上布林上軌且上軌向上(波動擴張)</div>
-</div>
-
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">群益半導體收益</div>
-      <div class="code">00927　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">39.89</div>
-      <div class="change-up">+0.03%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>40.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；站上布林上軌且上軌向上(波動擴張)</div>
-</div>
-
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">復華台灣科技優息</div>
-      <div class="code">00929　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">29.14</div>
-      <div class="change-up">+0.03%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
-  <div class="score">加權分數：<b>40.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；MACD翻紅+RSI區間內+5日線在10日線上</div>
-</div>
-
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">野村臺灣新科技50</div>
-      <div class="code">00935　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">61.45</div>
-      <div class="change-up">+0.74%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
-  <div class="score">加權分數：<b>40.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；MACD翻紅+RSI區間內+5日線剛穿上10日線</div>
-</div>
-
-<div class="card">
+<div class="card" data-code="00952">
   <div class="card-top">
     <div>
       <div class="name">凱基台灣AI50</div>
@@ -1736,24 +1840,7 @@
   <div class="notes">站穩月線且月線向上；MACD翻紅+RSI區間內+5日線在10日線上</div>
 </div>
 
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">主動野村臺灣優選</div>
-      <div class="code">00980A　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">25.51</div>
-      <div class="change-up">+0.67%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
-  <div class="score">加權分數：<b>40.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；MACD翻紅+RSI區間內+5日線在10日線上</div>
-</div>
-
-<div class="card">
+<div class="card" data-code="00981A">
   <div class="card-top">
     <div>
       <div class="name">主動統一台股增長</div>
@@ -1767,27 +1854,10 @@
   <span class="badge tier-watch">等待確認（3/7）</span>
   <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
   <div class="score">加權分數：<b>40.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；MACD翻紅+RSI區間內+5日線剛穿上10日線</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；MACD翻紅+RSI區間內+5日線剛穿上10日線</div>
 </div>
 
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">主動群益台灣強棒</div>
-      <div class="code">00982A　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">23.06</div>
-      <div class="change-up">+0.17%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
-  <div class="score">加權分數：<b>40.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；MACD翻紅+RSI區間內+5日線在10日線上</div>
-</div>
-
-<div class="card">
+<div class="card" data-code="00984A">
   <div class="card-top">
     <div>
       <div class="name">主動安聯台灣高息</div>
@@ -1801,10 +1871,10 @@
   <span class="badge tier-watch">等待確認（3/7）</span>
   <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
   <div class="score">加權分數：<b>40.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；MACD翻紅+RSI區間內+5日線在10日線上</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；MACD翻紅+RSI區間內+5日線在10日線上</div>
 </div>
 
-<div class="card">
+<div class="card" data-code="00985A">
   <div class="card-top">
     <div>
       <div class="name">主動野村台灣50</div>
@@ -1821,126 +1891,7 @@
   <div class="notes">站穩月線且月線向上；MACD翻紅+RSI區間內+5日線在10日線上</div>
 </div>
 
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">主動台新優勢成長</div>
-      <div class="code">00987A　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">17.19</div>
-      <div class="change-up">+1.00%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
-  <div class="score">加權分數：<b>40.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；MACD翻紅+RSI區間內+5日線在10日線上</div>
-</div>
-
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">主動統一全球創新</div>
-      <div class="code">00988A　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">16.95</div>
-      <div class="change-up">+1.32%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>40.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；站上布林上軌且上軌向上(波動擴張)</div>
-</div>
-
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">主動元大AI新經濟</div>
-      <div class="code">00990A　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">15.93</div>
-      <div class="change-up">+1.08%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>40.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；站上布林上軌且上軌向上(波動擴張)</div>
-</div>
-
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">主動群益科技創新</div>
-      <div class="code">00992A　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">18.69</div>
-      <div class="change-up">+0.21%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
-  <div class="score">加權分數：<b>40.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；MACD翻紅+RSI區間內+5日線在10日線上</div>
-</div>
-
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">主動安聯台灣</div>
-      <div class="code">00993A　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">13.85</div>
-      <div class="change-up">+0.51%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
-  <div class="score">加權分數：<b>40.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；MACD翻紅+RSI區間內+5日線在10日線上</div>
-</div>
-
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">主動中信台灣卓越</div>
-      <div class="code">00995A　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">17.76</div>
-      <div class="change-up">+0.79%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
-  <div class="score">加權分數：<b>40.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；MACD翻紅+RSI區間內+5日線在10日線上</div>
-</div>
-
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">主動兆豐台灣豐收</div>
-      <div class="code">00996A　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">14.51</div>
-      <div class="change-up">+0.14%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
-  <div class="score">加權分數：<b>40.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；MACD翻紅+RSI區間內+5日線在10日線上</div>
-</div>
-
-<div class="card">
+<div class="card" data-code="00997A">
   <div class="card-top">
     <div>
       <div class="name">主動群益美國增長</div>
@@ -1954,10 +1905,10 @@
   <span class="badge tier-watch">等待確認（3/7）</span>
   <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
   <div class="score">加權分數：<b>40.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；站上布林上軌且上軌向上(波動擴張)</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；站上布林上軌且上軌向上(波動擴張)</div>
 </div>
 
-<div class="card">
+<div class="card" data-code="1513">
   <div class="card-top">
     <div>
       <div class="name">中興電</div>
@@ -1971,10 +1922,10 @@
   <span class="badge tier-watch">等待確認（3/7）</span>
   <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
   <div class="score">加權分數：<b>40.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；MACD翻紅+RSI區間內+5日線在10日線上</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；MACD翻紅+RSI區間內+5日線在10日線上</div>
 </div>
 
-<div class="card">
+<div class="card" data-code="2308">
   <div class="card-top">
     <div>
       <div class="name">台達電</div>
@@ -1988,10 +1939,10 @@
   <span class="badge tier-watch">等待確認（3/7）</span>
   <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
   <div class="score">加權分數：<b>40.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；MACD翻紅+RSI區間內+5日線在10日線上</div>
+  <div class="notes">站穩月線且月線向上；投信連買3日+；MACD翻紅+RSI區間內+5日線在10日線上</div>
 </div>
 
-<div class="card">
+<div class="card" data-code="2317">
   <div class="card-top">
     <div>
       <div class="name">鴻海</div>
@@ -2005,27 +1956,10 @@
   <span class="badge tier-watch">等待確認（3/7）</span>
   <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
   <div class="score">加權分數：<b>40.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；MACD翻紅+RSI區間內+5日線在10日線上</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；MACD翻紅+RSI區間內+5日線在10日線上</div>
 </div>
 
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">台積電</div>
-      <div class="code">2330　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">2500.00</div>
-      <div class="change-up">+1.63%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
-  <div class="score">加權分數：<b>40.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；MACD翻紅+RSI區間內+5日線在10日線上</div>
-</div>
-
-<div class="card">
+<div class="card" data-code="2363">
   <div class="card-top">
     <div>
       <div class="name">矽統</div>
@@ -2042,7 +1976,7 @@
   <div class="notes">站穩月線且月線向上；站上布林上軌且上軌向上(波動擴張)</div>
 </div>
 
-<div class="card">
+<div class="card" data-code="2376">
   <div class="card-top">
     <div>
       <div class="name">技嘉</div>
@@ -2056,10 +1990,10 @@
   <span class="badge tier-watch">等待確認（3/7）</span>
   <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
   <div class="score">加權分數：<b>40.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；MACD翻紅+RSI區間內+5日線在10日線上</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；MACD翻紅+RSI區間內+5日線在10日線上</div>
 </div>
 
-<div class="card">
+<div class="card" data-code="2436">
   <div class="card-top">
     <div>
       <div class="name">偉詮電</div>
@@ -2076,24 +2010,7 @@
   <div class="notes">站穩月線且月線向上；MACD翻紅+RSI區間內+5日線在10日線上</div>
 </div>
 
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">偉訓</div>
-      <div class="code">3032　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">82.00</div>
-      <div class="change-up">+5.26%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
-  <div class="score">加權分數：<b>40.0</b> / 100</div>
-  <div class="notes">剛站回月線(觀察)；量增收紅但尚未突破前高；MACD翻紅+RSI區間內+5日線在10日線上</div>
-</div>
-
-<div class="card">
+<div class="card" data-code="3035">
   <div class="card-top">
     <div>
       <div class="name">智原</div>
@@ -2110,41 +2027,7 @@
   <div class="notes">站穩月線且月線向上；站上布林上軌且上軌向上(波動擴張)</div>
 </div>
 
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">健鼎</div>
-      <div class="code">3044　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">543.00</div>
-      <div class="change-up">+0.74%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>40.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；站上布林上軌且上軌向上(波動擴張)</div>
-</div>
-
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">大量</div>
-      <div class="code">3167　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">890.00</div>
-      <div class="change-up">+3.01%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
-  <div class="score">加權分數：<b>40.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；MACD翻紅+RSI區間內+5日線剛穿上10日線</div>
-</div>
-
-<div class="card">
+<div class="card" data-code="3576">
   <div class="card-top">
     <div>
       <div class="name">聯合再生</div>
@@ -2158,27 +2041,10 @@
   <span class="badge tier-watch">等待確認（3/7）</span>
   <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
   <div class="score">加權分數：<b>40.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；MACD翻紅+RSI區間內+5日線在10日線上</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；MACD翻紅+RSI區間內+5日線在10日線上</div>
 </div>
 
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">健策</div>
-      <div class="code">3653　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">6410.00</div>
-      <div class="change-up">+9.95%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>40.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；站上布林上軌且上軌向上(波動擴張)</div>
-</div>
-
-<div class="card">
+<div class="card" data-code="3711">
   <div class="card-top">
     <div>
       <div class="name">日月光投控</div>
@@ -2192,10 +2058,10 @@
   <span class="badge tier-watch">等待確認（3/7）</span>
   <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
   <div class="score">加權分數：<b>40.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；站上布林上軌且上軌向上(波動擴張)</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；站上布林上軌且上軌向上(波動擴張)</div>
 </div>
 
-<div class="card">
+<div class="card" data-code="4540">
   <div class="card-top">
     <div>
       <div class="name">全球傳動</div>
@@ -2212,7 +2078,7 @@
   <div class="notes">站穩月線且月線向上；MACD翻紅+RSI區間內+5日線在10日線上</div>
 </div>
 
-<div class="card">
+<div class="card" data-code="6166">
   <div class="card-top">
     <div>
       <div class="name">凌華</div>
@@ -2229,7 +2095,7 @@
   <div class="notes">站穩月線且月線向上；站上布林上軌且上軌向上(波動擴張)</div>
 </div>
 
-<div class="card">
+<div class="card" data-code="6589">
   <div class="card-top">
     <div>
       <div class="name">台康生技</div>
@@ -2243,61 +2109,27 @@
   <span class="badge tier-watch">等待確認（3/7）</span>
   <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
   <div class="score">加權分數：<b>40.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；站上布林上軌且上軌向上(波動擴張)</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；站上布林上軌且上軌向上(波動擴張)</div>
 </div>
 
-<div class="card">
+<div class="card" data-code="3037">
   <div class="card-top">
     <div>
-      <div class="name">嘉基</div>
-      <div class="code">6715　TWSE</div>
+      <div class="name">欣興</div>
+      <div class="code">3037　TWSE</div>
     </div>
     <div class="price">
-      <div class="close">459.50</div>
-      <div class="change-up">+1.77%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>40.0</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；站上布林上軌且上軌向上(波動擴張)</div>
-</div>
-
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">南電</div>
-      <div class="code">8046　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">1210.00</div>
-      <div class="change-up">+3.86%</div>
+      <div class="close">1160.00</div>
+      <div class="change-up">+3.57%</div>
     </div>
   </div>
   <span class="badge tier-watch">等待確認（3/7）</span>
   <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
-  <div class="score">加權分數：<b>40.0</b> / 100</div>
-  <div class="notes">剛站回月線(觀察)；量增收紅但尚未突破前高；MACD翻紅+RSI區間內+5日線在10日線上</div>
+  <div class="score">加權分數：<b>39.0</b> / 100</div>
+  <div class="notes">剛站回月線(觀察)；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨；⚠️爆量但留長上影線；MACD翻紅+RSI區間內+5日線在10日線上</div>
 </div>
 
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">潤泰新</div>
-      <div class="code">9945　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">29.55</div>
-      <div class="change-up">+2.07%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond pass">②KD ✓</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond">⑦布林 ✕</span></div>
-  <div class="score">加權分數：<b>38.0</b> / 100</div>
-  <div class="notes">站上月線；K由下往上轉</div>
-</div>
-
-<div class="card">
+<div class="card" data-code="00662">
   <div class="card-top">
     <div>
       <div class="name">富邦NASDAQ</div>
@@ -2311,61 +2143,10 @@
   <span class="badge tier-watch">等待確認（3/7）</span>
   <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
   <div class="score">加權分數：<b>37.5</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；站上布林上軌且上軌向上(波動擴張)</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；站上布林上軌且上軌向上(波動擴張)</div>
 </div>
 
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">貝萊德標普卓越50</div>
-      <div class="code">009813　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">11.59</div>
-      <div class="change-up">+0.09%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>37.5</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；站上布林上軌且上軌向上(波動擴張)</div>
-</div>
-
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">群益美國科技巨頭</div>
-      <div class="code">009824　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">10.61</div>
-      <div class="change-up">+0.95%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>37.5</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；站上布林上軌且上軌向上(波動擴張)</div>
-</div>
-
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">中砂</div>
-      <div class="code">1560　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">955.00</div>
-      <div class="change-up">+0.53%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>37.5</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；站上布林上軌且上軌向上(波動擴張)</div>
-</div>
-
-<div class="card">
+<div class="card" data-code="2034">
   <div class="card-top">
     <div>
       <div class="name">允強</div>
@@ -2379,95 +2160,44 @@
   <span class="badge tier-watch">等待確認（3/7）</span>
   <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
   <div class="score">加權分數：<b>37.5</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；站上布林上軌且上軌向上(波動擴張)</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；站上布林上軌且上軌向上(波動擴張)</div>
 </div>
 
-<div class="card">
+<div class="card" data-code="2332">
   <div class="card-top">
     <div>
-      <div class="name">創意</div>
-      <div class="code">3443　TWSE</div>
+      <div class="name">友訊</div>
+      <div class="code">2332　TWSE</div>
     </div>
     <div class="price">
-      <div class="close">8385.00</div>
-      <div class="change-up">+0.12%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>37.5</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；站上布林上軌且上軌向上(波動擴張)</div>
-</div>
-
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">宏致</div>
-      <div class="code">3605　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">180.00</div>
-      <div class="change-up">+4.96%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond pass">⑦布林 ✓</span></div>
-  <div class="score">加權分數：<b>37.5</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；站上布林上軌且上軌向上(波動擴張)</div>
-</div>
-
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">潤泰全</div>
-      <div class="code">2915　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">60.10</div>
-      <div class="change-up">+1.35%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
-  <div class="score">加權分數：<b>36.0</b> / 100</div>
-  <div class="notes">站上月線；MACD翻紅+RSI區間內+5日線在10日線上</div>
-</div>
-
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">寶成</div>
-      <div class="code">9904　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">24.90</div>
-      <div class="change-up">+1.22%</div>
+      <div class="close">20.40</div>
+      <div class="change-up">+0.99%</div>
     </div>
   </div>
   <span class="badge tier-watch">等待確認（3/7）</span>
   <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond pass">②KD ✓</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond">⑦布林 ✕</span></div>
-  <div class="score">加權分數：<b>36.0</b> / 100</div>
-  <div class="notes">站上月線；K由下往上轉</div>
+  <div class="score">加權分數：<b>35.0</b> / 100</div>
+  <div class="notes">剛站回月線(觀察)；K由下往上轉；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨</div>
 </div>
 
-<div class="card">
+<div class="card" data-code="2408">
   <div class="card-top">
     <div>
-      <div class="name">中華電</div>
-      <div class="code">2412　TWSE</div>
+      <div class="name">南亞科</div>
+      <div class="code">2408　TWSE</div>
     </div>
     <div class="price">
-      <div class="close">145.50</div>
-      <div class="change-up">+0.34%</div>
+      <div class="close">515.00</div>
+      <div class="change-up">+3.62%</div>
     </div>
   </div>
   <span class="badge tier-watch">等待確認（3/7）</span>
   <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond pass">②KD ✓</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond">⑦布林 ✕</span></div>
-  <div class="score">加權分數：<b>35.5</b> / 100</div>
-  <div class="notes">站穩月線且月線向上；⚠️高檔鈍化已久，KD打勾勿單純追價</div>
+  <div class="score">加權分數：<b>35.0</b> / 100</div>
+  <div class="notes">剛站回月線(觀察)；K由下往上轉；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨</div>
 </div>
 
-<div class="card">
+<div class="card" data-code="00646">
   <div class="card-top">
     <div>
       <div class="name">元大S&amp;P500</div>
@@ -2481,27 +2211,129 @@
   <span class="badge tier-watch">等待確認（3/7）</span>
   <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
   <div class="score">加權分數：<b>34.0</b> / 100</div>
-  <div class="notes">站上月線；MACD翻紅+RSI區間內+5日線在10日線上</div>
+  <div class="notes">站上月線；外資當天淨買超；MACD翻紅+RSI區間內+5日線在10日線上</div>
 </div>
 
-<div class="card">
+<div class="card" data-code="3563">
   <div class="card-top">
     <div>
-      <div class="name">欣興</div>
-      <div class="code">3037　TWSE</div>
+      <div class="name">牧德</div>
+      <div class="code">3563　TWSE</div>
     </div>
     <div class="price">
-      <div class="close">1160.00</div>
-      <div class="change-up">+3.57%</div>
+      <div class="close">753.00</div>
+      <div class="change-up">+5.91%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（3/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond">④融資 ✕</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond pass">⑦布林 ✓</span></div>
+  <div class="score">加權分數：<b>34.0</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；⚠️股價漲但融資同步暴增(散戶追價，小心)；⚠️爆量但留長上影線；MACD翻紅+RSI區間內+5日線在10日線上；站上布林上軌且上軌向上(波動擴張)</div>
+</div>
+
+<div class="card" data-code="6456">
+  <div class="card-top">
+    <div>
+      <div class="name">GIS-KY</div>
+      <div class="code">6456　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">78.60</div>
+      <div class="change-up">+6.79%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（3/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond">④融資 ✕</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond pass">⑦布林 ✓</span></div>
+  <div class="score">加權分數：<b>34.0</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；⚠️股價漲但融資同步暴增(散戶追價，小心)；⚠️爆量但留長上影線；MACD翻紅+RSI區間內+5日線在10日線上；站上布林上軌且上軌向上(波動擴張)</div>
+</div>
+
+<div class="card" data-code="00941">
+  <div class="card-top">
+    <div>
+      <div class="name">中信上游半導體</div>
+      <div class="code">00941　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">25.12</div>
+      <div class="change-up">+1.37%</div>
     </div>
   </div>
   <span class="badge tier-watch">等待確認（3/7）</span>
   <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
-  <div class="score">加權分數：<b>34.0</b> / 100</div>
-  <div class="notes">剛站回月線(觀察)；⚠️爆量但留長上影線；MACD翻紅+RSI區間內+5日線在10日線上</div>
+  <div class="score">加權分數：<b>33.0</b> / 100</div>
+  <div class="notes">剛站回月線(觀察)；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨；MACD翻紅+RSI區間內+5日線剛穿上10日線</div>
 </div>
 
-<div class="card">
+<div class="card" data-code="00991A">
+  <div class="card-top">
+    <div>
+      <div class="name">主動復華未來50</div>
+      <div class="code">00991A　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">18.00</div>
+      <div class="change-up">+0.67%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（3/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
+  <div class="score">加權分數：<b>33.0</b> / 100</div>
+  <div class="notes">剛站回月線(觀察)；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨；MACD翻紅+RSI區間內+5日線在10日線上</div>
+</div>
+
+<div class="card" data-code="00994A">
+  <div class="card-top">
+    <div>
+      <div class="name">主動第一金台股優</div>
+      <div class="code">00994A　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">17.29</div>
+      <div class="change-up">+1.05%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（3/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
+  <div class="score">加權分數：<b>33.0</b> / 100</div>
+  <div class="notes">剛站回月線(觀察)；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨；MACD翻紅+RSI區間內+5日線剛穿上10日線</div>
+</div>
+
+<div class="card" data-code="2913">
+  <div class="card-top">
+    <div>
+      <div class="name">農林</div>
+      <div class="code">2913　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">11.15</div>
+      <div class="change-up">+0.90%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（3/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
+  <div class="score">加權分數：<b>33.0</b> / 100</div>
+  <div class="notes">剛站回月線(觀察)；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨；MACD翻紅+RSI區間內+5日線在10日線上</div>
+</div>
+
+<div class="card" data-code="2484">
+  <div class="card-top">
+    <div>
+      <div class="name">希華</div>
+      <div class="code">2484　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">72.90</div>
+      <div class="change-up">+4.74%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（3/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond pass">②KD ✓</span><span class="cond">③籌碼 ✕</span><span class="cond">④融資 ✕</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
+  <div class="score">加權分數：<b>32.0</b> / 100</div>
+  <div class="notes">剛站回月線(觀察)；K由下往上轉；⚠️股價漲但融資同步暴增(散戶追價，小心)；量增收紅但尚未突破前高；MACD翻紅+RSI區間內+5日線在10日線上</div>
+</div>
+
+<div class="card" data-code="2498">
   <div class="card-top">
     <div>
       <div class="name">宏達電</div>
@@ -2518,24 +2350,7 @@
   <div class="notes">剛站回月線(觀察)；⚠️爆量但留長上影線；MACD翻紅+RSI區間內+5日線在10日線上</div>
 </div>
 
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">長榮航</div>
-      <div class="code">2618　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">42.85</div>
-      <div class="change-up">+0.82%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
-  <div class="score">加權分數：<b>32.0</b> / 100</div>
-  <div class="notes">剛站回月線(觀察)；⚠️爆量但留長上影線；MACD翻紅+RSI區間內+5日線剛穿上10日線</div>
-</div>
-
-<div class="card">
+<div class="card" data-code="6202">
   <div class="card-top">
     <div>
       <div class="name">盛群</div>
@@ -2549,61 +2364,78 @@
   <span class="badge tier-watch">等待確認（3/7）</span>
   <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
   <div class="score">加權分數：<b>32.0</b> / 100</div>
-  <div class="notes">剛站回月線(觀察)；⚠️爆量但留長上影線；MACD翻紅+RSI區間內+5日線在10日線上</div>
+  <div class="notes">剛站回月線(觀察)；外資當天淨買超；⚠️爆量但留長上影線；MACD翻紅+RSI區間內+5日線在10日線上</div>
 </div>
 
-<div class="card">
+<div class="card" data-code="00757">
   <div class="card-top">
     <div>
-      <div class="name">友訊</div>
-      <div class="code">2332　TWSE</div>
+      <div class="name">統一FANG+</div>
+      <div class="code">00757　TWSE</div>
     </div>
     <div class="price">
-      <div class="close">20.40</div>
-      <div class="change-up">+0.99%</div>
+      <div class="close">144.80</div>
+      <div class="change-up">+0.59%</div>
     </div>
   </div>
   <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond pass">②KD ✓</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond">⑦布林 ✕</span></div>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond">④融資 ✕</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond pass">⑦布林 ✓</span></div>
   <div class="score">加權分數：<b>30.0</b> / 100</div>
-  <div class="notes">剛站回月線(觀察)；K由下往上轉</div>
+  <div class="notes">站穩月線且月線向上；⚠️股價漲但融資同步暴增(散戶追價，小心)；MACD翻紅+RSI區間內+5日線在10日線上；站上布林上軌且上軌向上(波動擴張)</div>
 </div>
 
-<div class="card">
+<div class="card" data-code="00894">
   <div class="card-top">
     <div>
-      <div class="name">南亞科</div>
-      <div class="code">2408　TWSE</div>
+      <div class="name">中信小資高價30</div>
+      <div class="code">00894　TWSE</div>
     </div>
     <div class="price">
-      <div class="close">515.00</div>
-      <div class="change-up">+3.62%</div>
+      <div class="close">50.00</div>
+      <div class="change-up">+0.58%</div>
     </div>
   </div>
   <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond pass">②KD ✓</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond">⑥動能 ✕</span><span class="cond">⑦布林 ✕</span></div>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond">④融資 ✕</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond pass">⑦布林 ✓</span></div>
   <div class="score">加權分數：<b>30.0</b> / 100</div>
-  <div class="notes">剛站回月線(觀察)；K由下往上轉</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；⚠️股價漲但融資同步暴增(散戶追價，小心)；MACD翻紅+RSI區間內+5日線在10日線上；站上布林上軌且上軌向上(波動擴張)</div>
 </div>
 
-<div class="card">
+<div class="card" data-code="00922">
   <div class="card-top">
     <div>
-      <div class="name">中信上游半導體</div>
-      <div class="code">00941　TWSE</div>
+      <div class="name">國泰台灣領袖50</div>
+      <div class="code">00922　TWSE</div>
     </div>
     <div class="price">
-      <div class="close">25.12</div>
-      <div class="change-up">+1.37%</div>
+      <div class="close">43.79</div>
+      <div class="change-up">+0.18%</div>
     </div>
   </div>
   <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
-  <div class="score">加權分數：<b>28.0</b> / 100</div>
-  <div class="notes">剛站回月線(觀察)；MACD翻紅+RSI區間內+5日線剛穿上10日線</div>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond">④融資 ✕</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond pass">⑦布林 ✓</span></div>
+  <div class="score">加權分數：<b>30.0</b> / 100</div>
+  <div class="notes">站穩月線且月線向上；外資當天淨買超；⚠️股價漲但融資同步暴增(散戶追價，小心)；MACD翻紅+RSI區間內+5日線在10日線上；站上布林上軌且上軌向上(波動擴張)</div>
 </div>
 
-<div class="card">
+<div class="card" data-code="1101">
+  <div class="card-top">
+    <div>
+      <div class="name">台泥</div>
+      <div class="code">1101　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">25.65</div>
+      <div class="change-up">+4.48%</div>
+    </div>
+  </div>
+  <span class="badge tier-watch">等待確認（3/7）</span>
+  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond">④融資 ✕</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond pass">⑦布林 ✓</span></div>
+  <div class="score">加權分數：<b>30.0</b> / 100</div>
+  <div class="notes">剛站回月線(觀察)；外資當天淨買超；⚠️股價漲但融資同步暴增(散戶追價，小心)；量增收紅但尚未突破前高；MACD翻紅+RSI區間內+5日線剛穿上10日線；站上布林上軌且上軌向上(波動擴張)</div>
+</div>
+
+<div class="card" data-code="009819">
   <div class="card-top">
     <div>
       <div class="name">中信數據及電力</div>
@@ -2617,44 +2449,10 @@
   <span class="badge tier-watch">等待確認（3/7）</span>
   <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
   <div class="score">加權分數：<b>28.0</b> / 100</div>
-  <div class="notes">剛站回月線(觀察)；MACD翻紅+RSI區間內+5日線剛穿上10日線</div>
+  <div class="notes">剛站回月線(觀察)；外資當天淨買超；MACD翻紅+RSI區間內+5日線剛穿上10日線</div>
 </div>
 
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">主動復華未來50</div>
-      <div class="code">00991A　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">18.00</div>
-      <div class="change-up">+0.67%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
-  <div class="score">加權分數：<b>28.0</b> / 100</div>
-  <div class="notes">剛站回月線(觀察)；MACD翻紅+RSI區間內+5日線在10日線上</div>
-</div>
-
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">主動第一金台股優</div>
-      <div class="code">00994A　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">17.29</div>
-      <div class="change-up">+1.05%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
-  <div class="score">加權分數：<b>28.0</b> / 100</div>
-  <div class="notes">剛站回月線(觀察)；MACD翻紅+RSI區間內+5日線剛穿上10日線</div>
-</div>
-
-<div class="card">
+<div class="card" data-code="2323">
   <div class="card-top">
     <div>
       <div class="name">中環</div>
@@ -2670,40 +2468,6 @@
   <div class="score">加權分數：<b>28.0</b> / 100</div>
   <div class="notes">剛站回月線(觀察)；MACD翻紅+RSI區間內+5日線在10日線上</div>
 </div>
-
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">農林</div>
-      <div class="code">2913　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">11.15</div>
-      <div class="change-up">+0.90%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
-  <div class="score">加權分數：<b>28.0</b> / 100</div>
-  <div class="notes">剛站回月線(觀察)；MACD翻紅+RSI區間內+5日線在10日線上</div>
-</div>
-
-<div class="card">
-  <div class="card-top">
-    <div>
-      <div class="name">豐泰</div>
-      <div class="code">9910　TWSE</div>
-    </div>
-    <div class="price">
-      <div class="close">70.00</div>
-      <div class="change-up">+2.04%</div>
-    </div>
-  </div>
-  <span class="badge tier-watch">等待確認（3/7）</span>
-  <div class="conds"><span class="cond pass">①月線 ✓</span><span class="cond">②KD ✕</span><span class="cond">③籌碼 ✕</span><span class="cond pass">④融資 ✓</span><span class="cond">⑤量 ✕</span><span class="cond pass">⑥動能 ✓</span><span class="cond">⑦布林 ✕</span></div>
-  <div class="score">加權分數：<b>28.0</b> / 100</div>
-  <div class="notes">剛站回月線(觀察)；MACD翻紅+RSI區間內+5日線在10日線上</div>
-</div>
 </div>
 </main>
 <div class="history">
@@ -2712,5 +2476,6 @@
 <footer>
   由 stock-screener 自動產生（GitHub Actions 排程執行）。權重：月線30 ＞ 籌碼25 ＞ 成交量20 ＞ KD10≈動能10 ＞ 布林5，融資暴增扣分。
 </footer>
+<script src="../watchlist.js" data-wl-href="../watchlist.html"></script>
 </body>
 </html>
