@@ -6,6 +6,7 @@
   - 每日收盤行情(全部)：https://www.twse.com.tw/rwd/zh/afterTrading/MI_INDEX
   - 三大法人買賣超日報：https://www.twse.com.tw/rwd/zh/fund/T86
   - 融資融券餘額：      https://www.twse.com.tw/rwd/zh/marginTrading/MI_MARGN
+  - 當日沖銷交易標的：  https://www.twse.com.tw/rwd/zh/afterTrading/TWTB4U（當沖選股用，未經實測，見下方說明）
 
 三個接口都支援用 date=YYYYMMDD 查「特定歷史日期」的全市場資料（一次拿全部股票，
 不用一檔一檔抓），所以回補歷史只需要「交易日數」次請求，而不是「股票數 x 天數」次。
@@ -23,6 +24,7 @@ MARKET = "TWSE"
 MI_INDEX_URL = "https://www.twse.com.tw/rwd/zh/afterTrading/MI_INDEX"
 T86_URL = "https://www.twse.com.tw/rwd/zh/fund/T86"
 MI_MARGN_URL = "https://www.twse.com.tw/rwd/zh/marginTrading/MI_MARGN"
+TWTB4U_URL = "https://www.twse.com.tw/rwd/zh/afterTrading/TWTB4U"
 
 
 def _fetch_prices(date_str: str):
@@ -121,6 +123,86 @@ def _fetch_margin(date_str: str):
         except (KeyError, IndexError, AttributeError):
             continue
     return rows
+
+
+def _find_field(fields, *keywords):
+    """回傳第一個「名稱同時包含所有 keywords」的欄位索引，找不到回傳 None。"""
+    for i, name in enumerate(fields):
+        if all(k in name for k in keywords):
+            return i
+    return None
+
+
+def _fetch_daytrade_list(date_str: str):
+    """可當沖標的清單。這個接口在開發環境連不到、沒辦法實測，所以不寫死欄位位置，
+    而是在回應裡所有表格中找「有證券代號 + 當沖註記」欄位的那一張，用欄位名稱比對；
+    格式對不上就回傳空 list（呼叫端會當作「不知道」而不套用濾網，不會誤殺整個名單）。"""
+    data = get_json(TWTB4U_URL, {"date": date_str, "response": "json"})
+    if not data or data.get("stat") != "OK":
+        return []
+    candidates = list(data.get("tables") or [])
+    if data.get("fields"):
+        candidates.append({"fields": data["fields"], "data": data.get("data", [])})
+
+    for t in candidates:
+        fields = t.get("fields") or []
+        i_code = _find_field(fields, "證券代號")
+        i_flag = _find_field(fields, "註記")
+        if i_code is None or i_flag is None:
+            continue
+        i_vol = _find_field(fields, "成交股數")
+        rows = []
+        for row in t.get("data", []):
+            try:
+                code = str(row[i_code]).strip()
+                if not code:
+                    continue
+                rows.append({
+                    "date": date_str,
+                    "market": MARKET,
+                    "code": code,
+                    "sell_first_suspended": 1 if str(row[i_flag]).strip() not in ("", "-") else 0,
+                    "daytrade_volume": to_float(row[i_vol]) if i_vol is not None else None,
+                })
+            except (IndexError, AttributeError):
+                continue
+        return rows
+    return []
+
+
+def fetch_and_cache_daytrade(date_str: str):
+    """只抓目標日期（當沖選股只需要當天這份清單，不用回補歷史）。已有資料就不重抓；
+    抓不到不會寫入任何紀錄，下次執行會再試。回傳該日清單檔數。"""
+    existing = db.get_daytrade_list(MARKET, date_str)
+    if existing:
+        return len(existing)
+    rows = _fetch_daytrade_list(date_str)
+    db.save_daytrade_list(rows)
+    if rows:
+        print(f"  [TWSE] {date_str} 可當沖標的 {len(rows)} 檔")
+    else:
+        print(f"  [TWSE] {date_str} 可當沖標的清單抓不到或格式不符，本次不套用可當沖濾網")
+    return len(rows)
+
+
+def test_daytrade(date_str: str):
+    """印出 TWTB4U 原始回應的結構，確認欄位名稱/格式。"""
+    data = get_json(TWTB4U_URL, {"date": date_str, "response": "json"})
+    if not data:
+        print("抓不到資料（網路問題或官網沒回應）")
+        return
+    print("stat =", data.get("stat"))
+    for i, t in enumerate(data.get("tables") or []):
+        print(f"tables[{i}] title={t.get('title')!r}")
+        print("   fields =", t.get("fields"))
+        print("   data[:3] =", (t.get("data") or [])[:3])
+    if data.get("fields"):
+        print("top-level fields =", data.get("fields"))
+        print("top-level data[:3] =", (data.get("data") or [])[:3])
+    rows = _fetch_daytrade_list(date_str)
+    print(f"\n解析結果：{len(rows)} 檔，前5筆：")
+    for r in rows[:5]:
+        print("  ", r)
 
 
 def fetch_and_cache_range(end_date: datetime, n_days: int = BACKFILL_TRADING_DAYS):

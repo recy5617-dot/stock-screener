@@ -60,6 +60,17 @@ CREATE TABLE IF NOT EXISTS big_holder (
     big_holder_pct REAL,
     PRIMARY KEY (date, code)
 );
+
+-- 可當沖標的清單（TWSE TWTB4U，當沖選股用，見 config.ENABLE_DAYTRADE_LIST）
+-- sell_first_suspended=1 代表「暫停現股賣出後現款買進當沖」（不能先賣後買，只能做多）
+CREATE TABLE IF NOT EXISTS daytrade_list (
+    date TEXT NOT NULL,
+    market TEXT NOT NULL,
+    code TEXT NOT NULL,
+    sell_first_suspended INTEGER,
+    daytrade_volume REAL,
+    PRIMARY KEY (date, market, code)
+);
 """
 
 
@@ -217,3 +228,27 @@ def latest_big_holder_date(up_to_date: str):
         )
         row = cur.fetchone()
         return row[0] if row else None
+
+
+def save_daytrade_list(rows):
+    """rows: list of dict with keys date, market, code, sell_first_suspended, daytrade_volume"""
+    if not rows:
+        return
+    with get_conn() as conn:
+        conn.executemany(
+            """INSERT OR REPLACE INTO daytrade_list
+               (date, market, code, sell_first_suspended, daytrade_volume)
+               VALUES (:date,:market,:code,:sell_first_suspended,:daytrade_volume)""",
+            rows,
+        )
+
+
+def get_daytrade_list(market: str, date: str):
+    """回傳 {code: (sell_first_suspended, daytrade_volume)}；當天沒有資料回傳空 dict
+    （呼叫端要把「空」視為「不知道」，而不是「全部都不能當沖」）。"""
+    with get_conn() as conn:
+        cur = conn.execute(
+            "SELECT code, sell_first_suspended, daytrade_volume FROM daytrade_list WHERE market=? AND date=?",
+            (market, date),
+        )
+        return {code: (bool(sfs), vol) for code, sfs, vol in cur.fetchall()}

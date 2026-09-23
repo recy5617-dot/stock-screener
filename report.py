@@ -29,13 +29,7 @@ COND_LABELS = [
     ("cond7_bollinger", "⑦布林"),
 ]
 
-PAGE_TEMPLATE = """<!doctype html>
-<html lang="zh-Hant">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>每日收盤後選股 {date_display}</title>
-<style>
+BASE_CSS = """<style>
   :root {{
     --bg: #f5f6f8;
     --card-bg: #ffffff;
@@ -121,6 +115,16 @@ PAGE_TEMPLATE = """<!doctype html>
     max-width: 900px; margin: 24px auto 40px; padding: 0 16px;
     font-size: 0.78rem; color: var(--muted);
   }}
+  .nav {{ margin-top: 8px; font-size: 0.9rem; }}
+  .nav a {{ color: var(--good); text-decoration: none; font-weight: 600; }}
+  .side-long {{ background: var(--fire-bg); color: var(--fire); }}
+  .side-short {{ background: #ecfdf5; color: #16a34a; }}
+  .levels {{
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px 8px;
+    margin-top: 10px; font-size: 0.8rem; color: var(--muted);
+  }}
+  .levels b {{ color: var(--text); font-weight: 600; }}
+  .stats {{ margin-top: 6px; font-size: 0.8rem; color: var(--muted); }}
   @media (prefers-color-scheme: dark) {{
     :root {{
       --bg: #111318; --card-bg: #1a1d23; --text: #e5e7eb; --muted: #9ca3af;
@@ -128,12 +132,21 @@ PAGE_TEMPLATE = """<!doctype html>
     }}
     .disclaimer {{ background: #2a2210; border-color: #4a3b12; color: #fbbf24; }}
   }}
-</style>
+</style>"""
+
+PAGE_TEMPLATE = """<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>每日收盤後選股 {date_display}</title>
+""" + BASE_CSS + """
 </head>
 <body>
 <header>
   <h1>每日收盤後選股</h1>
   <div class="subtitle">資料日期：{date_display}　｜　模擬掃描 {scanned} 檔，符合門檻(達成≥{min_checklist}項) {matched} 檔</div>
+  <div class="nav"><a href="{daytrade_href}">⚡ 看隔日當沖候選名單 →</a></div>
 </header>
 <div class="disclaimer">
   這份名單是把你自訂的技術面／籌碼面規則機械化跑一遍，用來縮小觀察範圍，<b>不是投資建議</b>，
@@ -207,7 +220,7 @@ def _render_card(r):
 
 
 def render_report_html(results, target_date: str, scanned_count: int, min_checklist: int,
-                        history_dates=None):
+                        history_dates=None, is_index=True):
     """results: 已經是 run_screen() 回傳、且已用 min_checklist 篩過的清單（由高到低排序）。"""
     date_display = f"{target_date[0:4]}-{target_date[4:6]}-{target_date[6:8]}"
 
@@ -219,7 +232,8 @@ def render_report_html(results, target_date: str, scanned_count: int, min_checkl
     history_dates = history_dates or []
     if history_dates:
         links = " ".join(
-            f'<a href="reports/{d}.html">{d[0:4]}-{d[4:6]}-{d[6:8]}</a>' for d in history_dates
+            f'<a href="{"reports/" if is_index else ""}{d}.html">{d[0:4]}-{d[4:6]}-{d[6:8]}</a>'
+            for d in history_dates
         )
     else:
         links = "（目前還沒有歷史紀錄）"
@@ -231,6 +245,7 @@ def render_report_html(results, target_date: str, scanned_count: int, min_checkl
         matched=len(results),
         content=content,
         history_links=links,
+        daytrade_href="daytrade.html" if is_index else f"../daytrade/{target_date}.html",
     )
 
 
@@ -254,9 +269,162 @@ def write_reports(results, target_date: str, scanned_count: int, min_checklist: 
     existing.sort(reverse=True)
     history_dates = existing[:30]
 
-    html_out = render_report_html(results, target_date, scanned_count, min_checklist, history_dates)
-
     with open(os.path.join(docs_dir, "index.html"), "w", encoding="utf-8") as f:
-        f.write(html_out)
+        f.write(render_report_html(results, target_date, scanned_count, min_checklist, history_dates))
     with open(os.path.join(reports_dir, f"{target_date}.html"), "w", encoding="utf-8") as f:
-        f.write(html_out)
+        f.write(render_report_html(results, target_date, scanned_count, min_checklist, history_dates,
+                                   is_index=False))
+
+
+# =====================================================================
+# ⚡ 當沖候選名單頁面（docs/daytrade.html + docs/daytrade/{date}.html）
+# =====================================================================
+
+DT_COND_LABELS = [
+    ("condA_volatility", "A波動"),
+    ("condB_liquidity", "B流動性"),
+    ("condC_volume", "C量能"),
+    ("condD_close", "D收盤"),
+    ("condE_trend", "E順勢"),
+    ("condF_chips", "F法人"),
+]
+
+DT_PAGE_TEMPLATE = """<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>隔日當沖候選 {date_display}</title>
+""" + BASE_CSS + """
+</head>
+<body>
+<header>
+  <h1>⚡ 隔日當沖候選名單</h1>
+  <div class="subtitle">資料日期：{date_display}（給下一個交易日盤前參考）　｜　通過流動性濾網 {scanned} 檔，
+    分數≥{min_score} 列出 {matched} 檔（偏多 {n_long}／偏空 {n_short}）{list_note}</div>
+  <div class="nav"><a href="{swing_href}">← 回波段選股名單</a></div>
+</header>
+<div class="disclaimer">
+  只用<b>日K資料</b>挑「明天值得盯盤」的股票：流動性夠、波動夠、有人氣、方向清楚。看不到盤中分時與開盤跳空，
+  <b>不是進出場建議</b>。參考價位只是讓你盤前先標好關鍵價，實際進場請看開盤後量價，並嚴守停損。
+  當沖失敗要自行負擔價差、手續費與證交稅，也可能因違約交割產生法律責任，請先確認已開通當沖資格與額度。
+</div>
+<main>
+{content}
+</main>
+<div class="history">
+  歷史紀錄：{history_links}
+</div>
+<footer>
+  權重：波動25 ＋ 流動性20 ＋ 量能20 ＋ 收盤強弱15 ＋ 順勢10 ＋ 法人10，漲跌停附近扣分。
+  Pivot=(高+低+收)/3，R1=2P−低，S1=2P−高；參考停損＝ATR×倍數（可在 config.py 調整）。
+</footer>
+</body>
+</html>
+"""
+
+DT_CARD_TEMPLATE = """
+<div class="card">
+  <div class="card-top">
+    <div>
+      <div class="name">{name}</div>
+      <div class="code">{code}　{market}</div>
+    </div>
+    <div class="price">
+      <div class="close">{close:.2f}</div>
+      <div class="{change_class}">{change_sign}{change_pct:.2f}%</div>
+    </div>
+  </div>
+  <span class="badge {side_class}">偏{side}　{score:.1f} 分</span>
+  <div class="conds">{cond_html}</div>
+  <div class="stats">成交 {volume_lots:,} 張／{turnover_e8:.1f} 億　｜　ATR {atr_pct:.1f}%　｜　量比 {vol_ratio:.1f}x{dt_ratio}</div>
+  <div class="levels">
+    <div>今日高 <b>{high:.2f}</b></div><div>Pivot <b>{pivot:.2f}</b></div><div>R1 <b>{r1:.2f}</b></div>
+    <div>今日低 <b>{low:.2f}</b></div><div>ATR <b>{atr:.2f}</b></div><div>S1 <b>{s1:.2f}</b></div>
+  </div>
+  <div class="stats">參考停損距離：約 <b>{stop_dist:.2f}</b> 元（{side_hint}）</div>
+  <div class="notes">{notes}</div>
+</div>
+"""
+
+
+def _render_dt_card(r):
+    change_pct = r["change_pct"]
+    long_side = r["side"] == "多"
+    parts = []
+    for key, label in DT_COND_LABELS:
+        ok = r.get(key)
+        parts.append(f'<span class="{"cond pass" if ok else "cond"}">{label} {"✓" if ok else "✕"}</span>')
+    dt_ratio = f"　｜　當沖率 {r['daytrade_ratio']:.0f}%" if r.get("daytrade_ratio") is not None else ""
+    side_hint = ("站上今日高/R1 再考慮做多，跌破進場價減此距離停損" if long_side
+                 else "跌破今日低/S1 再考慮做空，漲過進場價加此距離停損")
+    return DT_CARD_TEMPLATE.format(
+        name=html_lib.escape(r["name"]),
+        code=html_lib.escape(r["code"]),
+        market=html_lib.escape(r.get("market", "")),
+        close=r["close"],
+        change_class="change-up" if change_pct >= 0 else "change-down",
+        change_sign="+" if change_pct >= 0 else "",
+        change_pct=change_pct,
+        side=r["side"],
+        side_class="side-long" if long_side else "side-short",
+        score=r["score"],
+        cond_html="".join(parts),
+        volume_lots=r["volume_lots"],
+        turnover_e8=r["turnover_e8"],
+        atr_pct=r["atr_pct"],
+        vol_ratio=r["vol_ratio"],
+        dt_ratio=dt_ratio,
+        high=r["high"], low=r["low"], pivot=r["pivot"], r1=r["r1"], s1=r["s1"],
+        atr=r["atr"], stop_dist=r["stop_dist"], side_hint=side_hint,
+        notes=html_lib.escape(r.get("notes", "")) or "（無特別備註）",
+    )
+
+
+def render_daytrade_html(results, target_date: str, scanned_count: int, min_score: float,
+                         list_applied: bool, history_dates=None, is_index=True):
+    date_display = f"{target_date[0:4]}-{target_date[4:6]}-{target_date[6:8]}"
+    if results:
+        content = '<div class="grid">' + "".join(_render_dt_card(r) for r in results) + "</div>"
+    else:
+        content = '<div class="empty">今天沒有股票符合當沖候選門檻。</div>'
+
+    history_dates = history_dates or []
+    if history_dates:
+        prefix = "daytrade/" if is_index else ""
+        links = " ".join(
+            f'<a href="{prefix}{d}.html">{d[0:4]}-{d[4:6]}-{d[6:8]}</a>' for d in history_dates
+        )
+    else:
+        links = "（目前還沒有歷史紀錄）"
+
+    n_long = sum(1 for r in results if r["side"] == "多")
+    return DT_PAGE_TEMPLATE.format(
+        date_display=date_display,
+        scanned=scanned_count,
+        min_score=min_score,
+        matched=len(results),
+        n_long=n_long,
+        n_short=len(results) - n_long,
+        list_note="" if list_applied else "　｜　⚠️本次未取得官方可當沖清單，請自行確認標的可當沖",
+        swing_href="index.html" if is_index else f"../reports/{target_date}.html",
+        content=content,
+        history_links=links,
+    )
+
+
+def write_daytrade_reports(results, target_date: str, scanned_count: int, min_score: float,
+                           list_applied: bool, docs_dir: str):
+    """docs/daytrade.html 永遠是最新一天；docs/daytrade/{date}.html 是當天存檔。"""
+    archive_dir = os.path.join(docs_dir, "daytrade")
+    os.makedirs(archive_dir, exist_ok=True)
+    existing = [fn[:-5] for fn in os.listdir(archive_dir) if fn.endswith(".html")]
+    if target_date not in existing:
+        existing.append(target_date)
+    history_dates = sorted(existing, reverse=True)[:30]
+
+    args = (results, target_date, scanned_count, min_score, list_applied, history_dates)
+    with open(os.path.join(docs_dir, "daytrade.html"), "w", encoding="utf-8") as f:
+        f.write(render_daytrade_html(*args))
+    with open(os.path.join(archive_dir, f"{target_date}.html"), "w", encoding="utf-8") as f:
+        f.write(render_daytrade_html(*args, is_index=False))
