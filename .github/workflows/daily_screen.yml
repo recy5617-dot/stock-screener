@@ -11,6 +11,15 @@ on:
         description: "指定日期 YYYY-MM-DD（留空=用今天，週末/假日想測試時可以填最近的交易日）"
         required: false
         default: ""
+      mode:
+        description: "要跑哪一種選股"
+        required: false
+        type: choice
+        default: "兩種都跑"
+        options:
+          - "兩種都跑"
+          - "只跑當沖"
+          - "只跑波段(原本的選股)"
 
 permissions:
   contents: write   # 需要這個權限，工作完成後才能把結果 commit 回這個 repo
@@ -20,10 +29,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 取出 repo 內容
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: 安裝 Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.11"
 
@@ -31,12 +40,20 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: 執行選股
+        env:
+          INPUT_DATE: ${{ github.event.inputs.date }}
+          INPUT_MODE: ${{ github.event.inputs.mode }}
         run: |
-          if [ -n "${{ github.event.inputs.date }}" ]; then
-            python main.py --date "${{ github.event.inputs.date }}"
-          else
-            python main.py
+          # 排程自動執行時沒有 inputs，INPUT_MODE 是空的 -> 兩種都跑
+          args=()
+          if [ -n "$INPUT_DATE" ]; then
+            args+=(--date "$INPUT_DATE")
           fi
+          case "$INPUT_MODE" in
+            "只跑當沖") args+=(--daytrade-only) ;;
+            "只跑波段(原本的選股)") args+=(--no-daytrade) ;;
+          esac
+          python main.py "${args[@]}"
 
       - name: 把今天的結果存回 repo
         run: |

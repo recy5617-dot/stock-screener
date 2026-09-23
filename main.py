@@ -9,6 +9,11 @@
     python main.py --test-tpex          # 測試 TPEX 端點是否可用（見 fetch_tpex.py 說明）
     python main.py --test-big-holder    # 測試大戶持股比例(TDCC)端點是否可用（見 fetch_big_holder.py 說明）
     python main.py --backfill-only      # 只回補歷史資料，不跑選股（第一次執行建議先這樣跑，會花較久時間）
+    python main.py --daytrade-only      # 只跑「隔日當沖候選名單」，不跑波段選股
+    python main.py --no-daytrade        # 只跑波段選股，不跑當沖名單
+    python main.py --test-daytrade      # 測試官方「可當沖標的清單」(TWTB4U) 端點是否可用
+
+預設兩套都會跑：波段選股（7條件）＋ 隔日當沖候選名單（見 daytrade.py）。
 
 第一次執行會自動回補約 70 個交易日的歷史資料（計算 MA20 / KD / 20日高點需要），
 之後每天只會抓「新的一天」，跑起來會快很多。
@@ -26,7 +31,11 @@ import fetch_tpex
 import fetch_big_holder
 import report
 from screener import run_screen
-from config import MARKETS, OUTPUT_DIR, DOCS_DIR, BACKFILL_TRADING_DAYS, TIER_WATCH_MIN, TOTAL_CONDITIONS, ENABLE_BIG_HOLDER_CHECK
+from daytrade import run_daytrade_screen
+from config import (
+    MARKETS, OUTPUT_DIR, DOCS_DIR, BACKFILL_TRADING_DAYS, TIER_WATCH_MIN, TOTAL_CONDITIONS,
+    ENABLE_BIG_HOLDER_CHECK, ENABLE_DAYTRADE_LIST, DT_MIN_SCORE,
+)
 from tradedays import to_yyyymmdd
 
 
@@ -38,6 +47,11 @@ def parse_args():
     p.add_argument("--backfill-only", action="store_true", help="只回補資料不跑選股")
     p.add_argument("--test-tpex", action="store_true", help="測試 TPEX 端點回應內容")
     p.add_argument("--test-big-holder", action="store_true", help="測試大戶持股比例(TDCC)端點回應內容")
+    p.add_argument("--daytrade-only", action="store_true", help="只跑隔日當沖候選名單")
+    p.add_argument("--no-daytrade", action="store_true", help="不跑隔日當沖候選名單")
+    p.add_argument("--dt-min-score", type=float, default=DT_MIN_SCORE,
+                   help=f"當沖名單最低分數（預設{DT_MIN_SCORE}）")
+    p.add_argument("--test-daytrade", action="store_true", help="測試可當沖標的清單(TWTB4U)端點回應內容")
     return p.parse_args()
 
 
@@ -56,6 +70,10 @@ def main():
         target_dt = datetime.strptime(args.date, "%Y-%m-%d")
     else:
         target_dt = datetime.now()
+
+    if args.test_daytrade:
+        fetch_twse.test_daytrade(to_yyyymmdd(target_dt))
+        return
 
     if target_dt.weekday() >= 5:
         print("⚠️ 指定的日期是週末，台股沒有交易，請改用最近的交易日。")
@@ -76,6 +94,11 @@ def main():
             continue
         print(f"   {market} 新抓取 {n} 個交易日")
 
+    # 控制快取檔大小：GitHub 單檔上限 100MB，超過會整個 push 失敗
+    deleted, size_mb = db.prune(args.backfill_days + 10)
+    if deleted:
+        print(f"-- 快取整理：刪除 {deleted} 筆用不到/過舊的資料，快取檔現在 {size_mb:.1f} MB --")
+
     if ENABLE_BIG_HOLDER_CHECK:
         print("-- 大戶持股比例(TDCC，選用功能) --")
         fetch_big_holder.fetch_and_cache_latest()
@@ -86,12 +109,26 @@ def main():
 
     # 確認目標日期是否真的有資料（可能是假日、或當天資料還沒公告）
     has_data = any(db.list_codes_with_price_on(m, target_date_str) for m in MARKETS)
+    if not has_data and not args.date:
+        # 沒指定日期（例如下午2點半前手動按 Run workflow）：改用快取裡最近一個有收盤資料的交易日
+        latest = db.latest_price_date(target_date_str)
+        if latest:
+            print(f"⚠️ {target_date_str} 還沒有收盤資料（TWSE 通常約14:30後才公告），改用最近的交易日 {latest}")
+            target_date_str = latest
+            has_data = True
     if not has_data:
         print(f"⚠️ {target_date_str} 目前抓不到收盤資料，可能是：")
         print("   1) 當天是假日；2) 當天資料官方還沒公告（TWSE通常約14:30後才有）；3) 網路暫時連不到官網。")
         print("   可以稍後再試，或用 --date 指定確定有交易的日期。")
         sys.exit(1)
 
+    if not args.daytrade_only:
+        run_swing(args, target_date_str)
+    if not args.no_daytrade:
+        run_daytrade(args, target_date_str)
+
+
+def run_swing(args, target_date_str):
     print(f"\n===== 開始選股（{target_date_str}，最低達成 {args.min} / {TOTAL_CONDITIONS} 項）=====")
     results, scanned_count = run_screen(target_date_str, min_checklist=args.min)
     print(f"共掃描 {scanned_count} 檔，符合條件 {len(results)} 檔")
@@ -132,6 +169,43 @@ def main():
 
     report.write_reports(results, target_date_str, scanned_count, args.min, DOCS_DIR)
     print(f"已輸出網頁報表：{os.path.join(DOCS_DIR, 'index.html')}")
+
+
+def run_daytrade(args, target_date_str):
+    if ENABLE_DAYTRADE_LIST and "TWSE" in MARKETS:
+        fetch_twse.fetch_and_cache_daytrade(target_date_str)
+
+    print(f"\n===== 隔日當沖候選名單（{target_date_str}，分數 >= {args.dt_min_score}）=====")
+    results, scanned_count, list_applied = run_daytrade_screen(target_date_str, min_score=args.dt_min_score)
+    print(f"通過流動性濾網 {scanned_count} 檔，列出 {len(results)} 檔"
+          + ("" if list_applied else "（未取得官方可當沖清單，未套用該濾網）"))
+
+    if results:
+        print(f"\n{'方向':<4}{'代號':<8}{'名稱':<10}{'收盤':>8}{'漲跌%':>8}{'ATR%':>7}{'量比':>6}{'成交億':>8}"
+              f"{'分數':>7}  {'今日高':>8}{'今日低':>8}{'R1':>8}{'S1':>8}  備註")
+        print("-" * 150)
+        for r in results:
+            print(f"{r['side']:<4}{r['code']:<8}{r['name']:<10}{r['close']:>8.2f}{r['change_pct']:>7.2f}%"
+                  f"{r['atr_pct']:>7.2f}{r['vol_ratio']:>6.1f}{r['turnover_e8']:>8.1f}{r['score']:>7.1f}  "
+                  f"{r['high']:>8.2f}{r['low']:>8.2f}{r['r1']:>8.2f}{r['s1']:>8.2f}  {r['notes']}")
+
+    out_path = os.path.join(OUTPUT_DIR, f"daytrade_{target_date_str}.csv")
+    fieldnames = [
+        "market", "code", "name", "date", "side", "close", "change_pct",
+        "volume_lots", "turnover_e8", "atr_pct", "vol_ratio", "close_pos", "daytrade_ratio",
+        "condA_volatility", "condB_liquidity", "condC_volume", "condD_close", "condE_trend", "condF_chips",
+        "checklist_count", "score", "high", "low", "pivot", "r1", "s1", "atr", "stop_dist", "notes",
+    ]
+    with open(out_path, "w", newline="", encoding="utf-8-sig") as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+        for r in results:
+            writer.writerow(r)
+    print(f"\n已輸出當沖 CSV：{out_path}")
+
+    report.write_daytrade_reports(results, target_date_str, scanned_count, args.dt_min_score,
+                                  list_applied, DOCS_DIR)
+    print(f"已輸出當沖網頁報表：{os.path.join(DOCS_DIR, 'daytrade.html')}")
 
 
 if __name__ == "__main__":

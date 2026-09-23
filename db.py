@@ -60,6 +60,17 @@ CREATE TABLE IF NOT EXISTS big_holder (
     big_holder_pct REAL,
     PRIMARY KEY (date, code)
 );
+
+-- 可當沖標的清單（TWSE TWTB4U，當沖選股用，見 config.ENABLE_DAYTRADE_LIST）
+-- sell_first_suspended=1 代表「暫停現股賣出後現款買進當沖」（不能先賣後買，只能做多）
+CREATE TABLE IF NOT EXISTS daytrade_list (
+    date TEXT NOT NULL,
+    market TEXT NOT NULL,
+    code TEXT NOT NULL,
+    sell_first_suspended INTEGER,
+    daytrade_volume REAL,
+    PRIMARY KEY (date, market, code)
+);
 """
 
 
@@ -89,6 +100,49 @@ def already_fetched(market: str, dataset: str, date: str) -> bool:
         )
         row = cur.fetchone()
         return row is not None
+
+
+def fetch_status(market: str, dataset: str, date: str):
+    """回傳 fetch_log 裡的狀態字串（OK / EMPTY），沒抓過回傳 None。"""
+    with get_conn() as conn:
+        row = conn.execute(
+            "SELECT status FROM fetch_log WHERE date=? AND market=? AND dataset=?",
+            (date, market, dataset),
+        ).fetchone()
+        return row[0] if row else None
+
+
+def prune(keep_trading_days: int):
+    """控制快取檔大小（GitHub 單檔上限 100MB）：
+    1) 刪掉沒有收盤價的法人/融資資料（權證等，選股用不到）
+    2) 只保留最近 keep_trading_days 個交易日，更舊的刪掉
+    3) VACUUM 把空間真的還回來（SQLite 刪資料不會自動縮檔）
+    回傳 (刪除筆數, 整理後檔案大小MB)。"""
+    import os
+    deleted = 0
+    with get_conn() as conn:
+        for table in ("institutional", "margin"):
+            cur = conn.execute(
+                f"""DELETE FROM {table} WHERE NOT EXISTS (
+                        SELECT 1 FROM prices p
+                        WHERE p.date={table}.date AND p.market={table}.market AND p.code={table}.code)"""
+            )
+            deleted += cur.rowcount
+        row = conn.execute(
+            "SELECT date FROM (SELECT DISTINCT date FROM prices ORDER BY date DESC LIMIT ?) ORDER BY date LIMIT 1",
+            (keep_trading_days,),
+        ).fetchone()
+        if row:
+            cutoff = row[0]
+            for table in ("prices", "institutional", "margin", "daytrade_list"):
+                deleted += conn.execute(f"DELETE FROM {table} WHERE date < ?", (cutoff,)).rowcount
+    if deleted:
+        conn = sqlite3.connect(DB_PATH)
+        try:
+            conn.execute("VACUUM")
+        finally:
+            conn.close()
+    return deleted, os.path.getsize(DB_PATH) / 1024 / 1024
 
 
 def mark_fetched(market: str, dataset: str, date: str, status: str):
@@ -175,6 +229,13 @@ def get_margin_history(market: str, code: str, up_to_date: str, limit_days: int)
     return rows
 
 
+def latest_price_date(up_to_date: str):
+    """快取裡 <= up_to_date 的最近一個有收盤價的日期，沒有回傳 None。"""
+    with get_conn() as conn:
+        row = conn.execute("SELECT MAX(date) FROM prices WHERE date<=?", (up_to_date,)).fetchone()
+        return row[0] if row else None
+
+
 def list_codes_with_price_on(market: str, date: str):
     with get_conn() as conn:
         cur = conn.execute(
@@ -217,3 +278,27 @@ def latest_big_holder_date(up_to_date: str):
         )
         row = cur.fetchone()
         return row[0] if row else None
+
+
+def save_daytrade_list(rows):
+    """rows: list of dict with keys date, market, code, sell_first_suspended, daytrade_volume"""
+    if not rows:
+        return
+    with get_conn() as conn:
+        conn.executemany(
+            """INSERT OR REPLACE INTO daytrade_list
+               (date, market, code, sell_first_suspended, daytrade_volume)
+               VALUES (:date,:market,:code,:sell_first_suspended,:daytrade_volume)""",
+            rows,
+        )
+
+
+def get_daytrade_list(market: str, date: str):
+    """回傳 {code: (sell_first_suspended, daytrade_volume)}；當天沒有資料回傳空 dict
+    （呼叫端要把「空」視為「不知道」，而不是「全部都不能當沖」）。"""
+    with get_conn() as conn:
+        cur = conn.execute(
+            "SELECT code, sell_first_suspended, daytrade_volume FROM daytrade_list WHERE market=? AND date=?",
+            (market, date),
+        )
+        return {code: (bool(sfs), vol) for code, sfs, vol in cur.fetchall()}
