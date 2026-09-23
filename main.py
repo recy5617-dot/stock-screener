@@ -94,6 +94,11 @@ def main():
             continue
         print(f"   {market} 新抓取 {n} 個交易日")
 
+    # 控制快取檔大小：GitHub 單檔上限 100MB，超過會整個 push 失敗
+    deleted, size_mb = db.prune(args.backfill_days + 10)
+    if deleted:
+        print(f"-- 快取整理：刪除 {deleted} 筆用不到/過舊的資料，快取檔現在 {size_mb:.1f} MB --")
+
     if ENABLE_BIG_HOLDER_CHECK:
         print("-- 大戶持股比例(TDCC，選用功能) --")
         fetch_big_holder.fetch_and_cache_latest()
@@ -104,6 +109,13 @@ def main():
 
     # 確認目標日期是否真的有資料（可能是假日、或當天資料還沒公告）
     has_data = any(db.list_codes_with_price_on(m, target_date_str) for m in MARKETS)
+    if not has_data and not args.date:
+        # 沒指定日期（例如下午2點半前手動按 Run workflow）：改用快取裡最近一個有收盤資料的交易日
+        latest = db.latest_price_date(target_date_str)
+        if latest:
+            print(f"⚠️ {target_date_str} 還沒有收盤資料（TWSE 通常約14:30後才公告），改用最近的交易日 {latest}")
+            target_date_str = latest
+            has_data = True
     if not has_data:
         print(f"⚠️ {target_date_str} 目前抓不到收盤資料，可能是：")
         print("   1) 當天是假日；2) 當天資料官方還沒公告（TWSE通常約14:30後才有）；3) 網路暫時連不到官網。")

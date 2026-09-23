@@ -108,8 +108,17 @@ def _fetch_margin(date_str: str):
     data = get_json(MI_MARGN_URL, {"date": date_str, "selectType": "ALL", "response": "json"})
     if not data or data.get("stat") != "OK":
         return []
+    # 舊格式個股資料放在最外層 data；新版 rwd 接口改放在 tables 裡（第一張是「信用交易統計」總表，
+    # 個股明細是欄位含「代號」的那張）。兩種都支援，欄位順序相同：代號,名稱,融資買進,融資賣出,現金償還,前日餘額,今日餘額...
+    detail = data.get("data") or []
+    if not detail:
+        for t in data.get("tables") or []:
+            fields = t.get("fields") or []
+            if fields and "代號" in fields[0] and len(fields) >= 7:
+                detail = t.get("data") or []
+                break
     rows = []
-    for row in data.get("data", []):
+    for row in detail:
         try:
             code = row[0].strip()
             rows.append({
@@ -221,17 +230,25 @@ def fetch_and_cache_range(end_date: datetime, n_days: int = BACKFILL_TRADING_DAY
                 fetched_trading_days += 1
                 print(f"  [TWSE] {date_str} 收盤價 {len(rows)} 檔")
 
+        # 只保留當天有收盤價的股票：T86 另外含一萬多檔權證，選股用不到，卻會讓快取檔爆掉 GitHub 100MB 上限
+        stock_codes = {c for c, _ in db.list_codes_with_price_on(MARKET, date_str)}
+
         if not db.already_fetched(MARKET, "institutional", date_str):
             rows = _fetch_institutional(date_str)
+            if stock_codes:
+                rows = [r for r in rows if r["code"] in stock_codes]
             status = "OK" if rows else "EMPTY"
             db.save_institutional(rows)
             db.mark_fetched(MARKET, "institutional", date_str, status)
             if rows:
                 print(f"  [TWSE] {date_str} 三大法人 {len(rows)} 檔")
 
-        if not db.already_fetched(MARKET, "margin", date_str):
+        # 融資：早期解析格式不符，交易日也被記成 EMPTY，這裡讓「有收盤價卻沒融資」的日子重抓一次；
+        # 重抓還是空的就記成 NODATA，之後不再重試，避免每天白打幾十次請求
+        margin_status = db.fetch_status(MARKET, "margin", date_str)
+        if margin_status is None or (margin_status == "EMPTY" and stock_codes):
             rows = _fetch_margin(date_str)
-            status = "OK" if rows else "EMPTY"
+            status = "OK" if rows else ("EMPTY" if margin_status is None else "NODATA")
             db.save_margin(rows)
             db.mark_fetched(MARKET, "margin", date_str, status)
             if rows:

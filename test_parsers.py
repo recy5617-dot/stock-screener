@@ -96,4 +96,19 @@ assert m2330["margin_balance"] == 10115
 assert m2330["margin_buy"] == 631
 assert m2330["margin_sell"] == 119
 
+# 新版 rwd 接口：融資個股明細改放在 tables 裡（第一張是總表），也要能解析
+MI_MARGN_TABLES_SAMPLE = {
+    "stat": "OK", "date": "20260825",
+    "tables": [
+        {"title": "信用交易統計", "fields": ["項目", "買進", "賣出", "現金(券)償還", "前日餘額", "今日餘額"],
+         "data": [["融資(交易單位)", "1", "1", "1", "1", "1"]]},
+        {"title": "融資融券彙總",
+         "fields": ["代號", "名稱", "買進", "賣出", "現金償還", "前日餘額", "今日餘額", "次一營業日限額"],
+         "data": [["2330", "台積電", "631", "119", "0", "9,603", "10,115", "494,535"]]},
+    ],
+}
+with patch("fetch_twse.get_json", return_value=MI_MARGN_TABLES_SAMPLE):
+    margin_t = fetch_twse._fetch_margin("20260825")
+assert len(margin_t) == 1 and margin_t[0]["margin_balance"] == 10115 and margin_t[0]["margin_buy"] == 631
+
 print("\n✅ 解析邏輯全部正確：欄位對應、千分位逗號、紅漲綠跌正負號都沒問題。")
