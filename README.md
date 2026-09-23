@@ -127,6 +127,20 @@ python test_daytrade.py             # 當沖邏輯自我測試（不需網路）
 
 ---
 
+## ⭐ 我的關注（自設選單）
+
+網頁報表上方有「⭐ 我的關注」連結（`docs/watchlist.html`）：
+
+- 波段、當沖名單的每張卡片右下角都有「☆ 關注」，點開勾選要加進哪個選單（可以同時加進好幾個）。
+- 自設選單**最多 5 個**，可以「✏️ 改名」、「＋ 新增選單」、「🗑 刪除選單」（至少保留 1 個）。
+- 關注頁也能直接輸入股票代號加入（不在今天名單上的股票也可以）。
+- 每檔會顯示最新收盤、漲跌，以及今天有沒有進波段／當沖名單、分數多少（每天收盤後自動更新）。
+
+> 選單存在**瀏覽器**裡（GitHub Pages 是靜態網頁，沒有伺服器可以存），手機跟電腦、不同瀏覽器各自一份，
+> 清除瀏覽器資料會一起清掉。換裝置或備份請用關注頁最下面的「匯出選單／匯入選單」。
+
+---
+
 ## 在自己的電腦上跑（測試或不想用 GitHub Actions 時）
 
 ## 安裝
@@ -230,11 +244,13 @@ fetch_big_holder.py 大戶持股比例抓取（選用功能，預設關閉，見
 indicators.py      MA20 / KD(9,3,3) / 均量 / 前高 / MACD / RSI / 布林通道 計算
 screener.py         7條件判斷 + 加權評分（核心邏輯都在這）
 daytrade.py         隔日當沖候選名單（ATR波動/流動性/量能/收盤強弱/順勢/法人 + 參考價位）
-report.py           產生手機看的網頁報表（docs/index.html）
+report.py           產生手機看的網頁報表（docs/index.html、daytrade.html、watchlist.html）
+docs/watchlist.js  「我的關注」自設選單的網頁程式（選單存在瀏覽器 localStorage）
 main.py             主程式 / CLI 入口
 test_parsers.py     用真實API格式驗證資料解析
 test_synthetic.py   用合成資料驗證選股計分邏輯
 test_daytrade.py    用合成資料驗證當沖選股邏輯與可當沖清單解析
+test_watchlist.py   驗證「我的關注」頁的內嵌資料
 cache/             本地資料快取（GitHub Actions會自動commit回來，加速下次執行）
 output/            每天的選股結果 CSV
 docs/              網頁報表（搭配 GitHub Pages 用，見上面「開啟網頁報表」）

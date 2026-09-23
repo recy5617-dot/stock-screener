@@ -236,6 +236,15 @@ def latest_price_date(up_to_date: str):
         return row[0] if row else None
 
 
+def get_day_prices(market: str, date: str):
+    """某天所有股票的 (code, name, close, change)，給關注頁顯示最新價用。"""
+    with get_conn() as conn:
+        return conn.execute(
+            "SELECT code, name, close, change FROM prices WHERE market=? AND date=? ORDER BY code",
+            (market, date),
+        ).fetchall()
+
+
 def list_codes_with_price_on(market: str, date: str):
     with get_conn() as conn:
         cur = conn.execute(
