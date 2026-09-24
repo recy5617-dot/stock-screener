@@ -1,0 +1,832 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>隔日當沖候選 2026-09-24</title>
+<style>
+  :root {
+    --bg: #f5f6f8;
+    --card-bg: #ffffff;
+    --text: #1a1d23;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --fire: #dc2626;
+    --fire-bg: #fef2f2;
+    --good: #2563eb;
+    --good-bg: #eff6ff;
+    --watch: #6b7280;
+    --watch-bg: #f3f4f6;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", sans-serif;
+    line-height: 1.5;
+  }
+  header {
+    padding: 20px 16px 12px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  h1 { font-size: 1.3rem; margin: 0 0 4px; }
+  .subtitle { color: var(--muted); font-size: 0.9rem; }
+  .disclaimer {
+    max-width: 900px; margin: 0 auto 16px; padding: 10px 16px;
+    background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px;
+    font-size: 0.82rem; color: #92400e;
+  }
+  main { max-width: 900px; margin: 0 auto; padding: 0 16px 40px; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 12px;
+  }
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  }
+  .card-top {
+    display: flex; justify-content: space-between; align-items: flex-start; gap: 8px;
+  }
+  .name { font-weight: 600; font-size: 1.02rem; }
+  .code { color: var(--muted); font-size: 0.85rem; }
+  .price { text-align: right; }
+  .close { font-weight: 600; font-size: 1.05rem; }
+  .change-up { color: var(--fire); font-size: 0.85rem; }
+  .change-down { color: #16a34a; font-size: 0.85rem; }
+  .badge {
+    display: inline-block; padding: 2px 10px; border-radius: 999px;
+    font-size: 0.78rem; font-weight: 600; margin-top: 8px;
+  }
+  .tier-fire { background: var(--fire-bg); color: var(--fire); }
+  .tier-good { background: var(--good-bg); color: var(--good); }
+  .tier-watch { background: var(--watch-bg); color: var(--watch); }
+  .conds {
+    display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap;
+  }
+  .cond {
+    font-size: 0.76rem; padding: 3px 7px; border-radius: 6px;
+    background: var(--watch-bg); color: var(--muted);
+  }
+  .cond.pass { background: #ecfdf5; color: #059669; }
+  .score { font-size: 0.8rem; color: var(--muted); margin-top: 8px; }
+  .score b { color: var(--text); }
+  .notes { margin-top: 8px; font-size: 0.82rem; color: var(--text); }
+  .empty {
+    text-align: center; color: var(--muted); padding: 40px 16px;
+  }
+  .history {
+    max-width: 900px; margin: 24px auto 0; padding: 0 16px;
+    font-size: 0.85rem; color: var(--muted);
+  }
+  .history a { color: var(--good); text-decoration: none; margin-right: 10px; }
+  footer {
+    max-width: 900px; margin: 24px auto 40px; padding: 0 16px;
+    font-size: 0.78rem; color: var(--muted);
+  }
+  .nav { margin-top: 8px; font-size: 0.9rem; }
+  .nav a { color: var(--good); text-decoration: none; font-weight: 600; }
+  .side-long { background: var(--fire-bg); color: var(--fire); }
+  .side-short { background: #ecfdf5; color: #16a34a; }
+  .levels {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px 8px;
+    margin-top: 10px; font-size: 0.8rem; color: var(--muted);
+  }
+  .levels b { color: var(--text); font-weight: 600; }
+  .stats { margin-top: 6px; font-size: 0.8rem; color: var(--muted); }
+  .card { position: relative; }
+  .wl-wrap { position: relative; display: flex; justify-content: flex-end; margin-top: 10px; }
+  .wl-btn, .wl-small, .wl-tab {
+    font: inherit; font-size: 0.8rem; cursor: pointer; border-radius: 999px;
+    border: 1px solid var(--border); background: var(--card-bg); color: var(--text); padding: 4px 12px;
+  }
+  .wl-btn.wl-on { color: #b45309; border-color: #f59e0b; background: #fffbeb; }
+  .wl-small:disabled, .wl-tab:disabled { opacity: 0.45; cursor: not-allowed; }
+  .wl-danger { color: var(--fire); }
+  .wl-menu {
+    position: absolute; right: 0; top: 100%; margin-top: 4px; z-index: 10; min-width: 200px;
+    background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15); padding: 6px;
+  }
+  .wl-menu-title { font-size: 0.75rem; color: var(--muted); padding: 4px 8px; }
+  .wl-menu-item {
+    display: block; width: 100%; text-align: left; font: inherit; font-size: 0.88rem;
+    background: none; border: 0; color: var(--text); padding: 8px; border-radius: 6px; cursor: pointer;
+  }
+  .wl-menu-item:hover { background: var(--watch-bg); }
+  .wl-menu-link { display: block; font-size: 0.8rem; padding: 6px 8px; color: var(--good); text-decoration: none; }
+  .wl-tabs { display: flex; flex-wrap: wrap; gap: 6px; }
+  .wl-tab.active { background: var(--good); border-color: var(--good); color: #fff; font-weight: 600; }
+  .wl-tab-add { border-style: dashed; color: var(--good); }
+  .wl-hint { font-size: 0.78rem; color: var(--muted); margin: 6px 0; min-height: 1em; }
+  .wl-bar { display: flex; gap: 8px; margin: 10px 0; }
+  .wl-add { display: flex; gap: 8px; margin-top: 6px; }
+  .wl-add input, .wl-io-box {
+    flex: 1; min-width: 0; font: inherit; font-size: 0.9rem; padding: 6px 10px;
+    border: 1px solid var(--border); border-radius: 8px; background: var(--card-bg); color: var(--text);
+  }
+  .wl-io-box { display: block; width: 100%; margin-top: 8px; font-size: 0.75rem; }
+  .wl-io { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .wl-remove { margin-top: 10px; }
+  [hidden] { display: none !important; }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #111318; --card-bg: #1a1d23; --text: #e5e7eb; --muted: #9ca3af;
+      --border: #2b2f38; --fire-bg: #3a1a1a; --good-bg: #16233d; --watch-bg: #23262e;
+    }
+    .disclaimer { background: #2a2210; border-color: #4a3b12; color: #fbbf24; }
+    .wl-btn.wl-on { background: #2a2210; border-color: #b45309; color: #fbbf24; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>⚡ 隔日當沖候選名單</h1>
+  <div class="subtitle">資料日期：2026-09-24（給下一個交易日盤前參考）　｜　通過流動性濾網 124 檔，
+    分數≥60 列出 30 檔（偏多 30／偏空 0）　｜　⚠️本次未取得官方可當沖清單，請自行確認標的可當沖</div>
+  <div class="nav"><a href="../reports/20260924.html">← 回波段選股名單</a>　<a href="../watchlist.html">⭐ 我的關注</a></div>
+</header>
+<div class="disclaimer">
+  只用<b>日K資料</b>挑「明天值得盯盤」的股票：流動性夠、波動夠、有人氣、方向清楚。看不到盤中分時與開盤跳空，
+  <b>不是進出場建議</b>。參考價位只是讓你盤前先標好關鍵價，實際進場請看開盤後量價，並嚴守停損。
+  當沖失敗要自行負擔價差、手續費與證交稅，也可能因違約交割產生法律責任，請先確認已開通當沖資格與額度。
+</div>
+<main>
+<div class="grid">
+<div class="card" data-code="3042">
+  <div class="card-top">
+    <div>
+      <div class="name">晶技</div>
+      <div class="code">3042　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">203.00</div>
+      <div class="change-up">+2.53%</div>
+    </div>
+  </div>
+  <span class="badge side-long">偏多　93.2 分</span>
+  <div class="conds"><span class="cond pass">A波動 ✓</span><span class="cond pass">B流動性 ✓</span><span class="cond pass">C量能 ✓</span><span class="cond">D收盤 ✕</span><span class="cond pass">E順勢 ✓</span><span class="cond pass">F法人 ✓</span></div>
+  <div class="stats">成交 41,859 張／85.0 億　｜　ATR 5.8%　｜　量比 3.1x</div>
+  <div class="levels">
+    <div>今日高 <b>212.00</b></div><div>Pivot <b>201.33</b></div><div>R1 <b>213.67</b></div>
+    <div>今日低 <b>189.00</b></div><div>ATR <b>11.82</b></div><div>S1 <b>190.67</b></div>
+  </div>
+  <div class="stats">參考停損距離：約 <b>5.91</b> 元（站上今日高/R1 再考慮做多，跌破進場價減此距離停損）</div>
+  <div class="notes">量能放大3.1倍；突破近20日高點；法人同步買超</div>
+</div>
+
+<div class="card" data-code="6672">
+  <div class="card-top">
+    <div>
+      <div class="name">騰輝電子-KY</div>
+      <div class="code">6672　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">337.50</div>
+      <div class="change-up">+9.93%</div>
+    </div>
+  </div>
+  <span class="badge side-long">偏多　90.0 分</span>
+  <div class="conds"><span class="cond pass">A波動 ✓</span><span class="cond pass">B流動性 ✓</span><span class="cond pass">C量能 ✓</span><span class="cond pass">D收盤 ✓</span><span class="cond pass">E順勢 ✓</span><span class="cond pass">F法人 ✓</span></div>
+  <div class="stats">成交 15,310 張／51.7 億　｜　ATR 5.2%　｜　量比 2.6x</div>
+  <div class="levels">
+    <div>今日高 <b>337.50</b></div><div>Pivot <b>330.00</b></div><div>R1 <b>345.00</b></div>
+    <div>今日低 <b>315.00</b></div><div>ATR <b>17.54</b></div><div>S1 <b>322.50</b></div>
+  </div>
+  <div class="stats">參考停損距離：約 <b>8.77</b> 元（站上今日高/R1 再考慮做多，跌破進場價減此距離停損）</div>
+  <div class="notes">量能放大2.6倍；收在最高附近，尾盤強；突破近20日高點；法人同步買超；⚠️收漲停附近，明天容易跳空開高，追價風險大</div>
+</div>
+
+<div class="card" data-code="1708">
+  <div class="card-top">
+    <div>
+      <div class="name">東鹼</div>
+      <div class="code">1708　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">52.30</div>
+      <div class="change-up">+4.39%</div>
+    </div>
+  </div>
+  <span class="badge side-long">偏多　89.3 分</span>
+  <div class="conds"><span class="cond pass">A波動 ✓</span><span class="cond pass">B流動性 ✓</span><span class="cond pass">C量能 ✓</span><span class="cond pass">D收盤 ✓</span><span class="cond pass">E順勢 ✓</span><span class="cond pass">F法人 ✓</span></div>
+  <div class="stats">成交 7,343 張／3.8 億　｜　ATR 2.9%　｜　量比 3.5x</div>
+  <div class="levels">
+    <div>今日高 <b>53.10</b></div><div>Pivot <b>51.83</b></div><div>R1 <b>53.57</b></div>
+    <div>今日低 <b>50.10</b></div><div>ATR <b>1.50</b></div><div>S1 <b>50.57</b></div>
+  </div>
+  <div class="stats">參考停損距離：約 <b>0.75</b> 元（站上今日高/R1 再考慮做多，跌破進場價減此距離停損）</div>
+  <div class="notes">量能放大3.4倍；收在最高附近，尾盤強；均線多頭排列；法人同步買超</div>
+</div>
+
+<div class="card" data-code="3167">
+  <div class="card-top">
+    <div>
+      <div class="name">大量</div>
+      <div class="code">3167　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">949.00</div>
+      <div class="change-up">+6.63%</div>
+    </div>
+  </div>
+  <span class="badge side-long">偏多　87.6 分</span>
+  <div class="conds"><span class="cond pass">A波動 ✓</span><span class="cond pass">B流動性 ✓</span><span class="cond pass">C量能 ✓</span><span class="cond pass">D收盤 ✓</span><span class="cond pass">E順勢 ✓</span><span class="cond pass">F法人 ✓</span></div>
+  <div class="stats">成交 8,379 張／79.5 億　｜　ATR 6.1%　｜　量比 1.6x</div>
+  <div class="levels">
+    <div>今日高 <b>968.00</b></div><div>Pivot <b>929.33</b></div><div>R1 <b>987.67</b></div>
+    <div>今日低 <b>871.00</b></div><div>ATR <b>58.17</b></div><div>S1 <b>890.67</b></div>
+  </div>
+  <div class="stats">參考停損距離：約 <b>29.09</b> 元（站上今日高/R1 再考慮做多，跌破進場價減此距離停損）</div>
+  <div class="notes">量能放大1.6倍；收在最高附近，尾盤強；均線多頭排列；法人同步買超</div>
+</div>
+
+<div class="card" data-code="3016">
+  <div class="card-top">
+    <div>
+      <div class="name">嘉晶</div>
+      <div class="code">3016　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">160.00</div>
+      <div class="change-up">+9.97%</div>
+    </div>
+  </div>
+  <span class="badge side-long">偏多　86.4 分</span>
+  <div class="conds"><span class="cond pass">A波動 ✓</span><span class="cond pass">B流動性 ✓</span><span class="cond pass">C量能 ✓</span><span class="cond pass">D收盤 ✓</span><span class="cond pass">E順勢 ✓</span><span class="cond pass">F法人 ✓</span></div>
+  <div class="stats">成交 49,084 張／78.5 億　｜　ATR 5.4%　｜　量比 2.2x</div>
+  <div class="levels">
+    <div>今日高 <b>160.00</b></div><div>Pivot <b>155.67</b></div><div>R1 <b>164.33</b></div>
+    <div>今日低 <b>147.00</b></div><div>ATR <b>8.65</b></div><div>S1 <b>151.33</b></div>
+  </div>
+  <div class="stats">參考停損距離：約 <b>4.32</b> 元（站上今日高/R1 再考慮做多，跌破進場價減此距離停損）</div>
+  <div class="notes">量能放大2.2倍；收在最高附近，尾盤強；突破近20日高點；法人同步買超；⚠️收漲停附近，明天容易跳空開高，追價風險大</div>
+</div>
+
+<div class="card" data-code="3026">
+  <div class="card-top">
+    <div>
+      <div class="name">禾伸堂</div>
+      <div class="code">3026　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">810.00</div>
+      <div class="change-up">+5.47%</div>
+    </div>
+  </div>
+  <span class="badge side-long">偏多　84.0 分</span>
+  <div class="conds"><span class="cond pass">A波動 ✓</span><span class="cond pass">B流動性 ✓</span><span class="cond">C量能 ✕</span><span class="cond pass">D收盤 ✓</span><span class="cond pass">E順勢 ✓</span><span class="cond pass">F法人 ✓</span></div>
+  <div class="stats">成交 13,190 張／106.8 億　｜　ATR 7.2%　｜　量比 1.3x</div>
+  <div class="levels">
+    <div>今日高 <b>820.00</b></div><div>Pivot <b>798.33</b></div><div>R1 <b>831.67</b></div>
+    <div>今日低 <b>765.00</b></div><div>ATR <b>58.30</b></div><div>S1 <b>776.67</b></div>
+  </div>
+  <div class="stats">參考停損距離：約 <b>29.15</b> 元（站上今日高/R1 再考慮做多，跌破進場價減此距離停損）</div>
+  <div class="notes">收在最高附近，尾盤強；均線多頭排列；法人同步買超</div>
+</div>
+
+<div class="card" data-code="6533">
+  <div class="card-top">
+    <div>
+      <div class="name">晶心科</div>
+      <div class="code">6533　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">276.00</div>
+      <div class="change-up">+9.96%</div>
+    </div>
+  </div>
+  <span class="badge side-long">偏多　83.8 分</span>
+  <div class="conds"><span class="cond pass">A波動 ✓</span><span class="cond pass">B流動性 ✓</span><span class="cond pass">C量能 ✓</span><span class="cond pass">D收盤 ✓</span><span class="cond pass">E順勢 ✓</span><span class="cond pass">F法人 ✓</span></div>
+  <div class="stats">成交 6,688 張／18.5 億　｜　ATR 5.2%　｜　量比 2.2x</div>
+  <div class="levels">
+    <div>今日高 <b>276.00</b></div><div>Pivot <b>267.33</b></div><div>R1 <b>284.67</b></div>
+    <div>今日低 <b>250.00</b></div><div>ATR <b>14.25</b></div><div>S1 <b>258.67</b></div>
+  </div>
+  <div class="stats">參考停損距離：約 <b>7.13</b> 元（站上今日高/R1 再考慮做多，跌破進場價減此距離停損）</div>
+  <div class="notes">量能放大2.2倍；收在最高附近，尾盤強；均線多頭排列；法人同步買超；⚠️收漲停附近，明天容易跳空開高，追價風險大</div>
+</div>
+
+<div class="card" data-code="6139">
+  <div class="card-top">
+    <div>
+      <div class="name">亞翔</div>
+      <div class="code">6139　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">753.00</div>
+      <div class="change-up">+2.31%</div>
+    </div>
+  </div>
+  <span class="badge side-long">偏多　82.3 分</span>
+  <div class="conds"><span class="cond pass">A波動 ✓</span><span class="cond pass">B流動性 ✓</span><span class="cond">C量能 ✕</span><span class="cond pass">D收盤 ✓</span><span class="cond pass">E順勢 ✓</span><span class="cond pass">F法人 ✓</span></div>
+  <div class="stats">成交 3,399 張／25.6 億　｜　ATR 4.0%　｜　量比 1.2x</div>
+  <div class="levels">
+    <div>今日高 <b>755.00</b></div><div>Pivot <b>744.33</b></div><div>R1 <b>763.67</b></div>
+    <div>今日低 <b>725.00</b></div><div>ATR <b>30.02</b></div><div>S1 <b>733.67</b></div>
+  </div>
+  <div class="stats">參考停損距離：約 <b>15.01</b> 元（站上今日高/R1 再考慮做多，跌破進場價減此距離停損）</div>
+  <div class="notes">收在最高附近，尾盤強；均線多頭排列；法人同步買超</div>
+</div>
+
+<div class="card" data-code="6531">
+  <div class="card-top">
+    <div>
+      <div class="name">愛普*</div>
+      <div class="code">6531　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">993.00</div>
+      <div class="change-up">+0.61%</div>
+    </div>
+  </div>
+  <span class="badge side-long">偏多　82.0 分</span>
+  <div class="conds"><span class="cond pass">A波動 ✓</span><span class="cond pass">B流動性 ✓</span><span class="cond">C量能 ✕</span><span class="cond pass">D收盤 ✓</span><span class="cond pass">E順勢 ✓</span><span class="cond pass">F法人 ✓</span></div>
+  <div class="stats">成交 3,109 張／30.9 億　｜　ATR 5.9%　｜　量比 1.1x</div>
+  <div class="levels">
+    <div>今日高 <b>1005.00</b></div><div>Pivot <b>983.00</b></div><div>R1 <b>1015.00</b></div>
+    <div>今日低 <b>951.00</b></div><div>ATR <b>58.80</b></div><div>S1 <b>961.00</b></div>
+  </div>
+  <div class="stats">參考停損距離：約 <b>29.40</b> 元（站上今日高/R1 再考慮做多，跌破進場價減此距離停損）</div>
+  <div class="notes">收在最高附近，尾盤強；均線多頭排列；法人同步買超</div>
+</div>
+
+<div class="card" data-code="6285">
+  <div class="card-top">
+    <div>
+      <div class="name">啟碁</div>
+      <div class="code">6285　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">238.00</div>
+      <div class="change-up">+3.48%</div>
+    </div>
+  </div>
+  <span class="badge side-long">偏多　81.9 分</span>
+  <div class="conds"><span class="cond pass">A波動 ✓</span><span class="cond pass">B流動性 ✓</span><span class="cond">C量能 ✕</span><span class="cond pass">D收盤 ✓</span><span class="cond pass">E順勢 ✓</span><span class="cond pass">F法人 ✓</span></div>
+  <div class="stats">成交 5,064 張／12.1 億　｜　ATR 3.8%　｜　量比 1.5x</div>
+  <div class="levels">
+    <div>今日高 <b>240.50</b></div><div>Pivot <b>235.83</b></div><div>R1 <b>242.67</b></div>
+    <div>今日低 <b>229.00</b></div><div>ATR <b>9.11</b></div><div>S1 <b>231.17</b></div>
+  </div>
+  <div class="stats">參考停損距離：約 <b>4.55</b> 元（站上今日高/R1 再考慮做多，跌破進場價減此距離停損）</div>
+  <div class="notes">收在最高附近，尾盤強；均線多頭排列；法人同步買超</div>
+</div>
+
+<div class="card" data-code="8150">
+  <div class="card-top">
+    <div>
+      <div class="name">南茂</div>
+      <div class="code">8150　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">112.00</div>
+      <div class="change-up">+4.67%</div>
+    </div>
+  </div>
+  <span class="badge side-long">偏多　81.9 分</span>
+  <div class="conds"><span class="cond pass">A波動 ✓</span><span class="cond pass">B流動性 ✓</span><span class="cond">C量能 ✕</span><span class="cond pass">D收盤 ✓</span><span class="cond pass">E順勢 ✓</span><span class="cond pass">F法人 ✓</span></div>
+  <div class="stats">成交 83,883 張／94.0 億　｜　ATR 5.5%　｜　量比 1.1x</div>
+  <div class="levels">
+    <div>今日高 <b>114.00</b></div><div>Pivot <b>110.33</b></div><div>R1 <b>115.67</b></div>
+    <div>今日低 <b>105.00</b></div><div>ATR <b>6.21</b></div><div>S1 <b>106.67</b></div>
+  </div>
+  <div class="stats">參考停損距離：約 <b>3.11</b> 元（站上今日高/R1 再考慮做多，跌破進場價減此距離停損）</div>
+  <div class="notes">收在最高附近，尾盤強；均線多頭排列；法人同步買超</div>
+</div>
+
+<div class="card" data-code="4566">
+  <div class="card-top">
+    <div>
+      <div class="name">時碩工業</div>
+      <div class="code">4566　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">74.30</div>
+      <div class="change-up">+9.91%</div>
+    </div>
+  </div>
+  <span class="badge side-long">偏多　81.5 分</span>
+  <div class="conds"><span class="cond pass">A波動 ✓</span><span class="cond pass">B流動性 ✓</span><span class="cond pass">C量能 ✓</span><span class="cond pass">D收盤 ✓</span><span class="cond pass">E順勢 ✓</span><span class="cond pass">F法人 ✓</span></div>
+  <div class="stats">成交 7,828 張／5.8 億　｜　ATR 3.5%　｜　量比 9.8x</div>
+  <div class="levels">
+    <div>今日高 <b>74.30</b></div><div>Pivot <b>71.83</b></div><div>R1 <b>76.77</b></div>
+    <div>今日低 <b>66.90</b></div><div>ATR <b>2.63</b></div><div>S1 <b>69.37</b></div>
+  </div>
+  <div class="stats">參考停損距離：約 <b>1.31</b> 元（站上今日高/R1 再考慮做多，跌破進場價減此距離停損）</div>
+  <div class="notes">量能放大9.8倍；收在最高附近，尾盤強；突破近20日高點；法人同步買超；⚠️收漲停附近，明天容易跳空開高，追價風險大</div>
+</div>
+
+<div class="card" data-code="2327">
+  <div class="card-top">
+    <div>
+      <div class="name">國巨*</div>
+      <div class="code">2327　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">580.00</div>
+      <div class="change-up">+1.22%</div>
+    </div>
+  </div>
+  <span class="badge side-long">偏多　80.6 分</span>
+  <div class="conds"><span class="cond pass">A波動 ✓</span><span class="cond pass">B流動性 ✓</span><span class="cond">C量能 ✕</span><span class="cond">D收盤 ✕</span><span class="cond pass">E順勢 ✓</span><span class="cond pass">F法人 ✓</span></div>
+  <div class="stats">成交 35,926 張／208.4 億　｜　ATR 5.8%　｜　量比 1.1x</div>
+  <div class="levels">
+    <div>今日高 <b>589.00</b></div><div>Pivot <b>576.33</b></div><div>R1 <b>592.67</b></div>
+    <div>今日低 <b>560.00</b></div><div>ATR <b>33.34</b></div><div>S1 <b>563.67</b></div>
+  </div>
+  <div class="stats">參考停損距離：約 <b>16.67</b> 元（站上今日高/R1 再考慮做多，跌破進場價減此距離停損）</div>
+  <div class="notes">均線多頭排列；法人同步買超</div>
+</div>
+
+<div class="card" data-code="4770">
+  <div class="card-top">
+    <div>
+      <div class="name">上品</div>
+      <div class="code">4770　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">281.50</div>
+      <div class="change-up">+2.36%</div>
+    </div>
+  </div>
+  <span class="badge side-long">偏多　80.2 分</span>
+  <div class="conds"><span class="cond pass">A波動 ✓</span><span class="cond pass">B流動性 ✓</span><span class="cond pass">C量能 ✓</span><span class="cond">D收盤 ✕</span><span class="cond pass">E順勢 ✓</span><span class="cond pass">F法人 ✓</span></div>
+  <div class="stats">成交 4,524 張／12.7 億　｜　ATR 4.4%　｜　量比 2.3x</div>
+  <div class="levels">
+    <div>今日高 <b>290.00</b></div><div>Pivot <b>281.17</b></div><div>R1 <b>290.33</b></div>
+    <div>今日低 <b>272.00</b></div><div>ATR <b>12.32</b></div><div>S1 <b>272.33</b></div>
+  </div>
+  <div class="stats">參考停損距離：約 <b>6.16</b> 元（站上今日高/R1 再考慮做多，跌破進場價減此距離停損）</div>
+  <div class="notes">量能放大2.3倍；突破近20日高點；法人同步買超</div>
+</div>
+
+<div class="card" data-code="1303">
+  <div class="card-top">
+    <div>
+      <div class="name">南亞</div>
+      <div class="code">1303　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">238.00</div>
+      <div class="change-up">+4.62%</div>
+    </div>
+  </div>
+  <span class="badge side-long">偏多　80.0 分</span>
+  <div class="conds"><span class="cond pass">A波動 ✓</span><span class="cond pass">B流動性 ✓</span><span class="cond">C量能 ✕</span><span class="cond pass">D收盤 ✓</span><span class="cond pass">E順勢 ✓</span><span class="cond pass">F法人 ✓</span></div>
+  <div class="stats">成交 67,158 張／159.8 億　｜　ATR 6.1%　｜　量比 0.9x</div>
+  <div class="levels">
+    <div>今日高 <b>238.50</b></div><div>Pivot <b>233.17</b></div><div>R1 <b>243.33</b></div>
+    <div>今日低 <b>223.00</b></div><div>ATR <b>14.49</b></div><div>S1 <b>227.83</b></div>
+  </div>
+  <div class="stats">參考停損距離：約 <b>7.25</b> 元（站上今日高/R1 再考慮做多，跌破進場價減此距離停損）</div>
+  <div class="notes">收在最高附近，尾盤強；均線多頭排列；法人同步買超</div>
+</div>
+
+<div class="card" data-code="2449">
+  <div class="card-top">
+    <div>
+      <div class="name">京元電子</div>
+      <div class="code">2449　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">311.00</div>
+      <div class="change-up">+2.30%</div>
+    </div>
+  </div>
+  <span class="badge side-long">偏多　80.0 分</span>
+  <div class="conds"><span class="cond pass">A波動 ✓</span><span class="cond pass">B流動性 ✓</span><span class="cond">C量能 ✕</span><span class="cond pass">D收盤 ✓</span><span class="cond pass">E順勢 ✓</span><span class="cond pass">F法人 ✓</span></div>
+  <div class="stats">成交 27,019 張／84.0 億　｜　ATR 4.9%　｜　量比 0.6x</div>
+  <div class="levels">
+    <div>今日高 <b>315.50</b></div><div>Pivot <b>309.00</b></div><div>R1 <b>317.50</b></div>
+    <div>今日低 <b>300.50</b></div><div>ATR <b>15.35</b></div><div>S1 <b>302.50</b></div>
+  </div>
+  <div class="stats">參考停損距離：約 <b>7.68</b> 元（站上今日高/R1 再考慮做多，跌破進場價減此距離停損）</div>
+  <div class="notes">收在最高附近，尾盤強；均線多頭排列；法人同步買超</div>
+</div>
+
+<div class="card" data-code="2492">
+  <div class="card-top">
+    <div>
+      <div class="name">華新科</div>
+      <div class="code">2492　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">311.50</div>
+      <div class="change-up">+1.80%</div>
+    </div>
+  </div>
+  <span class="badge side-long">偏多　80.0 分</span>
+  <div class="conds"><span class="cond pass">A波動 ✓</span><span class="cond pass">B流動性 ✓</span><span class="cond">C量能 ✕</span><span class="cond pass">D收盤 ✓</span><span class="cond pass">E順勢 ✓</span><span class="cond pass">F法人 ✓</span></div>
+  <div class="stats">成交 15,597 張／48.6 億　｜　ATR 6.7%　｜　量比 0.8x</div>
+  <div class="levels">
+    <div>今日高 <b>315.50</b></div><div>Pivot <b>309.67</b></div><div>R1 <b>317.33</b></div>
+    <div>今日低 <b>302.00</b></div><div>ATR <b>20.81</b></div><div>S1 <b>303.83</b></div>
+  </div>
+  <div class="stats">參考停損距離：約 <b>10.41</b> 元（站上今日高/R1 再考慮做多，跌破進場價減此距離停損）</div>
+  <div class="notes">收在最高附近，尾盤強；均線多頭排列；法人同步買超</div>
+</div>
+
+<div class="card" data-code="3711">
+  <div class="card-top">
+    <div>
+      <div class="name">日月光投控</div>
+      <div class="code">3711　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">699.00</div>
+      <div class="change-up">+0.87%</div>
+    </div>
+  </div>
+  <span class="badge side-long">偏多　80.0 分</span>
+  <div class="conds"><span class="cond pass">A波動 ✓</span><span class="cond pass">B流動性 ✓</span><span class="cond">C量能 ✕</span><span class="cond pass">D收盤 ✓</span><span class="cond pass">E順勢 ✓</span><span class="cond pass">F法人 ✓</span></div>
+  <div class="stats">成交 10,964 張／76.6 億　｜　ATR 4.1%　｜　量比 0.6x</div>
+  <div class="levels">
+    <div>今日高 <b>699.00</b></div><div>Pivot <b>692.67</b></div><div>R1 <b>705.33</b></div>
+    <div>今日低 <b>680.00</b></div><div>ATR <b>28.45</b></div><div>S1 <b>686.33</b></div>
+  </div>
+  <div class="stats">參考停損距離：約 <b>14.22</b> 元（站上今日高/R1 再考慮做多，跌破進場價減此距離停損）</div>
+  <div class="notes">收在最高附近，尾盤強；均線多頭排列；法人同步買超</div>
+</div>
+
+<div class="card" data-code="2436">
+  <div class="card-top">
+    <div>
+      <div class="name">偉詮電</div>
+      <div class="code">2436　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">72.40</div>
+      <div class="change-up">+4.02%</div>
+    </div>
+  </div>
+  <span class="badge side-long">偏多　79.6 分</span>
+  <div class="conds"><span class="cond pass">A波動 ✓</span><span class="cond pass">B流動性 ✓</span><span class="cond pass">C量能 ✓</span><span class="cond pass">D收盤 ✓</span><span class="cond pass">E順勢 ✓</span><span class="cond pass">F法人 ✓</span></div>
+  <div class="stats">成交 8,606 張／6.2 億　｜　ATR 3.7%　｜　量比 1.6x</div>
+  <div class="levels">
+    <div>今日高 <b>72.40</b></div><div>Pivot <b>71.37</b></div><div>R1 <b>73.43</b></div>
+    <div>今日低 <b>69.30</b></div><div>ATR <b>2.71</b></div><div>S1 <b>70.33</b></div>
+  </div>
+  <div class="stats">參考停損距離：約 <b>1.35</b> 元（站上今日高/R1 再考慮做多，跌破進場價減此距離停損）</div>
+  <div class="notes">量能放大1.6倍；收在最高附近，尾盤強；均線多頭排列；法人同步買超</div>
+</div>
+
+<div class="card" data-code="8028">
+  <div class="card-top">
+    <div>
+      <div class="name">昇陽半導體</div>
+      <div class="code">8028　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">269.00</div>
+      <div class="change-up">+4.26%</div>
+    </div>
+  </div>
+  <span class="badge side-long">偏多　79.6 分</span>
+  <div class="conds"><span class="cond pass">A波動 ✓</span><span class="cond pass">B流動性 ✓</span><span class="cond">C量能 ✕</span><span class="cond pass">D收盤 ✓</span><span class="cond pass">E順勢 ✓</span><span class="cond pass">F法人 ✓</span></div>
+  <div class="stats">成交 10,322 張／27.8 億　｜　ATR 4.8%　｜　量比 1.0x</div>
+  <div class="levels">
+    <div>今日高 <b>272.50</b></div><div>Pivot <b>264.83</b></div><div>R1 <b>276.67</b></div>
+    <div>今日低 <b>253.00</b></div><div>ATR <b>13.02</b></div><div>S1 <b>257.17</b></div>
+  </div>
+  <div class="stats">參考停損距離：約 <b>6.51</b> 元（站上今日高/R1 再考慮做多，跌破進場價減此距離停損）</div>
+  <div class="notes">收在最高附近，尾盤強；均線多頭排列；法人同步買超</div>
+</div>
+
+<div class="card" data-code="2301">
+  <div class="card-top">
+    <div>
+      <div class="name">光寶科</div>
+      <div class="code">2301　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">287.00</div>
+      <div class="change-up">+1.23%</div>
+    </div>
+  </div>
+  <span class="badge side-long">偏多　79.4 分</span>
+  <div class="conds"><span class="cond pass">A波動 ✓</span><span class="cond pass">B流動性 ✓</span><span class="cond">C量能 ✕</span><span class="cond pass">D收盤 ✓</span><span class="cond pass">E順勢 ✓</span><span class="cond pass">F法人 ✓</span></div>
+  <div class="stats">成交 9,402 張／27.0 億　｜　ATR 4.8%　｜　量比 0.6x</div>
+  <div class="levels">
+    <div>今日高 <b>288.00</b></div><div>Pivot <b>284.33</b></div><div>R1 <b>290.67</b></div>
+    <div>今日低 <b>278.00</b></div><div>ATR <b>13.77</b></div><div>S1 <b>280.67</b></div>
+  </div>
+  <div class="stats">參考停損距離：約 <b>6.89</b> 元（站上今日高/R1 再考慮做多，跌破進場價減此距離停損）</div>
+  <div class="notes">收在最高附近，尾盤強；均線多頭排列；法人同步買超</div>
+</div>
+
+<div class="card" data-code="3576">
+  <div class="card-top">
+    <div>
+      <div class="name">聯合再生</div>
+      <div class="code">3576　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">18.25</div>
+      <div class="change-up">+2.82%</div>
+    </div>
+  </div>
+  <span class="badge side-long">偏多　78.7 分</span>
+  <div class="conds"><span class="cond pass">A波動 ✓</span><span class="cond pass">B流動性 ✓</span><span class="cond pass">C量能 ✓</span><span class="cond">D收盤 ✕</span><span class="cond pass">E順勢 ✓</span><span class="cond pass">F法人 ✓</span></div>
+  <div class="stats">成交 48,864 張／8.9 億　｜　ATR 3.7%　｜　量比 3.6x</div>
+  <div class="levels">
+    <div>今日高 <b>18.80</b></div><div>Pivot <b>18.42</b></div><div>R1 <b>18.63</b></div>
+    <div>今日低 <b>18.20</b></div><div>ATR <b>0.67</b></div><div>S1 <b>18.03</b></div>
+  </div>
+  <div class="stats">參考停損距離：約 <b>0.34</b> 元（站上今日高/R1 再考慮做多，跌破進場價減此距離停損）</div>
+  <div class="notes">量能放大3.6倍；均線多頭排列；法人同步買超</div>
+</div>
+
+<div class="card" data-code="6933">
+  <div class="card-top">
+    <div>
+      <div class="name">AMAX-KY</div>
+      <div class="code">6933　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">385.00</div>
+      <div class="change-up">+10.00%</div>
+    </div>
+  </div>
+  <span class="badge side-long">偏多　78.7 分</span>
+  <div class="conds"><span class="cond pass">A波動 ✓</span><span class="cond pass">B流動性 ✓</span><span class="cond pass">C量能 ✓</span><span class="cond pass">D收盤 ✓</span><span class="cond pass">E順勢 ✓</span><span class="cond">F法人 ✕</span></div>
+  <div class="stats">成交 6,076 張／23.4 億　｜　ATR 6.2%　｜　量比 2.9x</div>
+  <div class="levels">
+    <div>今日高 <b>385.00</b></div><div>Pivot <b>375.00</b></div><div>R1 <b>395.00</b></div>
+    <div>今日低 <b>355.00</b></div><div>ATR <b>23.66</b></div><div>S1 <b>365.00</b></div>
+  </div>
+  <div class="stats">參考停損距離：約 <b>11.83</b> 元（站上今日高/R1 再考慮做多，跌破進場價減此距離停損）</div>
+  <div class="notes">量能放大2.9倍；收在最高附近，尾盤強；突破近20日高點；⚠️收漲停附近，明天容易跳空開高，追價風險大</div>
+</div>
+
+<div class="card" data-code="3532">
+  <div class="card-top">
+    <div>
+      <div class="name">台勝科</div>
+      <div class="code">3532　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">452.50</div>
+      <div class="change-up">+1.69%</div>
+    </div>
+  </div>
+  <span class="badge side-long">偏多　78.1 分</span>
+  <div class="conds"><span class="cond pass">A波動 ✓</span><span class="cond pass">B流動性 ✓</span><span class="cond">C量能 ✕</span><span class="cond pass">D收盤 ✓</span><span class="cond pass">E順勢 ✓</span><span class="cond pass">F法人 ✓</span></div>
+  <div class="stats">成交 4,617 張／20.9 億　｜　ATR 6.2%　｜　量比 0.6x</div>
+  <div class="levels">
+    <div>今日高 <b>453.00</b></div><div>Pivot <b>447.50</b></div><div>R1 <b>458.00</b></div>
+    <div>今日低 <b>437.00</b></div><div>ATR <b>27.90</b></div><div>S1 <b>442.00</b></div>
+  </div>
+  <div class="stats">參考停損距離：約 <b>13.95</b> 元（站上今日高/R1 再考慮做多，跌破進場價減此距離停損）</div>
+  <div class="notes">收在最高附近，尾盤強；均線多頭排列；法人同步買超</div>
+</div>
+
+<div class="card" data-code="4919">
+  <div class="card-top">
+    <div>
+      <div class="name">新唐</div>
+      <div class="code">4919　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">136.00</div>
+      <div class="change-up">+1.49%</div>
+    </div>
+  </div>
+  <span class="badge side-long">偏多　77.8 分</span>
+  <div class="conds"><span class="cond pass">A波動 ✓</span><span class="cond pass">B流動性 ✓</span><span class="cond">C量能 ✕</span><span class="cond pass">D收盤 ✓</span><span class="cond pass">E順勢 ✓</span><span class="cond pass">F法人 ✓</span></div>
+  <div class="stats">成交 14,436 張／19.6 億　｜　ATR 5.5%　｜　量比 0.7x</div>
+  <div class="levels">
+    <div>今日高 <b>138.50</b></div><div>Pivot <b>134.83</b></div><div>R1 <b>139.67</b></div>
+    <div>今日低 <b>130.00</b></div><div>ATR <b>7.47</b></div><div>S1 <b>131.17</b></div>
+  </div>
+  <div class="stats">參考停損距離：約 <b>3.74</b> 元（站上今日高/R1 再考慮做多，跌破進場價減此距離停損）</div>
+  <div class="notes">收在最高附近，尾盤強；均線多頭排列；法人同步買超</div>
+</div>
+
+<div class="card" data-code="3189">
+  <div class="card-top">
+    <div>
+      <div class="name">景碩</div>
+      <div class="code">3189　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">962.00</div>
+      <div class="change-up">+6.18%</div>
+    </div>
+  </div>
+  <span class="badge side-long">偏多　77.0 分</span>
+  <div class="conds"><span class="cond pass">A波動 ✓</span><span class="cond pass">B流動性 ✓</span><span class="cond pass">C量能 ✓</span><span class="cond">D收盤 ✕</span><span class="cond pass">E順勢 ✓</span><span class="cond pass">F法人 ✓</span></div>
+  <div class="stats">成交 44,137 張／424.6 億　｜　ATR 5.8%　｜　量比 1.9x</div>
+  <div class="levels">
+    <div>今日高 <b>996.00</b></div><div>Pivot <b>962.33</b></div><div>R1 <b>995.67</b></div>
+    <div>今日低 <b>929.00</b></div><div>ATR <b>55.79</b></div><div>S1 <b>928.67</b></div>
+  </div>
+  <div class="stats">參考停損距離：約 <b>27.90</b> 元（站上今日高/R1 再考慮做多，跌破進場價減此距離停損）</div>
+  <div class="notes">量能放大1.9倍；突破近20日高點；法人同步買超</div>
+</div>
+
+<div class="card" data-code="3036">
+  <div class="card-top">
+    <div>
+      <div class="name">文曄</div>
+      <div class="code">3036　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">207.00</div>
+      <div class="change-up">+0.49%</div>
+    </div>
+  </div>
+  <span class="badge side-long">偏多　76.0 分</span>
+  <div class="conds"><span class="cond pass">A波動 ✓</span><span class="cond pass">B流動性 ✓</span><span class="cond">C量能 ✕</span><span class="cond pass">D收盤 ✓</span><span class="cond pass">E順勢 ✓</span><span class="cond pass">F法人 ✓</span></div>
+  <div class="stats">成交 6,696 張／13.9 億　｜　ATR 3.0%　｜　量比 0.7x</div>
+  <div class="levels">
+    <div>今日高 <b>207.50</b></div><div>Pivot <b>205.83</b></div><div>R1 <b>208.67</b></div>
+    <div>今日低 <b>203.00</b></div><div>ATR <b>6.15</b></div><div>S1 <b>204.17</b></div>
+  </div>
+  <div class="stats">參考停損距離：約 <b>3.08</b> 元（站上今日高/R1 再考慮做多，跌破進場價減此距離停損）</div>
+  <div class="notes">收在最高附近，尾盤強；均線多頭排列；法人同步買超</div>
+</div>
+
+<div class="card" data-code="1809">
+  <div class="card-top">
+    <div>
+      <div class="name">中釉</div>
+      <div class="code">1809　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">45.35</div>
+      <div class="change-up">+9.94%</div>
+    </div>
+  </div>
+  <span class="badge side-long">偏多　75.3 分</span>
+  <div class="conds"><span class="cond pass">A波動 ✓</span><span class="cond pass">B流動性 ✓</span><span class="cond pass">C量能 ✓</span><span class="cond pass">D收盤 ✓</span><span class="cond pass">E順勢 ✓</span><span class="cond pass">F法人 ✓</span></div>
+  <div class="stats">成交 7,084 張／3.2 億　｜　ATR 4.1%　｜　量比 2.3x</div>
+  <div class="levels">
+    <div>今日高 <b>45.35</b></div><div>Pivot <b>44.33</b></div><div>R1 <b>46.37</b></div>
+    <div>今日低 <b>42.30</b></div><div>ATR <b>1.88</b></div><div>S1 <b>43.32</b></div>
+  </div>
+  <div class="stats">參考停損距離：約 <b>0.94</b> 元（站上今日高/R1 再考慮做多，跌破進場價減此距離停損）</div>
+  <div class="notes">量能放大2.3倍；收在最高附近，尾盤強；突破近20日高點；法人同步買超；⚠️收漲停附近，明天容易跳空開高，追價風險大</div>
+</div>
+
+<div class="card" data-code="2603">
+  <div class="card-top">
+    <div>
+      <div class="name">長榮</div>
+      <div class="code">2603　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">243.00</div>
+      <div class="change-up">+0.00%</div>
+    </div>
+  </div>
+  <span class="badge side-long">偏多　75.2 分</span>
+  <div class="conds"><span class="cond pass">A波動 ✓</span><span class="cond pass">B流動性 ✓</span><span class="cond">C量能 ✕</span><span class="cond pass">D收盤 ✓</span><span class="cond pass">E順勢 ✓</span><span class="cond pass">F法人 ✓</span></div>
+  <div class="stats">成交 4,945 張／12.0 億　｜　ATR 2.6%　｜　量比 0.7x</div>
+  <div class="levels">
+    <div>今日高 <b>243.00</b></div><div>Pivot <b>241.67</b></div><div>R1 <b>244.33</b></div>
+    <div>今日低 <b>239.00</b></div><div>ATR <b>6.33</b></div><div>S1 <b>240.33</b></div>
+  </div>
+  <div class="stats">參考停損距離：約 <b>3.16</b> 元（站上今日高/R1 再考慮做多，跌破進場價減此距離停損）</div>
+  <div class="notes">收在最高附近，尾盤強；均線多頭排列；法人同步買超</div>
+</div>
+
+<div class="card" data-code="3035">
+  <div class="card-top">
+    <div>
+      <div class="name">智原</div>
+      <div class="code">3035　TWSE</div>
+    </div>
+    <div class="price">
+      <div class="close">206.50</div>
+      <div class="change-up">+1.23%</div>
+    </div>
+  </div>
+  <span class="badge side-long">偏多　74.3 分</span>
+  <div class="conds"><span class="cond pass">A波動 ✓</span><span class="cond pass">B流動性 ✓</span><span class="cond">C量能 ✕</span><span class="cond pass">D收盤 ✓</span><span class="cond pass">E順勢 ✓</span><span class="cond pass">F法人 ✓</span></div>
+  <div class="stats">成交 4,855 張／10.0 億　｜　ATR 4.2%　｜　量比 0.6x</div>
+  <div class="levels">
+    <div>今日高 <b>207.50</b></div><div>Pivot <b>204.50</b></div><div>R1 <b>209.50</b></div>
+    <div>今日低 <b>199.50</b></div><div>ATR <b>8.66</b></div><div>S1 <b>201.50</b></div>
+  </div>
+  <div class="stats">參考停損距離：約 <b>4.33</b> 元（站上今日高/R1 再考慮做多，跌破進場價減此距離停損）</div>
+  <div class="notes">收在最高附近，尾盤強；均線多頭排列；法人同步買超</div>
+</div>
+</div>
+</main>
+<div class="history">
+  歷史紀錄：<a href="20260924.html">2026-09-24</a> <a href="20260923.html">2026-09-23</a>
+</div>
+<footer>
+  權重：波動25 ＋ 流動性20 ＋ 量能20 ＋ 收盤強弱15 ＋ 順勢10 ＋ 法人10，漲跌停附近扣分。
+  Pivot=(高+低+收)/3，R1=2P−低，S1=2P−高；參考停損＝ATR×倍數（可在 config.py 調整）。
+</footer>
+<script src="../watchlist.js" data-wl-href="../watchlist.html"></script>
+</body>
+</html>
