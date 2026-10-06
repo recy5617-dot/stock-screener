@@ -25,6 +25,7 @@ import os
 import sys
 from datetime import datetime
 
+import analysis
 import db
 import fetch_twse
 import fetch_tpex
@@ -127,7 +128,13 @@ def main():
 
     # ⭐ 我的關注頁：內嵌當天所有股票的收盤／漲跌，以及有沒有進兩份名單
     day_prices = [row for m in MARKETS for row in db.get_day_prices(m, target_date_str)]
-    snapshot = report.build_watchlist_snapshot(target_date_str, day_prices, swing_results, daytrade_results)
+    # 每檔都算一張短線分析表（支撐/壓力/買點/停損/停利…），關注頁點開就看得到
+    analyses = {}
+    for m in MARKETS:
+        analyses.update(analysis.analyze_all(m, target_date_str, [r[0] for r in db.get_day_prices(m, target_date_str)]))
+    print(f"短線分析：{len(analyses)} 檔")
+    snapshot = report.build_watchlist_snapshot(target_date_str, day_prices, swing_results, daytrade_results,
+                                               analyses)
     report.write_watchlist_page(snapshot, DOCS_DIR)
     print(f"已輸出我的關注頁：{os.path.join(DOCS_DIR, 'watchlist.html')}")
 
