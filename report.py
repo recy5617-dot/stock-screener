@@ -160,6 +160,27 @@ BASE_CSS = """<style>
   .wl-io {{ display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }}
   .wl-remove {{ margin-top: 10px; }}
   [hidden] {{ display: none !important; }}
+  .wl-sync {{
+    background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px;
+    padding: 12px 14px; margin-bottom: 14px;
+  }}
+  .wl-sync-title {{ font-weight: 600; font-size: 0.92rem; }}
+  .wl-sync-ok {{ color: #059669; }}
+  .wl-sync-error {{ color: var(--fire); }}
+  .wl-steps {{ margin: 6px 0; padding-left: 20px; font-size: 0.82rem; color: var(--muted); }}
+  .wl-steps a {{ color: var(--good); }}
+  .wl-an {{ margin-top: 10px; border-top: 1px dashed var(--border); padding-top: 8px; }}
+  .wl-an summary {{ cursor: pointer; font-size: 0.84rem; list-style: none; }}
+  .wl-an summary::-webkit-details-marker {{ display: none; }}
+  .wl-an summary::before {{ content: "▸ "; color: var(--muted); }}
+  .wl-an[open] summary::before {{ content: "▾ "; }}
+  .wl-an table {{ width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 0.84rem; }}
+  .wl-an th, .wl-an td {{ padding: 5px 6px; border-bottom: 1px solid var(--border); text-align: left; }}
+  .wl-an th {{ color: var(--muted); font-weight: 500; width: 38%; }}
+  .wl-an td {{ font-weight: 600; }}
+  .wl-an .dot-g {{ color: #059669; }} .wl-an .dot-y {{ color: #ca8a04; }}
+  .wl-an .dot-o {{ color: #ea580c; }} .wl-an .dot-r {{ color: var(--fire); }} .wl-an .dot-n {{ color: var(--muted); }}
+  .wl-an .wl-an-note {{ font-size: 0.75rem; color: var(--muted); margin-top: 6px; }}
   @media (prefers-color-scheme: dark) {{
     :root {{
       --bg: #111318; --card-bg: #1a1d23; --text: #e5e7eb; --muted: #9ca3af;
@@ -491,17 +512,20 @@ WL_PAGE_TEMPLATE = """<!doctype html>
   <div class="nav"><a href="index.html">← 波段選股</a>　<a href="daytrade.html">⚡ 當沖名單</a></div>
 </header>
 <div class="disclaimer">
-  選單存在<b>這支手機／這台電腦的瀏覽器</b>裡，不同裝置、不同瀏覽器各自一份；清除瀏覽器資料會一起清掉。
-  換裝置或想備份，用最下面的「匯出選單／匯入選單」搬過去。
+  選單預設只存在<b>這支手機／這台電腦的瀏覽器</b>裡。要手機、電腦自動同步，請在下方「☁️ 手機／電腦自動同步」
+  貼上 GitHub 權杖（只需要 gist 權限，選單會存在你自己 GitHub 帳號下的私密 Gist）。
 </div>
 <main>
+  <div id="wl-sync" class="wl-sync"></div>
   <div id="wl-root"><div class="empty">載入中…（需要開啟 JavaScript）</div></div>
 </main>
 <div class="history">
   <div class="wl-io" id="wl-io"></div>
 </div>
 <footer>
-  價格與「是否在名單上」是每天收盤後自動更新的資料；不在波段／當沖名單上不代表不能買賣，只是當天沒有符合那套條件。
+  價格與「是否在名單上」是每天收盤後自動更新的資料；不在波段／當沖名單上不代表不能買賣，只是當天沒有符合那套條件。<br>
+  「📊 短線分析」是用日K、均線、近期高低點、三大法人與融資，依固定規則算出來的參考價位，<b>不是投資建議</b>；
+  盤中消息、跳空與大盤變化都看不到，進出場請自行判斷並嚴守停損。
 </footer>
 <script type="application/json" id="wl-data">{data_json}</script>
 <script src="watchlist.js"></script>
@@ -510,8 +534,10 @@ WL_PAGE_TEMPLATE = """<!doctype html>
 """
 
 
-def build_watchlist_snapshot(target_date, day_prices, swing_results=None, daytrade_results=None):
-    """day_prices: [(code, name, close, change)]；回傳內嵌在關注頁的精簡資料。"""
+def build_watchlist_snapshot(target_date, day_prices, swing_results=None, daytrade_results=None,
+                             analyses=None):
+    """day_prices: [(code, name, close, change)]；analyses: analysis.analyze_all() 的結果。
+    回傳內嵌在關注頁的精簡資料。"""
     stocks = {}
     for code, name, close, change in day_prices:
         prev = (close or 0) - (change or 0)
@@ -526,7 +552,14 @@ def build_watchlist_snapshot(target_date, day_prices, swing_results=None, daytra
     for r in daytrade_results or []:
         if r["code"] in stocks:
             stocks[r["code"]]["d"] = f"偏{r['side']}・{r['score']:.1f}分"
-    return {"date": target_date, "stocks": stocks}
+    snap = {"date": target_date, "stocks": stocks}
+    if analyses:
+        import analysis
+        for code, a in analyses.items():
+            if code in stocks:
+                stocks[code]["a"] = a
+        snap["al"] = analysis.LABELS
+    return snap
 
 
 def write_watchlist_page(snapshot, docs_dir: str):
