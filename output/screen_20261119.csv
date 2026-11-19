@@ -1,0 +1,14 @@
+﻿market,code,name,date,close,change_pct,cond1_ma20,cond2_kd,cond3_chips,cond4_margin_ok,cond5_breakout_vol,cond6_momentum,cond7_bollinger,checklist_count,tier,score,notes
+TWSE,5522,遠雄,20261119,63.4,1.7656500802568218,True,False,True,True,False,True,False,4,等待確認,58.0,剛站回月線(觀察)；外資當天淨買超；投信連買3日+；外資+投信同步買超；價漲、融資未增(甚至下降)，籌碼乾淨；MACD翻紅+RSI區間內+5日線在10日線上
+TWSE,1229,聯華,20261119,39.6,0.0,True,False,True,True,False,True,False,4,等待確認,53.0,剛站回月線(觀察)；外資當天淨買超；投信連買3日+；外資+投信同步買超；MACD翻紅+RSI區間內+5日線在10日線上
+TWSE,00669R,國泰美國道瓊反1,20261119,5.59,1.0849909584086799,True,False,False,False,True,True,True,4,等待確認,50.0,站穩月線且月線向上；⚠️股價漲但融資同步暴增(散戶追價，小心)；帶量突破近20日高且收盤站穩；MACD翻紅+RSI區間內+5日線在10日線上；站上布林上軌且上軌向上(波動擴張)
+TWSE,2887I,台新新光辛特,20261119,9.57,0.0,True,False,False,True,False,True,True,4,等待確認,45.0,站穩月線且月線向上；MACD翻紅+RSI區間內+5日線在10日線上；站上布林上軌且上軌向上(波動擴張)
+TWSE,1210,大成,20261119,51.1,0.19607843137254902,True,False,True,True,False,False,False,3,等待確認,65.0,站穩月線且月線向上；外資當天淨買超；投信連買3日+；外資+投信同步買超；價漲、融資未增(甚至下降)，籌碼乾淨
+TWSE,1477,聚陽,20261119,224.0,0.0,True,False,True,True,False,False,False,3,等待確認,60.0,站穩月線且月線向上；外資當天淨買超；投信連買3日+；外資+投信同步買超
+TWSE,2610,華航,20261119,22.5,-1.7467248908296946,True,False,True,True,False,False,False,3,等待確認,60.0,站穩月線且月線向上；外資當天淨買超；投信連買3日+；外資+投信同步買超
+TWSE,3661,世芯-KY,20261119,3600.0,-8.860759493670885,True,False,True,True,False,False,False,3,等待確認,57.5,站穩月線且月線向上；外資當天淨買超；投信連買3日+；外資+投信同步買超
+TWSE,00651R,復華香港反1,20261119,5.69,1.607142857142857,True,False,False,True,False,True,False,3,等待確認,57.0,站穩月線且月線向上；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨；量增收紅但尚未突破前高；MACD翻紅+RSI區間內+5日線在10日線上
+TWSE,2540,愛山林,20261119,48.75,2.631578947368421,True,False,False,True,True,False,False,3,等待確認,56.0,站上月線；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨；帶量突破近20日高且收盤站穩
+TWSE,5388,中磊,20261119,71.6,-0.4172461752433936,True,False,True,True,False,False,False,3,等待確認,52.0,剛站回月線(觀察)；外資當天淨買超；投信連買3日+；外資+投信同步買超；⚠️爆量但留長上影線
+TWSE,6782,視陽,20261119,290.5,9.00562851782364,True,True,False,False,False,False,True,3,等待確認,44.5,站穩月線且月線向上；K上穿D golden cross；外資當天淨買超；⚠️股價漲但融資同步暴增(散戶追價，小心)；量增收紅但尚未突破前高；站上布林上軌且上軌向上(波動擴張)
+TWSE,6416,瑞祺電通,20261119,114.5,-5.371900826446281,True,False,False,True,False,True,False,3,等待確認,28.0,剛站回月線(觀察)；外資當天淨買超；MACD翻紅+RSI區間內+5日線在10日線上
