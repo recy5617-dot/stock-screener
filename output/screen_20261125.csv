@@ -1,0 +1,15 @@
+﻿market,code,name,date,close,change_pct,cond1_ma20,cond2_kd,cond3_chips,cond4_margin_ok,cond5_breakout_vol,cond6_momentum,cond7_bollinger,checklist_count,tier,score,notes
+TWSE,2597,潤弘,20261125,193.0,0.5208333333333333,True,False,True,True,False,False,True,4,等待確認,67.5,站穩月線且月線向上；外資當天淨買超；投信連買3日+；外資+投信同步買超；價漲、融資未增(甚至下降)，籌碼乾淨；站上布林上軌且上軌向上(波動擴張)
+TWSE,00671R,富邦NASDAQ反1,20261125,2.75,4.166666666666666,True,True,False,True,False,False,True,4,等待確認,64.0,站穩月線且月線向上；K由下往上轉；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨；量增收紅但尚未突破前高；站上布林上軌且上軌向上(波動擴張)
+TWSE,1476,儒鴻,20261125,368.5,-0.5398110661268556,True,False,True,True,False,False,False,3,等待確認,57.5,站穩月線且月線向上；外資當天淨買超；投信連買3日+；外資+投信同步買超
+TWSE,9933,中鼎,20261125,52.5,-2.7777777777777777,True,False,True,True,False,False,False,3,等待確認,57.5,站穩月線且月線向上；外資當天淨買超；投信連買3日+；外資+投信同步買超
+TWSE,1210,大成,20261125,51.9,-0.19230769230769232,True,False,True,True,False,False,False,3,等待確認,48.0,剛站回月線(觀察)；外資當天淨買超；投信連買3日+；外資+投信同步買超
+TWSE,1216,統一,20261125,78.7,1.6795865633074936,True,True,False,True,False,False,False,3,等待確認,47.5,剛站回月線(觀察)；K上穿D golden cross；投信連買3日+；價漲、融資未增(甚至下降)，籌碼乾淨；量增收紅但尚未突破前高
+TWSE,00865B,國泰US短期公債,20261125,51.0,0.2949852507374631,True,True,False,True,False,False,False,3,等待確認,47.0,站穩月線且月線向上；K由下往上轉；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨
+TWSE,6614,資拓宏宇,20261125,46.8,9.988249118683902,True,True,False,False,False,False,True,3,等待確認,41.5,站穩月線且月線向上；K由下往上轉；外資當天淨買超；⚠️股價漲但融資同步暴增(散戶追價，小心)；量增收紅但尚未突破前高；站上布林上軌且上軌向上(波動擴張)
+TWSE,00680L,元大美債20正2,20261125,6.39,-0.15625,True,False,False,True,False,True,False,3,等待確認,40.0,站穩月線且月線向上；外資當天淨買超；MACD翻紅+RSI區間內+5日線在10日線上
+TWSE,00688L,國泰20年美債正2,20261125,6.35,-0.15723270440251574,True,False,False,True,False,True,False,3,等待確認,40.0,站穩月線且月線向上；外資當天淨買超；MACD翻紅+RSI區間內+5日線在10日線上
+TWSE,3715,定穎投控,20261125,132.0,-3.296703296703297,True,True,False,True,False,False,False,3,等待確認,37.0,剛站回月線(觀察)；K上穿D golden cross；外資當天淨買超；⚠️爆量但留長上影線
+TWSE,5521,工信,20261125,11.3,2.727272727272727,True,True,False,True,False,False,False,3,等待確認,35.5,剛站回月線(觀察)；K上穿D golden cross；外資當天淨買超；價漲、融資未增(甚至下降)，籌碼乾淨
+TWSE,7765,中華資安,20261125,311.0,9.89399293286219,True,True,False,False,False,False,True,3,等待確認,35.0,站穩月線且月線向上；K上穿D golden cross；外資當天淨買超；⚠️股價漲但融資同步暴增(散戶追價，小心)；站上布林上軌且上軌向上(波動擴張)
+TWSE,2637,慧洋-KY,20261125,88.8,-0.4484304932735426,False,True,True,True,False,False,False,3,等待確認,29.0,K上穿D golden cross；外資當天淨買超；投信連買3日+；外資+投信同步買超
